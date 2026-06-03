@@ -163,7 +163,7 @@ export default function Navbar() {
         </button>
 
         <div className="brand" onClick={() => nav("/")}>
-          BR30<span>SCANNER</span>
+          BR30<span>MARKET SCANNER</span>
         </div>
 
         {menuOpen && (
