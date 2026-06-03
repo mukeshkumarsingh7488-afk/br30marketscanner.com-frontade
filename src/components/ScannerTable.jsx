@@ -20,16 +20,26 @@ const getTradingViewSymbol = (s = {}, market = "") => {
     String(v || "")
       .toUpperCase()
       .replaceAll("&", "")
-      .replaceAll("-", "")
       .replaceAll("/", "")
       .replaceAll(" ", "")
       .trim();
 
-  const symbol = clean(s.symbol);
-  const tradingSymbol = clean(s.tradingSymbol);
-  const underlying = clean(s.underlyingSymbol);
-  const rawSymbol = String(s.symbol || "").toUpperCase();
-  const rawTrading = String(s.tradingSymbol || "").toUpperCase();
+  const cleanCompact = (v = "") => clean(v).replaceAll("-", "").replaceAll("_", "");
+
+  const cleanNse = (v = "") => clean(v).replaceAll("-", "_").replaceAll("__", "_");
+
+  const symbol = cleanCompact(s.symbol);
+  const tradingSymbol = cleanCompact(s.tradingSymbol);
+  const underlying = cleanCompact(s.underlyingSymbol);
+  const nseSymbol = cleanNse(s.symbol);
+  const nseTrading = cleanNse(s.tradingSymbol);
+  const nseUnderlying = cleanNse(s.underlyingSymbol);
+  const rawSymbol = String(s.symbol || "")
+    .toUpperCase()
+    .trim();
+  const rawTrading = String(s.tradingSymbol || "")
+    .toUpperCase()
+    .trim();
 
   const forexMap = {
     EURUSD: "FX:EURUSD",
@@ -79,15 +89,32 @@ const getTradingViewSymbol = (s = {}, market = "") => {
   };
 
   const commodityMap = {
+    "GC=F": "COMEX:GC1!",
+    "SI=F": "COMEX:SI1!",
+    "PL=F": "NYMEX:PL1!",
+    "PA=F": "NYMEX:PA1!",
+    "CL=F": "NYMEX:CL1!",
+    "BZ=F": "NYMEX:BRN1!",
+    "NG=F": "NYMEX:NG1!",
+    "HG=F": "COMEX:HG1!",
+    "ZC=F": "CBOT:ZC1!",
+    "ZS=F": "CBOT:ZS1!",
+    "ZW=F": "CBOT:ZW1!",
+    "KC=F": "ICEUS:KC1!",
+    "CT=F": "ICEUS:CT1!",
+    "SB=F": "ICEUS:SB1!",
     XAUUSD: "OANDA:XAUUSD",
     XAGUSD: "OANDA:XAGUSD",
     XPTUSD: "OANDA:XPTUSD",
     XPDUSD: "OANDA:XPDUSD",
-    GOLD: "OANDA:XAUUSD",
-    SILVER: "OANDA:XAGUSD",
-    WTICRUDE: "TVC:USOIL",
-    BRENTCRUDE: "TVC:UKOIL",
-    NATURALGAS: "TVC:NATGAS",
+    GOLD: "COMEX:GC1!",
+    SILVER: "COMEX:SI1!",
+    WTICRUDE: "NYMEX:CL1!",
+    WTI_CRUDE: "NYMEX:CL1!",
+    BRENTCRUDE: "NYMEX:BRN1!",
+    BRENT_CRUDE: "NYMEX:BRN1!",
+    NATURALGAS: "NYMEX:NG1!",
+    NATURAL_GAS: "NYMEX:NG1!",
     COPPER: "COMEX:HG1!",
     CORN: "CBOT:ZC1!",
     SOYBEAN: "CBOT:ZS1!",
@@ -107,18 +134,19 @@ const getTradingViewSymbol = (s = {}, market = "") => {
     BANKEX: "BSE:BANK",
   };
 
-  if (market === "forex" || market === "forex-cross") return forexMap[symbol] || `OANDA:${symbol}`;
-
+  if (market === "forex" || market === "forex-cross") return forexMap[symbol] || `FX:${symbol}`;
   if (globalMap[rawSymbol]) return globalMap[rawSymbol];
   if (globalMap[rawTrading]) return globalMap[rawTrading];
   if (globalMap[symbol]) return globalMap[symbol];
   if (globalMap[tradingSymbol]) return globalMap[tradingSymbol];
-
+  if (commodityMap[rawSymbol]) return commodityMap[rawSymbol];
+  if (commodityMap[rawTrading]) return commodityMap[rawTrading];
+  if (commodityMap[nseSymbol]) return commodityMap[nseSymbol];
+  if (commodityMap[nseTrading]) return commodityMap[nseTrading];
   if (commodityMap[symbol]) return commodityMap[symbol];
   if (commodityMap[tradingSymbol]) return commodityMap[tradingSymbol];
-
-  if (market === "crypto-futures") return `BINANCE:${tradingSymbol || symbol}`;
-  if (market === "us-stocks" || market === "us-etfs") return tradingSymbol || symbol;
+  if (market === "crypto-futures") return `BYBIT:${tradingSymbol || symbol}.P`;
+  if (market === "us-stocks" || market === "us-etfs") return `NASDAQ:${tradingSymbol || symbol}`;
 
   if (market === "index-future") {
     const base = underlying || symbol || tradingSymbol;
@@ -126,12 +154,12 @@ const getTradingViewSymbol = (s = {}, market = "") => {
   }
 
   if (market === "future-stock") {
-    const base = underlying || tradingSymbol || symbol;
+    const base = nseUnderlying || nseTrading || nseSymbol;
     return `NSE:${base}`;
   }
 
   if (market === "equity-stock") {
-    const base = tradingSymbol || underlying || symbol;
+    const base = nseTrading || nseUnderlying || nseSymbol;
     return `NSE:${base}`;
   }
 

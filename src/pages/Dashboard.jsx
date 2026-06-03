@@ -24,7 +24,7 @@ const marketConfig = {
 };
 
 const getRefreshTime = (market) => {
-  if (market === "crypto-futures") return 5000;
+  if (market === "crypto-futures") return 30000;
   if (["forex", "forex-cross", "metals", "commodities", "global-index", "us-stocks", "us-etfs"].includes(market)) return 60000;
   return 3000;
 };
