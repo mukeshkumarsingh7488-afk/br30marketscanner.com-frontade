@@ -119,9 +119,21 @@ const getTradingViewSymbol = (s = {}, market = "") => {
 
   if (market === "crypto-futures") return `BINANCE:${tradingSymbol || symbol}`;
   if (market === "us-stocks" || market === "us-etfs") return tradingSymbol || symbol;
-  if (market === "index-future") return indexMap[underlying] || indexMap[symbol] || indexMap[tradingSymbol] || "NSE:NIFTY";
-  if (market === "future-stock") return `NSE:${underlying || symbol}`;
-  if (market === "equity-stock") return `NSE:${tradingSymbol || symbol}`;
+
+  if (market === "index-future") {
+    const base = underlying || symbol || tradingSymbol;
+    return indexMap[base] || indexMap[symbol] || indexMap[tradingSymbol] || "NSE:NIFTY";
+  }
+
+  if (market === "future-stock") {
+    const base = underlying || tradingSymbol || symbol;
+    return `NSE:${base}`;
+  }
+
+  if (market === "equity-stock") {
+    const base = tradingSymbol || underlying || symbol;
+    return `NSE:${base}`;
+  }
 
   return null;
 };
@@ -217,7 +229,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
     const iframeOkMarkets = ["crypto-futures", "us-stocks", "us-etfs"];
 
     if (!iframeOkMarkets.includes(market)) {
-      window.open(`https://www.tradingview.com/chart/?symbol=${encodeURIComponent(tvSymbol)}`, "_blank", "noopener,noreferrer");
+      window.open(`https://www.tradingview.com/chart/?symbol=${tvSymbol}`, "_blank", "noopener,noreferrer");
       return;
     }
 
