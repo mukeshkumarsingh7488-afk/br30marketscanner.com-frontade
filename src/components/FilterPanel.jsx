@@ -24,7 +24,7 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
     <section className="filters">
       <div className="filterHead">
         <h3>{marketTitle[market] || "Scanner"} Filters</h3>
-        <p>Move, Volume aur Signal ke hisab se live market scan karo.</p>
+        <p>Identify high-momentum stocks with 2%+ price movement and 7%+ OI build-up in real time.</p>
       </div>
 
       <label>
