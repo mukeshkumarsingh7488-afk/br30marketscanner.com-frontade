@@ -41,29 +41,13 @@ const formatExpiry = (expiry) => {
   return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 };
 
-const isNeutralSignal = (signal = "") => {
-  const s = String(signal || "").toLowerCase();
-  return s.includes("top gainer") || s.includes("top loser");
-};
-
-const getSignalClass = (signal = "") => {
-  const s = String(signal || "").toLowerCase();
-
-  if (isNeutralSignal(s)) return "neutralSignal";
-  if (s.includes("long build-up") || s.includes("short covering") || s.includes("strong long")) return "buySignal";
-  if (s.includes("short build-up") || s.includes("long unwinding") || s.includes("strong short")) return "sellSignal";
-
-  return "waitSignal";
-};
-
-const getDisplaySignal = (signal = "") => {
-  const s = String(signal || "WAIT Watchlist").trim();
-
-  if (s.toLowerCase().includes("top gainer")) return "Top Gainer";
-  if (s.toLowerCase().includes("top loser")) return "Top Loser";
-
-  return s;
-};
+const cleanSignalClass = (signal = "") =>
+  String(signal || "watchlist")
+    .toLowerCase()
+    .replaceAll(" ", "-")
+    .replaceAll("/", "-")
+    .replaceAll("🔥", "")
+    .trim();
 
 const getTradeCall = (row = {}) => {
   const signal = String(row.signal || "").toLowerCase();
@@ -71,13 +55,14 @@ const getTradeCall = (row = {}) => {
   const oi = Number(row.oiChangePercent || 0);
   const volumeRatio = Number(row.volumeRatio || 0);
 
-  if (isNeutralSignal(signal)) return "WAIT";
-
-  if (signal.includes("strong long") || (move >= 2 && oi >= 7 && volumeRatio >= 2)) return "STRONG BUY";
-  if (signal.includes("strong short") || (move <= -2 && oi >= 7 && volumeRatio >= 2)) return "STRONG SELL";
-  if (signal.includes("long build") || signal.includes("short covering") || (move >= 2 && oi >= 7)) return "BUY";
-  if (signal.includes("short build") || signal.includes("long unwinding") || (move <= -2 && oi >= 7)) return "SELL";
-
+  if (signal.includes("strong buy") || signal.includes("strong long")) return "STRONG BUY";
+  if (signal.includes("strong sell") || signal.includes("strong short")) return "STRONG SELL";
+  if (signal.includes("buy") || signal.includes("long build") || signal.includes("short covering") || signal.includes("top gainer")) return "BUY";
+  if (signal.includes("sell") || signal.includes("short build") || signal.includes("long unwinding") || signal.includes("top loser")) return "SELL";
+  if (move >= 2 && oi >= 7 && volumeRatio >= 2) return "STRONG BUY";
+  if (move <= -2 && oi >= 7 && volumeRatio >= 2) return "STRONG SELL";
+  if (move >= 2 && oi >= 7) return "BUY";
+  if (move <= -2 && oi >= 7) return "SELL";
   return "WAIT";
 };
 
@@ -90,26 +75,41 @@ const getCallClass = (call = "") => {
   return "waitCall";
 };
 
-const getExitClass = (exit = "", row = {}) => {
-  const tradeCall = getTradeCall(row);
-  if (tradeCall === "WAIT" || isNeutralSignal(row.signal)) return "waitCall";
-
-  const e = String(exit || "WAIT").toLowerCase();
-  if (e.includes("exit buy")) return "exit-buy";
-  if (e.includes("exit sell")) return "exit-sell";
-  if (e.includes("hold buy")) return "hold-buy";
-  if (e.includes("hold sell")) return "hold-sell";
-  return "waitCall";
+const canOpenChart = (row = {}, market = "") => {
+  if (row.tradingViewUrl || row.tvSymbol) return true;
+  return !["equity-stock-option", "future-stock-option", "index-option"].includes(market);
 };
 
-const canOpenChart = (row = {}, market = "") => {
-  if (["equity-stock-option", "future-stock-option", "index-option"].includes(market)) {
-    return false;
+const fallbackTvSymbol = (row = {}, market = "") => {
+  const clean = (v = "") =>
+    String(v || "")
+      .toUpperCase()
+      .replaceAll("&", "")
+      .replaceAll("/", "")
+      .replaceAll(" ", "")
+      .replaceAll("-", "")
+      .replaceAll("_", "")
+      .trim();
+  const symbol = clean(row.underlyingSymbol || row.tradingSymbol || row.symbol);
+
+  if (!symbol) return "";
+
+  if (market === "crypto-futures") return `BINANCE:${symbol}.P`;
+  if (market === "forex-majors" || market === "forex-cross") return `FX:${symbol}`;
+  if (market === "metals") {
+    if (symbol.includes("XAU")) return "OANDA:XAUUSD";
+    if (symbol.includes("XAG")) return "OANDA:XAGUSD";
+    return `OANDA:${symbol}`;
   }
+  if (market === "us-stocks") return `NASDAQ:${symbol}`;
+  if (market === "us-etfs") return `AMEX:${symbol}`;
+  if (market === "index-future") {
+    const indexMap = { NIFTY: "NSE:NIFTY", BANKNIFTY: "NSE:BANKNIFTY", FINNIFTY: "NSE:CNXFINANCE", MIDCPNIFTY: "NSE:MIDCPNIFTY", NIFTYNXT50: "NSE:NIFTYNXT50", SENSEX: "BSE:SENSEX", BANKEX: "BSE:BANK" };
+    return indexMap[symbol] || "NSE:NIFTY";
+  }
+  if (market === "future-stock" || market === "equity-stock") return `NSE:${symbol}`;
 
-  if (row.tradingViewSearchUrl || row.tradingViewUrl || row.tvSymbol) return true;
-
-  return true;
+  return symbol;
 };
 
 export default function ScannerTable({ rows = [], market = "future-stock", lastUpdated = "" }) {
@@ -127,13 +127,12 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
       const signal = String(s.signal || "").toLowerCase();
       const optionType = String(s.optionType || "").toLowerCase();
       const tvSymbol = String(s.tvSymbol || "").toLowerCase();
-      const exitSignal = String(s.exitSignal || "").toLowerCase();
-      return symbol.includes(q) || tradingSymbol.includes(q) || underlying.includes(q) || signal.includes(q) || optionType.includes(q) || tvSymbol.includes(q) || exitSignal.includes(q);
+      return symbol.includes(q) || tradingSymbol.includes(q) || underlying.includes(q) || signal.includes(q) || optionType.includes(q) || tvSymbol.includes(q);
     });
   }, [rows, search]);
 
   const openChart = (row) => {
-    const url = row.tradingViewUrl || (row.tvSymbol ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(row.tvSymbol)}` : "");
+    const url = row.tradingViewSearchUrl || row.tradingViewUrl;
     if (!url) return;
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -143,7 +142,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
       <div className="tableHead tableHeadPro">
         <div>
           <h3>{marketTitle[market] || "Scanner"}</h3>
-          <p>Live scanner data with signal, trade call, exit signal and TradingView chart link.</p>
+          <p>Live scanner data with signal, trade call and TradingView chart link.</p>
         </div>
 
         <div className="tableSearchBox">
@@ -170,22 +169,19 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
               <th>Score</th>
               <th>Signal</th>
               <th>Trade Call</th>
-              <th>Exit Signal</th>
             </tr>
           </thead>
 
           <tbody>
             {filteredRows.length === 0 ? (
               <tr>
-                <td colSpan={isMultiAsset ? 9 : 10} className="empty">
+                <td colSpan={isMultiAsset ? 8 : 9} className="empty">
                   {search ? "No matching symbol found" : "No data found"}
                 </td>
               </tr>
             ) : (
               filteredRows.map((s, i) => {
                 const call = getTradeCall(s);
-                const rawExitSignal = s.exitSignal || "WAIT";
-                const exitSignal = call === "WAIT" ? "WAIT" : rawExitSignal;
 
                 return (
                   <tr key={s.instrumentKey || s.tradingSymbol || s.symbol || i}>
@@ -209,19 +205,11 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                     {!isMultiAsset && <td className={Number(s.oiChangePercent || 0) >= 0 ? "green" : "red"}>{Number(s.oiChangePercent || 0).toFixed(2)}%</td>}
                     <td>{formatVolume(s.volume)}</td>
                     <td>{Number(s.score || 0).toFixed(2)}</td>
-
                     <td>
-                      <td>
-                        <span className={`badge ${getSignalClass(s.signal)}`}>{getDisplaySignal(s.signal)}</span>
-                      </td>
+                      <span className={`badge ${cleanSignalClass(s.signal)}`}>{s.signal || "WAIT Watchlist"}</span>
                     </td>
-
                     <td>
                       <span className={`badge ${getCallClass(call)}`}>{call}</span>
-                    </td>
-
-                    <td>
-                      <span className={`badge ${getExitClass(exitSignal, s)}`}>{exitSignal}</span>
                     </td>
                   </tr>
                 );
