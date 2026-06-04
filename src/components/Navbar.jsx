@@ -16,7 +16,7 @@ const scannerGroups = [
     ],
   },
   {
-    title: "🌍 Global Market",
+    title: "🌍 GLOBAL MARKET",
     groupType: "global",
     items: [
       { label: "Crypto Futures", type: "crypto-futures" },
@@ -215,11 +215,14 @@ export default function Navbar() {
                           marginLeft: "8px",
                           background: "linear-gradient(135deg,#7c3aed,#4f46e5)",
                           color: "#fff",
-                          fontSize: "10px",
-                          fontWeight: "900",
-                          padding: "5px 10px",
+                          fontSize: "8px",
+                          fontWeight: "800",
+                          padding: "3px 7px",
                           borderRadius: "999px",
-                          boxShadow: "0 0 15px rgba(124,58,237,.5)",
+                          letterSpacing: "0.4px",
+                          boxShadow: "0 0 10px rgba(124,58,237,.4)",
+                          whiteSpace: "nowrap",
+                          lineHeight: "1",
                         }}
                       >
                         COMING SOON
