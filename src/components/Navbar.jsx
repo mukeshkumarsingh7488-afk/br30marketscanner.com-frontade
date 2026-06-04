@@ -20,7 +20,7 @@ const scannerGroups = [
     groupType: "global",
     items: [
       { label: "Crypto Futures", type: "crypto-futures" },
-      { label: "Forex Majors", type: "forex" },
+      { label: "Forex Majors", type: "forex-majors" },
       { label: "Forex Cross Pairs", type: "forex-cross" },
       { label: "Gold / Silver / Platinum", type: "metals" },
       { label: "Commodities", type: "commodities" },
@@ -31,17 +31,40 @@ const scannerGroups = [
   },
 ];
 
+const normalizeMarket = (type = "future-stock") => {
+  if (type === "forex") return "forex-majors";
+  if (type === "forex-major") return "forex-majors";
+  return type || "future-stock";
+};
+
 const getTimeParts = (timeZone) => {
-  const parts = new Intl.DateTimeFormat("en-US", { timeZone, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(new Date());
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(new Date());
+
   const obj = {};
-  parts.forEach((p) => (obj[p.type] = p.value));
-  return { day: obj.weekday, hour: Number(obj.hour), minute: Number(obj.minute), total: Number(obj.hour) * 60 + Number(obj.minute) };
+  parts.forEach((p) => {
+    obj[p.type] = p.value;
+  });
+
+  return {
+    day: obj.weekday,
+    hour: Number(obj.hour),
+    minute: Number(obj.minute),
+    total: Number(obj.hour) * 60 + Number(obj.minute),
+  };
 };
 
 const isWeekday = (day) => !["Sat", "Sun"].includes(day);
 const between = (total, start, end) => total >= start && total <= end;
 
 const getMarketStatus = (type) => {
+  type = normalizeMarket(type);
+
   if (type === "crypto-futures") return true;
 
   if (["equity-stock", "equity-stock-option", "future-stock", "future-stock-option", "index-future", "index-option"].includes(type)) {
@@ -54,7 +77,7 @@ const getMarketStatus = (type) => {
     return isWeekday(t.day) && between(t.total, 9 * 60 + 30, 16 * 60);
   }
 
-  if (["forex", "forex-cross", "metals", "commodities", "global-index"].includes(type)) {
+  if (["forex-majors", "forex-cross", "metals", "commodities", "global-index"].includes(type)) {
     const t = getTimeParts("UTC");
     return isWeekday(t.day);
   }
@@ -73,7 +96,7 @@ export default function Navbar() {
   const [alerts, setAlerts] = useState([]);
   const [, setTick] = useState(0);
 
-  const activeType = searchParams.get("market") || "future-stock";
+  const activeType = normalizeMarket(searchParams.get("market") || "future-stock");
 
   useEffect(() => {
     const close = () => {
@@ -81,6 +104,7 @@ export default function Navbar() {
       setProfileOpen(false);
       setAlertOpen(false);
     };
+
     window.addEventListener("click", close);
     return () => window.removeEventListener("click", close);
   }, []);
@@ -101,14 +125,21 @@ export default function Navbar() {
     };
 
     loadAlerts();
+
     const handler = (e) => setAlerts(Array.isArray(e.detail) ? e.detail : []);
     window.addEventListener("br30ScannerAlertsUpdated", handler);
+
     return () => window.removeEventListener("br30ScannerAlertsUpdated", handler);
   }, []);
 
   const goScanner = (type) => {
     setMenuOpen(false);
-    nav(`/?market=${type}`);
+    nav(`/?market=${normalizeMarket(type)}`);
+  };
+
+  const openAlertChart = (alert) => {
+    if (!alert?.tradingViewUrl) return;
+    window.open(alert.tradingViewUrl, "_blank", "noopener,noreferrer");
   };
 
   const logout = async () => {
@@ -181,8 +212,10 @@ export default function Navbar() {
 
                   {group.items.map((item) => {
                     const open = getMarketStatus(item.type);
+                    const itemType = normalizeMarket(item.type);
+
                     return (
-                      <button key={item.type} className={activeType === item.type ? "activeScanner" : ""} onClick={() => goScanner(item.type)}>
+                      <button key={item.type} className={activeType === itemType ? "activeScanner" : ""} onClick={() => goScanner(item.type)}>
                         <span>{item.label}</span>
                         {!isIndianGroup && <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
                       </button>
@@ -202,6 +235,7 @@ export default function Navbar() {
         <NavLink to="/oi-spurts">OI Spurts</NavLink>
         <NavLink to="/volume-breakout">Volume</NavLink>
         <NavLink to="/heatmap">Heatmap</NavLink>
+
         {user?.role === "admin" && (
           <>
             <NavLink to="/admin-users">Admin Panel</NavLink>
@@ -237,7 +271,7 @@ export default function Navbar() {
                 <div className="alertEmpty">No Alerts</div>
               ) : (
                 alerts.map((a, i) => (
-                  <div className="alertItem" key={i}>
+                  <button type="button" className="alertItem" key={i} onClick={() => openAlertChart(a)}>
                     <div className="alertTop">
                       <strong>{a.symbol}</strong>
                       <span className={String(a.call).includes("BUY") ? "buyAlert" : "sellAlert"}>{a.call}</span>
@@ -246,7 +280,7 @@ export default function Navbar() {
                       <span>{a.move}% Move</span>
                       <span>{a.time}</span>
                     </div>
-                  </div>
+                  </button>
                 ))
               )}
             </div>

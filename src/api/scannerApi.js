@@ -7,8 +7,6 @@ const API = axios.create({
   timeout: 30000,
 });
 
-// 🔥 Auto Add JWT Token
-
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("br30ScannerToken");
 
@@ -18,6 +16,15 @@ API.interceptors.request.use((config) => {
 
   return config;
 });
+
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.log("API ERROR =>", error?.response?.data?.msg || error?.response?.data || error.message);
+
+    return Promise.reject(error);
+  },
+);
 
 export const getScannerData = async (type = "all", market = "future-stock") => {
   const res = await API.get("/api/scanner", {
