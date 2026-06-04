@@ -133,7 +133,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
   }, [rows, search]);
 
   const openChart = (row) => {
-    const url = row.tradingViewSearchUrl || row.tradingViewUrl;
+    const url = row.tradingViewUrl || (row.tvSymbol ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(row.tvSymbol)}` : "");
     if (!url) return;
     window.open(url, "_blank", "noopener,noreferrer");
   };
