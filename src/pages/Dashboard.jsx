@@ -141,8 +141,17 @@ export default function Dashboard({ type = "all" }) {
   };
 
   useEffect(() => {
+    setRows([]);
+    setSummary(null);
+    setErr("");
+    setLastUpdated("");
+
     loadData(false);
-    const id = setInterval(() => loadData(true), getRefreshTime(market));
+
+    const id = setInterval(() => {
+      loadData(true);
+    }, getRefreshTime(market));
+
     return () => clearInterval(id);
   }, [type, market]);
 
