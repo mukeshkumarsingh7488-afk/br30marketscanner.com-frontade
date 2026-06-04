@@ -191,7 +191,7 @@ export default function Dashboard({ type = "all" }) {
           <h1>{config.title}</h1>
           <p className="sub">{config.sub}</p>
         </div>
-        <button onClick={() => loadData(true)}>{refreshing ? "Updating..." : "Refresh"}</button>
+        {false && <button onClick={() => loadData(true)}>{refreshing ? "Updating..." : "Refresh"}</button>}
       </div>
 
       {summary && <MarketSummary summary={summary} market={market} />}
