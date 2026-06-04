@@ -49,10 +49,12 @@ const getTradeCall = (s = {}, market = "") => {
   const volume = Number(s.volumeRatio || 0);
   const global = isGlobalMarket(market);
 
+  if (sig.includes("top gainer") || sig.includes("top loser")) return "WAIT";
+
+  if (sig === "buy" || sig.includes("long build") || sig.includes("short covering")) return "BUY";
+  if (sig === "sell" || sig.includes("short build") || sig.includes("long unwinding")) return "SELL";
   if (sig.includes("strong buy") || sig.includes("strong long")) return "STRONG BUY";
   if (sig.includes("strong sell") || sig.includes("strong short")) return "STRONG SELL";
-  if (sig.includes("buy") || sig.includes("long build") || sig.includes("short covering") || sig.includes("top gainer")) return "BUY";
-  if (sig.includes("sell") || sig.includes("short build") || sig.includes("long unwinding") || sig.includes("top loser")) return "SELL";
 
   if (!global) {
     if (move >= 2 && oi >= 7 && volume >= 2) return "STRONG BUY";
