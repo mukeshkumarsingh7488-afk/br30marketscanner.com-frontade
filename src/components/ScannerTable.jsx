@@ -56,6 +56,15 @@ const getSignalClass = (signal = "") => {
   return "waitSignal";
 };
 
+const getDisplaySignal = (signal = "") => {
+  const s = String(signal || "WAIT Watchlist").trim();
+
+  if (s.toLowerCase().includes("top gainer")) return "Top Gainer";
+  if (s.toLowerCase().includes("top loser")) return "Top Loser";
+
+  return s;
+};
+
 const getTradeCall = (row = {}) => {
   const signal = String(row.signal || "").toLowerCase();
   const move = Number(row.changePercent || 0);
@@ -197,7 +206,9 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                     <td>{Number(s.score || 0).toFixed(2)}</td>
 
                     <td>
-                      <span className={`badge ${getSignalClass(s.signal)}`}>{s.signal || "WAIT Watchlist"}</span>
+                      <td>
+                        <span className={`badge ${getSignalClass(s.signal)}`}>{getDisplaySignal(s.signal)}</span>
+                      </td>
                     </td>
 
                     <td>
