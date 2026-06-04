@@ -216,15 +216,13 @@ export default function Navbar() {
                           background: "linear-gradient(135deg,#7c3aed,#4f46e5)",
                           color: "#fff",
                           fontSize: "10px",
-                          fontWeight: "800",
-                          padding: "4px 9px",
+                          fontWeight: "900",
+                          padding: "5px 10px",
                           borderRadius: "999px",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.6px",
-                          boxShadow: "0 0 12px rgba(124,58,237,.55)",
+                          boxShadow: "0 0 15px rgba(124,58,237,.5)",
                         }}
                       >
-                        Coming Soon
+                        COMING SOON
                       </span>
                     )}
 
@@ -239,7 +237,7 @@ export default function Navbar() {
                       <button key={item.type} className={activeType === itemType ? "activeScanner" : ""} onClick={() => goScanner(item.type)}>
                         <span>{item.label}</span>
 
-                        <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>
+                        {isGlobalGroup && <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
                       </button>
                     );
                   })}
