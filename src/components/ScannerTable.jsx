@@ -41,13 +41,15 @@ const formatExpiry = (expiry) => {
   return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 };
 
-const cleanSignalClass = (signal = "") =>
-  String(signal || "watchlist")
-    .toLowerCase()
-    .replaceAll(" ", "-")
-    .replaceAll("/", "-")
-    .replaceAll("🔥", "")
-    .trim();
+const getSignalClass = (signal = "") => {
+  const s = String(signal || "").toLowerCase();
+
+  if (s.includes("long build-up") || s.includes("short covering") || s.includes("strong long")) return "buySignal";
+  if (s.includes("short build-up") || s.includes("long unwinding") || s.includes("strong short")) return "sellSignal";
+  if (s.includes("top gainer") || s.includes("top loser")) return "neutralSignal";
+
+  return "waitSignal";
+};
 
 const getTradeCall = (row = {}) => {
   const signal = String(row.signal || "").toLowerCase();
@@ -57,8 +59,8 @@ const getTradeCall = (row = {}) => {
 
   if (signal.includes("strong buy") || signal.includes("strong long")) return "STRONG BUY";
   if (signal.includes("strong sell") || signal.includes("strong short")) return "STRONG SELL";
-  if (signal.includes("buy") || signal.includes("long build") || signal.includes("short covering") || signal.includes("top gainer")) return "BUY";
-  if (signal.includes("sell") || signal.includes("short build") || signal.includes("long unwinding") || signal.includes("top loser")) return "SELL";
+  if (signal.includes("long build") || signal.includes("short covering")) return "BUY";
+  if (signal.includes("short build") || signal.includes("long unwinding")) return "SELL";
   if (move >= 2 && oi >= 7 && volumeRatio >= 2) return "STRONG BUY";
   if (move <= -2 && oi >= 7 && volumeRatio >= 2) return "STRONG SELL";
   if (move >= 2 && oi >= 7) return "BUY";
@@ -75,41 +77,18 @@ const getCallClass = (call = "") => {
   return "waitCall";
 };
 
-const canOpenChart = (row = {}, market = "") => {
-  if (row.tradingViewUrl || row.tvSymbol) return true;
-  return !["equity-stock-option", "future-stock-option", "index-option"].includes(market);
+const getExitClass = (exit = "") => {
+  const e = String(exit || "WAIT").toLowerCase();
+  if (e.includes("exit buy")) return "exit-buy";
+  if (e.includes("exit sell")) return "exit-sell";
+  if (e.includes("hold buy")) return "hold-buy";
+  if (e.includes("hold sell")) return "hold-sell";
+  return "waitCall";
 };
 
-const fallbackTvSymbol = (row = {}, market = "") => {
-  const clean = (v = "") =>
-    String(v || "")
-      .toUpperCase()
-      .replaceAll("&", "")
-      .replaceAll("/", "")
-      .replaceAll(" ", "")
-      .replaceAll("-", "")
-      .replaceAll("_", "")
-      .trim();
-  const symbol = clean(row.underlyingSymbol || row.tradingSymbol || row.symbol);
-
-  if (!symbol) return "";
-
-  if (market === "crypto-futures") return `BINANCE:${symbol}.P`;
-  if (market === "forex-majors" || market === "forex-cross") return `FX:${symbol}`;
-  if (market === "metals") {
-    if (symbol.includes("XAU")) return "OANDA:XAUUSD";
-    if (symbol.includes("XAG")) return "OANDA:XAGUSD";
-    return `OANDA:${symbol}`;
-  }
-  if (market === "us-stocks") return `NASDAQ:${symbol}`;
-  if (market === "us-etfs") return `AMEX:${symbol}`;
-  if (market === "index-future") {
-    const indexMap = { NIFTY: "NSE:NIFTY", BANKNIFTY: "NSE:BANKNIFTY", FINNIFTY: "NSE:CNXFINANCE", MIDCPNIFTY: "NSE:MIDCPNIFTY", NIFTYNXT50: "NSE:NIFTYNXT50", SENSEX: "BSE:SENSEX", BANKEX: "BSE:BANK" };
-    return indexMap[symbol] || "NSE:NIFTY";
-  }
-  if (market === "future-stock" || market === "equity-stock") return `NSE:${symbol}`;
-
-  return symbol;
+const canOpenChart = (row = {}, market = "") => {
+  if (row.tradingViewSearchUrl || row.tradingViewUrl || row.tvSymbol) return true;
+  return !["equity-stock-option", "future-stock-option", "index-option"].includes(market);
 };
 
 export default function ScannerTable({ rows = [], market = "future-stock", lastUpdated = "" }) {
@@ -127,7 +106,8 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
       const signal = String(s.signal || "").toLowerCase();
       const optionType = String(s.optionType || "").toLowerCase();
       const tvSymbol = String(s.tvSymbol || "").toLowerCase();
-      return symbol.includes(q) || tradingSymbol.includes(q) || underlying.includes(q) || signal.includes(q) || optionType.includes(q) || tvSymbol.includes(q);
+      const exitSignal = String(s.exitSignal || "").toLowerCase();
+      return symbol.includes(q) || tradingSymbol.includes(q) || underlying.includes(q) || signal.includes(q) || optionType.includes(q) || tvSymbol.includes(q) || exitSignal.includes(q);
     });
   }, [rows, search]);
 
@@ -142,7 +122,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
       <div className="tableHead tableHeadPro">
         <div>
           <h3>{marketTitle[market] || "Scanner"}</h3>
-          <p>Live scanner data with signal, trade call and TradingView chart link.</p>
+          <p>Live scanner data with signal, trade call, exit signal and TradingView chart link.</p>
         </div>
 
         <div className="tableSearchBox">
@@ -169,19 +149,21 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
               <th>Score</th>
               <th>Signal</th>
               <th>Trade Call</th>
+              <th>Exit Signal</th>
             </tr>
           </thead>
 
           <tbody>
             {filteredRows.length === 0 ? (
               <tr>
-                <td colSpan={isMultiAsset ? 8 : 9} className="empty">
+                <td colSpan={isMultiAsset ? 9 : 10} className="empty">
                   {search ? "No matching symbol found" : "No data found"}
                 </td>
               </tr>
             ) : (
               filteredRows.map((s, i) => {
                 const call = getTradeCall(s);
+                const exitSignal = s.exitSignal || "WAIT";
 
                 return (
                   <tr key={s.instrumentKey || s.tradingSymbol || s.symbol || i}>
@@ -205,11 +187,17 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                     {!isMultiAsset && <td className={Number(s.oiChangePercent || 0) >= 0 ? "green" : "red"}>{Number(s.oiChangePercent || 0).toFixed(2)}%</td>}
                     <td>{formatVolume(s.volume)}</td>
                     <td>{Number(s.score || 0).toFixed(2)}</td>
+
                     <td>
-                      <span className={`badge ${cleanSignalClass(s.signal)}`}>{s.signal || "WAIT Watchlist"}</span>
+                      <span className={`badge ${getSignalClass(s.signal)}`}>{s.signal || "WAIT Watchlist"}</span>
                     </td>
+
                     <td>
                       <span className={`badge ${getCallClass(call)}`}>{call}</span>
+                    </td>
+
+                    <td>
+                      <span className={`badge ${getExitClass(exitSignal)}`}>{exitSignal}</span>
                     </td>
                   </tr>
                 );

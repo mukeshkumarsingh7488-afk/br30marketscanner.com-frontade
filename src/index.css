@@ -1294,3 +1294,39 @@ input[type="date"] {
   }
 }
 /* Uper Ka Css Full Complate hai */
+.buySignal {
+  background: #063b24;
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.25);
+}
+.sellSignal {
+  background: #3b0808;
+  color: #ff5f5f;
+  border: 1px solid rgba(255, 95, 95, 0.25);
+}
+.neutralSignal {
+  background: #1b2230;
+  color: #d1d5db;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.waitSignal {
+  background: #13284d;
+  color: #8ab4ff;
+  border: 1px solid rgba(138, 180, 255, 0.25);
+}
+.hold-buy {
+  background: #063b24;
+  color: #00ff88;
+}
+.hold-sell {
+  background: #3b0808;
+  color: #ff7777;
+}
+.exit-buy {
+  background: #3b2606;
+  color: #ffcc66;
+}
+.exit-sell {
+  background: #24123b;
+  color: #c084fc;
+}
