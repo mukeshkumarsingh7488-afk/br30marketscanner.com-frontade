@@ -103,8 +103,13 @@ const getExitClass = (exit = "", row = {}) => {
 };
 
 const canOpenChart = (row = {}, market = "") => {
+  if (["equity-stock-option", "future-stock-option", "index-option"].includes(market)) {
+    return false;
+  }
+
   if (row.tradingViewSearchUrl || row.tradingViewUrl || row.tvSymbol) return true;
-  return !["equity-stock-option", "future-stock-option", "index-option"].includes(market);
+
+  return true;
 };
 
 export default function ScannerTable({ rows = [], market = "future-stock", lastUpdated = "" }) {
