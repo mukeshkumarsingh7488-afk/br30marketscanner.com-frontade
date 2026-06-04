@@ -41,12 +41,17 @@ const formatExpiry = (expiry) => {
   return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 };
 
+const isNeutralSignal = (signal = "") => {
+  const s = String(signal || "").toLowerCase();
+  return s.includes("top gainer") || s.includes("top loser");
+};
+
 const getSignalClass = (signal = "") => {
   const s = String(signal || "").toLowerCase();
 
+  if (isNeutralSignal(s)) return "neutralSignal";
   if (s.includes("long build-up") || s.includes("short covering") || s.includes("strong long")) return "buySignal";
   if (s.includes("short build-up") || s.includes("long unwinding") || s.includes("strong short")) return "sellSignal";
-  if (s.includes("top gainer") || s.includes("top loser")) return "neutralSignal";
 
   return "waitSignal";
 };
@@ -57,14 +62,13 @@ const getTradeCall = (row = {}) => {
   const oi = Number(row.oiChangePercent || 0);
   const volumeRatio = Number(row.volumeRatio || 0);
 
-  if (signal.includes("strong buy") || signal.includes("strong long")) return "STRONG BUY";
-  if (signal.includes("strong sell") || signal.includes("strong short")) return "STRONG SELL";
-  if (signal.includes("long build") || signal.includes("short covering")) return "BUY";
-  if (signal.includes("short build") || signal.includes("long unwinding")) return "SELL";
-  if (move >= 2 && oi >= 7 && volumeRatio >= 2) return "STRONG BUY";
-  if (move <= -2 && oi >= 7 && volumeRatio >= 2) return "STRONG SELL";
-  if (move >= 2 && oi >= 7) return "BUY";
-  if (move <= -2 && oi >= 7) return "SELL";
+  if (isNeutralSignal(signal)) return "WAIT";
+
+  if (signal.includes("strong long") || (move >= 2 && oi >= 7 && volumeRatio >= 2)) return "STRONG BUY";
+  if (signal.includes("strong short") || (move <= -2 && oi >= 7 && volumeRatio >= 2)) return "STRONG SELL";
+  if (signal.includes("long build") || signal.includes("short covering") || (move >= 2 && oi >= 7)) return "BUY";
+  if (signal.includes("short build") || signal.includes("long unwinding") || (move <= -2 && oi >= 7)) return "SELL";
+
   return "WAIT";
 };
 
@@ -77,7 +81,10 @@ const getCallClass = (call = "") => {
   return "waitCall";
 };
 
-const getExitClass = (exit = "") => {
+const getExitClass = (exit = "", row = {}) => {
+  const tradeCall = getTradeCall(row);
+  if (tradeCall === "WAIT" || isNeutralSignal(row.signal)) return "waitCall";
+
   const e = String(exit || "WAIT").toLowerCase();
   if (e.includes("exit buy")) return "exit-buy";
   if (e.includes("exit sell")) return "exit-sell";
@@ -163,7 +170,8 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
             ) : (
               filteredRows.map((s, i) => {
                 const call = getTradeCall(s);
-                const exitSignal = s.exitSignal || "WAIT";
+                const rawExitSignal = s.exitSignal || "WAIT";
+                const exitSignal = call === "WAIT" ? "WAIT" : rawExitSignal;
 
                 return (
                   <tr key={s.instrumentKey || s.tradingSymbol || s.symbol || i}>
@@ -197,7 +205,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                     </td>
 
                     <td>
-                      <span className={`badge ${getExitClass(exitSignal)}`}>{exitSignal}</span>
+                      <span className={`badge ${getExitClass(exitSignal, s)}`}>{exitSignal}</span>
                     </td>
                   </tr>
                 );
