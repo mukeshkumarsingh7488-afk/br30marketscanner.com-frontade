@@ -201,12 +201,33 @@ export default function Navbar() {
           <div className="scannerMenu" onClick={(e) => e.stopPropagation()}>
             {scannerGroups.map((group) => {
               const isIndianGroup = group.groupType === "india";
+              const isGlobalGroup = group.groupType === "global";
               const indianOpen = isIndianGroup ? getMarketStatus("equity-stock") : false;
 
               return (
                 <div className="menuGroup" key={group.title}>
                   <div className="menuGroupTitle">
                     <span>{group.title}</span>
+
+                    {isGlobalGroup && (
+                      <span
+                        style={{
+                          marginLeft: "8px",
+                          background: "linear-gradient(135deg,#7c3aed,#4f46e5)",
+                          color: "#fff",
+                          fontSize: "10px",
+                          fontWeight: "800",
+                          padding: "4px 9px",
+                          borderRadius: "999px",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.6px",
+                          boxShadow: "0 0 12px rgba(124,58,237,.55)",
+                        }}
+                      >
+                        Coming Soon
+                      </span>
+                    )}
+
                     {isIndianGroup && <span className={`marketStatus ${indianOpen ? "open" : "closed"}`}>{indianOpen ? "OPEN" : "CLOSED"}</span>}
                   </div>
 
@@ -217,7 +238,8 @@ export default function Navbar() {
                     return (
                       <button key={item.type} className={activeType === itemType ? "activeScanner" : ""} onClick={() => goScanner(item.type)}>
                         <span>{item.label}</span>
-                        {!isIndianGroup && <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
+
+                        <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>
                       </button>
                     );
                   })}
