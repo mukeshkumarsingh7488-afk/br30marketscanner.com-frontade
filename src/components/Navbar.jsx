@@ -300,6 +300,7 @@ export default function Navbar() {
                     </div>
                     <div className="alertBottom">
                       <span>{a.move}% Move</span>
+                      <span className="dotSep">•</span>
                       <span>{a.time}</span>
                     </div>
                   </button>
