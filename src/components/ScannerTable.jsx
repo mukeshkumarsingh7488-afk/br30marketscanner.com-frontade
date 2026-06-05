@@ -42,6 +42,12 @@ const formatExpiry = (expiry) => {
   return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 };
 
+const cleanText = (value = "") =>
+  String(value || "")
+    .replaceAll("_", " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
 const getSignalClass = (signal = "") => {
   const s = String(signal || "").toLowerCase();
 
@@ -76,7 +82,7 @@ const canOpenChart = (market = "") => !OPTION_MARKETS.includes(market);
 const getDisplaySymbol = (row = {}) => {
   const tv = String(row.tvSymbol || "");
   if (tv.includes(":")) return tv.split(":").pop();
-  return row.symbol || row.underlyingSymbol || row.tradingSymbol || "-";
+  return row.symbol || "-";
 };
 
 export default function ScannerTable({ rows = [], market = "future-stock", lastUpdated = "" }) {
@@ -89,12 +95,14 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
 
     return rows.filter((s) => {
       const symbol = String(s.symbol || "").toLowerCase();
+      const name = String(s.name || "").toLowerCase();
+      const sector = String(s.sector || "").toLowerCase();
       const tradingSymbol = String(s.tradingSymbol || "").toLowerCase();
       const underlying = String(s.underlyingSymbol || "").toLowerCase();
       const signal = String(s.signal || "").toLowerCase();
       const optionType = String(s.optionType || "").toLowerCase();
       const tvSymbol = String(s.tvSymbol || "").toLowerCase();
-      return symbol.includes(q) || tradingSymbol.includes(q) || underlying.includes(q) || signal.includes(q) || optionType.includes(q) || tvSymbol.includes(q);
+      return symbol.includes(q) || name.includes(q) || sector.includes(q) || tradingSymbol.includes(q) || underlying.includes(q) || signal.includes(q) || optionType.includes(q) || tvSymbol.includes(q);
     });
   }, [rows, search]);
 
@@ -150,6 +158,8 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
               filteredRows.map((s, i) => {
                 const call = getTradeCall(s);
                 const displaySymbol = getDisplaySymbol(s);
+                const displayName = cleanText(s.name);
+                const displaySector = cleanText(s.sector);
 
                 return (
                   <tr key={s.instrumentKey || s.tradingSymbol || s.symbol || i}>
@@ -164,6 +174,8 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                         <div>{displaySymbol}</div>
                       )}
 
+                      {displayName && <small className="expiryText">{displayName}</small>}
+                      {displaySector && <small className="expiryText">Sector: {displaySector}</small>}
                       {s.tvSymbol && <small className="expiryText">TV: {s.tvSymbol}</small>}
                       {s.expiry && <small className="expiryText">Exp: {formatExpiry(s.expiry)}</small>}
                     </td>
