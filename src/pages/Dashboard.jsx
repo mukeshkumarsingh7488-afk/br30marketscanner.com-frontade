@@ -124,10 +124,6 @@ export default function Dashboard({ type = "all" }) {
 
       const scanRes = await getScannerData(type, market);
       const data = Array.isArray(scanRes?.data) ? scanRes.data : [];
-
-      window.__rows = data;
-      console.log("SCANNER FIRST ROW =>", data[0]);
-
       const alerts = makeAlerts(data, market);
 
       setRows(data);
