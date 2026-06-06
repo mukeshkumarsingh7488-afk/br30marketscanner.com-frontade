@@ -342,7 +342,16 @@ export default function AdminDashboard() {
       {tab === "mail" && (
         <section className="bulkMailBox">
           <h2>Bulk Mail Center</h2>
-          <select value={mail.target} onChange={(e) => setMail({ ...mail, target: e.target.value })}>
+          <select
+            value={mail.target}
+            onChange={(e) => setMail({ ...mail, target: e.target.value })}
+            style={{
+              width: "400px",
+              maxWidth: "100%",
+              margin: "0 auto 20px",
+              display: "block",
+            }}
+          >
             <option value="all">All Users (Sabhi Registered Users)</option>
 
             <option value="trial">Trial Users (Free Trial Active)</option>
