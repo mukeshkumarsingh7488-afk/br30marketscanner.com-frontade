@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin-users
+Disallow: /admin-dashboard
+Disallow: /verify-otp
+Disallow: /reset-password
+
+Sitemap: https://br30marketscanner-com-frontade.vercel.app/sitemap.xml
