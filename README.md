@@ -58,7 +58,7 @@ https://br30marketscanner-com-backend.onrender.com
 
 ## Market Heatmap
 
-![Market Heatmap](screenshots/market-heatmap.png)
+![Market Heatmap](screenshots/market-heatmap1.png)
 
 ---
 
