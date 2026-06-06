@@ -18,20 +18,75 @@ https://br30marketscanner-com-backend.onrender.com
 
 # 📸 Screenshots
 
-## Dashboard
-(Add Screenshot Here)
+## Login Page
 
-## Equity Scanner
-(Add Screenshot Here)
+![Login](screenshots/login.png)
 
-## Option Scanner
-(Add Screenshot Here)
+## Register Page
 
-## Heatmap
-(Add Screenshot Here)
+![Register](screenshots/register.png)
 
-## Volume Scanner
-(Add Screenshot Here)
+## Forgot Password
+
+![Forgot Password](screenshots/forgot.png)
+
+---
+
+## Equity Stock Scanner
+
+![Equity Stock Scanner](screenshots/equity-stock-scanner.png)
+
+## Equity Stock Option Scanner
+
+![Equity Stock Option Scanner](screenshots/equity-stock-option-scanner.png)
+
+## Future Stock Scanner
+
+![Future Stock Scanner](screenshots/future-stock-scanner.png)
+
+## Future Stock Option Scanner
+
+![Future Stock Option Scanner](screenshots/future-stock-option-scanner.png)
+
+## Index Future Scanner
+
+![Index Future Scanner](screenshots/index-future-scanner.png)
+
+## Index Option Scanner
+
+![Index Option Scanner](screenshots/index-option-scanner.png)
+
+## Market Heatmap
+
+![Market Heatmap](screenshots/market-heatmap.png)
+
+---
+
+## User Subscription Tracker
+
+![User Subscription Tracker](screenshots/user-subscription-track.png)
+
+## User Management
+
+![User Management](screenshots/uaer-managment.png)
+
+## Payment Tracker
+
+![Payment Tracker](screenshots/pement-tracker.png)
+
+## Bulk Mail Marketing
+
+![Bulk Mail Marketing](screenshots/bulk-mail-markating.png)
+
+---
+
+## Alert Notification Bell
+
+![Alert Bell](screenshots/nav-bell-signal-alaart.png)
+
+## User Profile Menu
+
+![User Profile](screenshots/nav-user-profile-with-roal.png)
 
 ---
 
@@ -239,14 +294,14 @@ br30marketscanner-com-frontade
 
 # 📡 Supported Markets
 
-| Market | Status |
-|----------|----------|
-| Equity Stocks | ✅ |
-| Equity Stock Options | ✅ |
-| Stock Futures | ✅ |
-| Future Stock Options | ✅ |
-| Index Futures | ✅ |
-| Index Options | ✅ |
+| Market               | Status |
+| -------------------- | ------ |
+| Equity Stocks        | ✅     |
+| Equity Stock Options | ✅     |
+| Stock Futures        | ✅     |
+| Future Stock Options | ✅     |
+| Index Futures        | ✅     |
+| Index Options        | ✅     |
 
 ---
 
