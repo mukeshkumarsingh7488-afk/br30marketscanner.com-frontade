@@ -401,8 +401,8 @@ Founder — BR30 Group
 🌐 **BR30 Group**
 [br-30-group-com.vercel.app](https://br-30-group-com.vercel.app)
 
-📊 **BR30 Market Scanner**
-[br30marketscanner-com-frontade.vercel.app](https://br30marketscanner-com-frontade.vercel.app)
+👨‍💻 **BR30 Founder**  
+[br30-com.vercel.app](https://br30-com.vercel.app)
 
 ---
 
