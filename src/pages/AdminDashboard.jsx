@@ -342,6 +342,18 @@ export default function AdminDashboard() {
       {tab === "mail" && (
         <section className="bulkMailBox">
           <h2>Bulk Mail Center</h2>
+          <div
+            style={{
+              textAlign: "center",
+              color: "#00ff88",
+              fontSize: "14px",
+              fontWeight: "700",
+              marginBottom: "8px",
+              letterSpacing: "0.5px",
+            }}
+          >
+            Select Target Group
+          </div>
           <select
             value={mail.target}
             onChange={(e) => setMail({ ...mail, target: e.target.value })}
@@ -353,27 +365,16 @@ export default function AdminDashboard() {
             }}
           >
             <option value="all">All Users (Sabhi Registered Users)</option>
-
             <option value="trial">Trial Users (Free Trial Active)</option>
-
             <option value="active">Active Subscribers (Paid Users)</option>
-
             <option value="active30">Active 30+ Days (Paid Since 30+ Days)</option>
-
             <option value="active90">Active 90+ Days (Long-Term Premium Users)</option>
-
             <option value="expired">Expired Users (Subscription End Ho Chuka)</option>
-
             <option value="pending">Pending Approval Users (Verified But Not Approved)</option>
-
             <option value="founding">Founding Members (₹999 Founding Plan Users)</option>
-
             <option value="autopay">AutoPay Users (Recurring Payment Enabled)</option>
-
             <option value="blocked">Blocked Users (Access Restricted)</option>
-
             <option value="top-paying">Top Paying Users (3+ Successful Payments)</option>
-
             <option value="no-payment">No Payment Users (Never Purchased Subscription)</option>
           </select>
 
