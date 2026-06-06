@@ -76,7 +76,7 @@ https://br30marketscanner-com-backend.onrender.com
 
 ## Bulk Mail Marketing
 
-![Bulk Mail Marketing](screenshots/bulk-mail-markating.png)
+![Bulk Mail Marketing](screenshots/bulk mail markating.png)
 
 ---
 
