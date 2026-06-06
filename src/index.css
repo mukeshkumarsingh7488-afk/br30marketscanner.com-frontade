@@ -1088,13 +1088,14 @@ th {
   background: #0b111c;
   border: 1px solid #172438;
   border-radius: 18px;
-  padding: 20px;
+  padding: 20px 20px 12px !important;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 .bulkMailBox h2 {
   margin: 0;
+  margin-bottom: 10px !important;
   color: #00ff88;
 }
 .bulkMailBox textarea {

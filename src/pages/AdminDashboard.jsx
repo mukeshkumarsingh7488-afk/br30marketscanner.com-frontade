@@ -348,8 +348,8 @@ export default function AdminDashboard() {
               color: "#00ff88",
               fontSize: "14px",
               fontWeight: "700",
-              marginBottom: "8px",
-              letterSpacing: "0.5px",
+              marginTop: "-8px",
+              marginBottom: "4px",
             }}
           >
             Select Target Group
@@ -360,7 +360,7 @@ export default function AdminDashboard() {
             style={{
               width: "400px",
               maxWidth: "100%",
-              margin: "0 auto 20px",
+              margin: "0 auto 10px",
               display: "block",
             }}
           >
