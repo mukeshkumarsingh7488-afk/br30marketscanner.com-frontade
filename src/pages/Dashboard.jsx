@@ -36,7 +36,7 @@ const normalizeMarket = (market = "future-stock") => {
   return marketAlias[key] || key;
 };
 
-const getRefreshTime = () => 3000;
+const getRefreshTime = () => 10000;
 
 const formatTime = () => new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
 
