@@ -398,11 +398,9 @@ Founder — BR30 Group
 🐙 **GitHub**
 [github.com/mukeshkumarsingh7488-afk](https://github.com/mukeshkumarsingh7488-afk)
 
-🌐 **BR30 Group**
-[br-30-group-com.vercel.app](https://br-30-group-com.vercel.app)
+🌐 **BR30 Group** [br-30-group-com.vercel.app](https://br-30-group-com.vercel.app)
 
-👨‍💻 **BR30 Founder**  
-[br30-com.vercel.app](https://br30-com.vercel.app)
+👨‍💻 **BR30 Founder** [br30-com.vercel.app](https://br30-com.vercel.app)
 
 ---
 
