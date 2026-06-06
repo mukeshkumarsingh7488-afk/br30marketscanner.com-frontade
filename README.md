@@ -220,33 +220,44 @@ Features:
 
 ---
 
-# 🏗️ Tech Stack
+# 🚀 Tech Stack
 
 ## Frontend
 
-- React.js
-- Vite
-- Axios
-- React Router DOM
-- CSS3
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=fff)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=fff)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=fff)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=fff)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=fff)
+
+---
 
 ## Backend
 
-- Node.js
-- Express.js
-- MongoDB
-- Axios
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=fff)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=fff)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=fff)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=fff)
 
-## APIs
+---
 
-- Upstox Market Data API
-- Upstox Instrument Master
+## Market Data APIs
 
-## Deployment
+![Upstox](https://img.shields.io/badge/Upstox_Market_Data-6F3FF5?style=for-the-badge)
+![Instrument_Master](https://img.shields.io/badge/Instrument_Master-00C853?style=for-the-badge)
 
-- Vercel (Frontend)
-- Render (Backend)
-- MongoDB Atlas
+---
+
+## Deployment & Tools
+
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=fff)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=fff)
+![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=fff)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=fff)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=000)
+![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-00ED64?style=for-the-badge&logo=mongodb&logoColor=fff)
 
 ---
 
@@ -259,35 +270,59 @@ br30marketscanner-com-frontade
 │
 ├── public/
 │
+├── screenshots/
+│
 ├── src/
 │   │
+│   ├── api/
+│   │   ├── authApi.js
+│   │   ├── scannerApi.js
+│   │   └── subscriptionApi.js
+│   │
 │   ├── components/
+│   │   ├── FilterPanel.jsx
+│   │   ├── Loader.jsx
+│   │   ├── MarketSummary.jsx
 │   │   ├── Navbar.jsx
+│   │   ├── ProtectedRoute.jsx
 │   │   ├── ScannerTable.jsx
-│   │   ├── StatCards.jsx
-│   │   ├── Filters.jsx
+│   │   └── SubscriptionGuard.jsx
+│   │
+│   ├── context/
+│   │   └── AuthContext.jsx
 │   │
 │   ├── pages/
+│   │   ├── AdminDashboard.jsx
+│   │   ├── AdminUsers.jsx
 │   │   ├── Dashboard.jsx
-│   │   ├── Gainers.jsx
-│   │   ├── Losers.jsx
-│   │   ├── OISpurts.jsx
-│   │   ├── Volume.jsx
+│   │   ├── ForgotPassword.jsx
 │   │   ├── Heatmap.jsx
-│   │
-│   ├── services/
-│   │   ├── api.js
+│   │   ├── Login.jsx
+│   │   ├── OISpurts.jsx
+│   │   ├── Register.jsx
+│   │   ├── ResetPassword.jsx
+│   │   ├── Subscription.jsx
+│   │   ├── TopGainers.jsx
+│   │   ├── TopLosers.jsx
+│   │   ├── VerifyOtp.jsx
+│   │   └── VolumeBreakout.jsx
 │   │
 │   ├── utils/
+│   │   └── validators.js
 │   │
 │   ├── App.jsx
-│   ├── main.jsx
+│   ├── index.css
+│   └── main.jsx
 │
+├── .env
+├── .gitignore
+├── .prettierrc
 ├── index.html
 ├── package.json
-├── vite.config.js
+├── package-lock.json
+├── README.md
 ├── vercel.json
-└── README.md
+└── vite.config.js
 ```
 
 ---
@@ -354,14 +389,20 @@ Founder — BR30 Group
 
 # 📬 Contact
 
-Email:
-br30service.contact@gmail.com
+📧 **Email**
+[br30service.contact@gmail.com](mailto:br30service.contact@gmail.com)
 
-LinkedIn:
-https://www.linkedin.com/in/mukesh-raj-b75a65253
+💼 **LinkedIn**
+[linkedin.com/in/mukesh-raj-b75a65253](https://www.linkedin.com/in/mukesh-raj-b75a65253)
 
-GitHub:
-https://github.com/mukeshkumarsingh7488-afk
+🐙 **GitHub**
+[github.com/mukeshkumarsingh7488-afk](https://github.com/mukeshkumarsingh7488-afk)
+
+🌐 **BR30 Group**
+[br-30-group-com.vercel.app](https://br-30-group-com.vercel.app)
+
+📊 **BR30 Market Scanner**
+[br30marketscanner-com-frontade.vercel.app](https://br30marketscanner-com-frontade.vercel.app)
 
 ---
 
