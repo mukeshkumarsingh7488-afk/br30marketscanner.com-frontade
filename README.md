@@ -34,11 +34,11 @@ https://br30marketscanner-com-backend.onrender.com
 
 ## Equity Stock Scanner
 
-![Equity Stock Scanner](screenshots/equity-stock-scanner.png)
+![Equity Stock Scanner](screenshots/equty-stock-scanner.png)
 
 ## Equity Stock Option Scanner
 
-![Equity Stock Option Scanner](screenshots/equity-stock-option-scanner.png)
+![Equity Stock Option Scanner](screenshots/equty-stock-option-scanner.png)
 
 ## Future Stock Scanner
 
