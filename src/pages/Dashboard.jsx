@@ -41,6 +41,14 @@ const getRefreshTime = () => 3000;
 const formatTime = () => new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
 
 const isGlobalMarket = (market) => ["crypto-futures", "forex-majors", "forex-cross", "metals", "commodities", "global-index", "us-stocks", "us-etfs"].includes(market);
+const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option"];
+
+const isOptionMarket = (market = "") =>
+  OPTION_MARKETS.includes(
+    String(market || "")
+      .toLowerCase()
+      .trim(),
+  );
 
 const getTradeCall = (s = {}, market = "") => {
   const sig = String(s.signal || "").toLowerCase();
@@ -94,8 +102,8 @@ const makeAlerts = (data = [], market = "") => {
       call: s.tradeCall,
       move: Number(s.changePercent || 0).toFixed(2),
       score: Number(s.score || 0).toFixed(2),
-      tradingViewUrl: s.tradingViewUrl || "",
-      tvSymbol: s.tvSymbol || "",
+      tradingViewUrl: isOptionMarket(market) ? "" : s.tradingViewUrl || "",
+      tvSymbol: isOptionMarket(market) ? "" : s.tvSymbol || "",
       time: formatTime(),
     }));
 };

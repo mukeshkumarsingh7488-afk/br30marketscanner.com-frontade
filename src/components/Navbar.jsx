@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
+const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option"];
+
 const scannerGroups = [
   {
     title: "🇮🇳 Indian Market",
@@ -32,10 +34,15 @@ const scannerGroups = [
 ];
 
 const normalizeMarket = (type = "future-stock") => {
-  if (type === "forex") return "forex-majors";
-  if (type === "forex-major") return "forex-majors";
-  return type || "future-stock";
+  const key = String(type || "future-stock")
+    .trim()
+    .toLowerCase();
+  if (key === "forex") return "forex-majors";
+  if (key === "forex-major") return "forex-majors";
+  return key || "future-stock";
 };
+
+const isOptionMarket = (market = "") => OPTION_MARKETS.includes(normalizeMarket(market));
 
 const getTimeParts = (timeZone) => {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -134,10 +141,13 @@ export default function Navbar() {
 
   const goScanner = (type) => {
     setMenuOpen(false);
+    setProfileOpen(false);
+    setAlertOpen(false);
     nav(`/?market=${normalizeMarket(type)}`);
   };
 
   const openAlertChart = (alert) => {
+    if (isOptionMarket(alert?.market)) return;
     if (!alert?.tradingViewUrl) return;
     window.open(alert.tradingViewUrl, "_blank", "noopener,noreferrer");
   };
@@ -239,7 +249,6 @@ export default function Navbar() {
                     return (
                       <button key={item.type} className={activeType === itemType ? "activeScanner" : ""} onClick={() => goScanner(item.type)}>
                         <span>{item.label}</span>
-
                         {isGlobalGroup && <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
                       </button>
                     );
@@ -293,19 +302,23 @@ export default function Navbar() {
               {alerts.length === 0 ? (
                 <div className="alertEmpty">No Alerts</div>
               ) : (
-                alerts.map((a, i) => (
-                  <button type="button" className="alertItem" key={i} onClick={() => openAlertChart(a)}>
-                    <div className="alertTop">
-                      <strong>{a.symbol}</strong>
-                      <span className={String(a.call).includes("BUY") ? "buyAlert" : "sellAlert"}>{a.call}</span>
-                    </div>
-                    <div className="alertBottom">
-                      <span>{a.move}% Move</span>
-                      <span className="dotSep">•</span>
-                      <span>{a.time}</span>
-                    </div>
-                  </button>
-                ))
+                alerts.map((a, i) => {
+                  const optionAlert = isOptionMarket(a.market);
+
+                  return (
+                    <button type="button" className={`alertItem ${optionAlert ? "optionAlert" : ""}`} key={`${a.symbol || "alert"}-${i}`} onClick={() => openAlertChart(a)} title={optionAlert ? "Option chart disabled" : "Open TradingView"}>
+                      <div className="alertTop">
+                        <strong>{a.symbol}</strong>
+                        <span className={String(a.call).includes("BUY") ? "buyAlert" : "sellAlert"}>{a.call}</span>
+                      </div>
+                      <div className="alertBottom">
+                        <span>{a.move}% Move</span>
+                        <span className="dotSep">•</span>
+                        <span>{a.time}</span>
+                      </div>
+                    </button>
+                  );
+                })
               )}
             </div>
           )}

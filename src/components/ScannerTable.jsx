@@ -77,7 +77,14 @@ const getCallClass = (call = "") => {
   return "waitCall";
 };
 
-const canOpenChart = (market = "") => !OPTION_MARKETS.includes(market);
+const normalizeMarket = (market = "") =>
+  String(market || "")
+    .toLowerCase()
+    .trim();
+
+const isOptionMarket = (market = "") => OPTION_MARKETS.includes(normalizeMarket(market));
+
+const canOpenChart = (market = "") => !isOptionMarket(market);
 
 const getDisplaySymbol = (row = {}) => {
   const tv = String(row.tvSymbol || "");
@@ -107,8 +114,11 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
   }, [rows, search]);
 
   const openChart = (row) => {
+    if (isOptionMarket(market) || isOptionMarket(row.market)) return;
+
     const url = row.tradingViewUrl || (row.tvSymbol ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(row.tvSymbol)}` : "");
     if (!url) return;
+
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -117,7 +127,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
       <div className="tableHead tableHeadPro">
         <div>
           <h3>{marketTitle[market] || "Scanner"}</h3>
-          <p>Live scanner data with signal, trade call and TradingView chart link.</p>
+          <p>Live scanner data with signal, trade call and chart access where available.</p>
         </div>
 
         <div className="tableSearchBox">
@@ -160,6 +170,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                 const displaySymbol = getDisplaySymbol(s);
                 const displayName = cleanText(s.name);
                 const displaySector = cleanText(s.sector);
+                const optionText = isOptionMarket(market) && s.strike && s.optionType ? `${s.strike} ${s.optionType}` : "";
 
                 return (
                   <tr key={s.instrumentKey || s.tradingSymbol || s.symbol || i}>
@@ -175,6 +186,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                       )}
 
                       {displayName && <small className="expiryText">{displayName}</small>}
+                      {optionText && <small className="expiryText">Option: {optionText}</small>}
                       {displaySector && <small className="expiryText">Sector: {displaySector}</small>}
                       {s.tvSymbol && <small className="expiryText">TV: {s.tvSymbol}</small>}
                       {s.expiry && <small className="expiryText">Exp: {formatExpiry(s.expiry)}</small>}
