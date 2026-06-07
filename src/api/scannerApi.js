@@ -60,6 +60,16 @@ export const reloadInstruments = async (market = "future-stock") => {
   return res.data;
 };
 
+export const getGlobalCacheStatus = async () => {
+  const res = await API.get("/api/scanner/global-cache-status", {
+    params: {
+      t: Date.now(),
+    },
+  });
+
+  return res.data;
+};
+
 export const getHeatmapData = async (market = "future-stock") => {
   const res = await API.get("/api/scanner", {
     params: {

@@ -9,6 +9,8 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
     "index-future": "Index Future",
     "index-option": "Index Option",
     "crypto-futures": "Crypto Futures",
+    "crypto-options": "Crypto Options",
+    "forex-majors": "Forex Majors",
     forex: "Forex Majors",
     "forex-cross": "Forex Cross Pairs",
     metals: "Metals",
@@ -18,18 +20,24 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
     "us-etfs": "US ETFs",
   };
 
-  const isMultiAsset = ["crypto-futures", "forex", "forex-cross", "metals", "commodities", "global-index", "us-stocks", "us-etfs"].includes(market);
+  const GLOBAL_MARKETS = ["crypto-futures", "crypto-options", "forex-majors", "forex", "forex-cross", "metals", "commodities", "global-index", "us-stocks", "us-etfs"];
+
+  const isMultiAsset = GLOBAL_MARKETS.includes(market);
+  const isComingSoon = market === "global-index";
+  const isCryptoOptions = market === "crypto-options";
+
+  const desc = isComingSoon ? "Global Index abhi Coming Soon hai. Data enable hote hi yaha live cache se scanner chalega." : isMultiAsset ? "Global markets backend cache se update ho rahe hain. Frontend 3 sec me latest cached data read karega." : "Identify high-momentum stocks with 2%+ price movement and 7%+ OI build-up in real time.";
 
   return (
     <section className="filters">
       <div className="filterHead">
         <h3>{marketTitle[market] || "Scanner"} Filters</h3>
-        <p>Identify high-momentum stocks with 2%+ price movement and 7%+ OI build-up in real time.</p>
+        <p>{desc}</p>
       </div>
 
       <label>
         Move %
-        <input type="number" value={filters.move} onChange={(e) => update("move", e.target.value)} />
+        <input type="number" value={filters.move} onChange={(e) => update("move", e.target.value)} disabled={isComingSoon} />
       </label>
 
       {!isMultiAsset && (
@@ -39,20 +47,32 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
         </label>
       )}
 
-      <label>
-        Volume Ratio
-        <input type="number" value={filters.volume} onChange={(e) => update("volume", e.target.value)} />
-      </label>
+      {!isComingSoon && (
+        <label>
+          Volume Ratio
+          <input type="number" value={filters.volume} onChange={(e) => update("volume", e.target.value)} />
+        </label>
+      )}
 
       <label>
         Trade Side
-        <select value={filters.side} onChange={(e) => update("side", e.target.value)}>
+        <select value={filters.side} onChange={(e) => update("side", e.target.value)} disabled={isComingSoon}>
           <option value="allstocks">All Symbols</option>
           <option value="gainers">Top Gainers</option>
           <option value="losers">Top Losers</option>
           <option value="buy">BUY Signals</option>
           <option value="sell">SELL Signals</option>
           <option value="wait">WAIT Signals</option>
+
+          {isMultiAsset && !isComingSoon && (
+            <>
+              <option value="all">Move Filter</option>
+              <option value="long">Bullish Momentum</option>
+              <option value="short">Bearish Momentum</option>
+              <option value="stronglong">Strong Bullish</option>
+              <option value="strongshort">Strong Bearish</option>
+            </>
+          )}
 
           {!isMultiAsset && (
             <>
@@ -63,6 +83,13 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
               <option value="longunwind">Long Unwinding</option>
               <option value="stronglong">Strong Long Build-Up</option>
               <option value="strongshort">Strong Short Build-Up</option>
+            </>
+          )}
+
+          {isCryptoOptions && (
+            <>
+              <option value="call">CALL Options</option>
+              <option value="put">PUT Options</option>
             </>
           )}
         </select>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option"];
+const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option", "crypto-options"];
 
 const scannerGroups = [
   {
@@ -18,15 +18,16 @@ const scannerGroups = [
     ],
   },
   {
-    title: "🌍 GLOBAL MARKET",
+    title: "🌍 Global Market",
     groupType: "global",
     items: [
       { label: "Crypto Futures", type: "crypto-futures" },
+      { label: "Crypto Options", type: "crypto-options" },
       { label: "Forex Majors", type: "forex-majors" },
       { label: "Forex Cross Pairs", type: "forex-cross" },
       { label: "Gold / Silver / Platinum", type: "metals" },
       { label: "Commodities", type: "commodities" },
-      { label: "Global Index", type: "global-index" },
+      { label: "Global Index", type: "global-index", comingSoon: true },
       { label: "US Stocks", type: "us-stocks" },
       { label: "US ETFs", type: "us-etfs" },
     ],
@@ -37,33 +38,24 @@ const normalizeMarket = (type = "future-stock") => {
   const key = String(type || "future-stock")
     .trim()
     .toLowerCase();
-  if (key === "forex") return "forex-majors";
-  if (key === "forex-major") return "forex-majors";
-  return key || "future-stock";
+  const aliases = {
+    forex: "forex-majors",
+    "forex-major": "forex-majors",
+    crypto: "crypto-futures",
+    "crypto-future": "crypto-futures",
+    "crypto-option": "crypto-options",
+    options: "crypto-options",
+  };
+  return aliases[key] || key || "future-stock";
 };
 
 const isOptionMarket = (market = "") => OPTION_MARKETS.includes(normalizeMarket(market));
 
 const getTimeParts = (timeZone) => {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone,
-    weekday: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).formatToParts(new Date());
-
+  const parts = new Intl.DateTimeFormat("en-US", { timeZone, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(new Date());
   const obj = {};
-  parts.forEach((p) => {
-    obj[p.type] = p.value;
-  });
-
-  return {
-    day: obj.weekday,
-    hour: Number(obj.hour),
-    minute: Number(obj.minute),
-    total: Number(obj.hour) * 60 + Number(obj.minute),
-  };
+  parts.forEach((p) => (obj[p.type] = p.value));
+  return { day: obj.weekday, hour: Number(obj.hour), minute: Number(obj.minute), total: Number(obj.hour) * 60 + Number(obj.minute) };
 };
 
 const isWeekday = (day) => !["Sat", "Sun"].includes(day);
@@ -71,8 +63,8 @@ const between = (total, start, end) => total >= start && total <= end;
 
 const getMarketStatus = (type) => {
   type = normalizeMarket(type);
-
-  if (type === "crypto-futures") return true;
+  if (type === "global-index") return false;
+  if (type === "crypto-futures" || type === "crypto-options") return true;
 
   if (["equity-stock", "equity-stock-option", "future-stock", "future-stock-option", "index-future", "index-option"].includes(type)) {
     const t = getTimeParts("Asia/Kolkata");
@@ -84,7 +76,7 @@ const getMarketStatus = (type) => {
     return isWeekday(t.day) && between(t.total, 9 * 60 + 30, 16 * 60);
   }
 
-  if (["forex-majors", "forex-cross", "metals", "commodities", "global-index"].includes(type)) {
+  if (["forex-majors", "forex-cross", "metals", "commodities"].includes(type)) {
     const t = getTimeParts("UTC");
     return isWeekday(t.day);
   }
@@ -111,7 +103,6 @@ export default function Navbar() {
       setProfileOpen(false);
       setAlertOpen(false);
     };
-
     window.addEventListener("click", close);
     return () => window.removeEventListener("click", close);
   }, []);
@@ -132,10 +123,8 @@ export default function Navbar() {
     };
 
     loadAlerts();
-
     const handler = (e) => setAlerts(Array.isArray(e.detail) ? e.detail : []);
     window.addEventListener("br30ScannerAlertsUpdated", handler);
-
     return () => window.removeEventListener("br30ScannerAlertsUpdated", handler);
   }, []);
 
@@ -218,27 +207,7 @@ export default function Navbar() {
                 <div className="menuGroup" key={group.title}>
                   <div className="menuGroupTitle">
                     <span>{group.title}</span>
-
-                    {isGlobalGroup && (
-                      <span
-                        style={{
-                          marginLeft: "8px",
-                          background: "linear-gradient(135deg,#7c3aed,#4f46e5)",
-                          color: "#fff",
-                          fontSize: "8px",
-                          fontWeight: "800",
-                          padding: "3px 7px",
-                          borderRadius: "999px",
-                          letterSpacing: "0.4px",
-                          boxShadow: "0 0 10px rgba(124,58,237,.4)",
-                          whiteSpace: "nowrap",
-                          lineHeight: "1",
-                        }}
-                      >
-                        COMING SOON
-                      </span>
-                    )}
-
+                    {isGlobalGroup && <span style={{ marginLeft: "8px", background: "linear-gradient(135deg,#00ff88,#00ccff)", color: "#001b12", fontSize: "8px", fontWeight: "900", padding: "3px 7px", borderRadius: "999px", letterSpacing: "0.4px", whiteSpace: "nowrap", lineHeight: "1" }}>LIVE CACHE</span>}
                     {isIndianGroup && <span className={`marketStatus ${indianOpen ? "open" : "closed"}`}>{indianOpen ? "OPEN" : "CLOSED"}</span>}
                   </div>
 
@@ -249,7 +218,7 @@ export default function Navbar() {
                     return (
                       <button key={item.type} className={activeType === itemType ? "activeScanner" : ""} onClick={() => goScanner(item.type)}>
                         <span>{item.label}</span>
-                        {isGlobalGroup && <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
+                        {item.comingSoon ? <span className="marketStatus closed">SOON</span> : isGlobalGroup && <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
                       </button>
                     );
                   })}
@@ -304,7 +273,6 @@ export default function Navbar() {
               ) : (
                 alerts.map((a, i) => {
                   const optionAlert = isOptionMarket(a.market);
-
                   return (
                     <button type="button" className={`alertItem ${optionAlert ? "optionAlert" : ""}`} key={`${a.symbol || "alert"}-${i}`} onClick={() => openAlertChart(a)} title={optionAlert ? "Option chart disabled" : "Open TradingView"}>
                       <div className="alertTop">

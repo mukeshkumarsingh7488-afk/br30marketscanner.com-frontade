@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 
-const MULTI_ASSET_MARKETS = ["crypto-futures", "forex-majors", "forex-cross", "metals", "commodities", "global-index", "us-stocks", "us-etfs"];
-const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option"];
+const MULTI_ASSET_MARKETS = ["crypto-futures", "crypto-options", "forex-majors", "forex-cross", "metals", "commodities", "global-index", "us-stocks", "us-etfs"];
+
+const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option", "crypto-options"];
 
 const marketTitle = {
   "equity-stock": "Equity Stocks",
@@ -11,6 +12,7 @@ const marketTitle = {
   "index-future": "Index Futures",
   "index-option": "Index Options",
   "crypto-futures": "Crypto Futures",
+  "crypto-options": "Crypto Options",
   "forex-majors": "Forex Majors",
   "forex-cross": "Forex Cross Pairs",
   metals: "Metals",
@@ -30,16 +32,36 @@ const formatVolume = (value) => {
 
 const formatLtp = (value, market) => {
   const n = Number(value || 0);
-  if (["crypto-futures", "metals", "commodities", "global-index", "us-stocks", "us-etfs"].includes(market)) return `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  if (market === "forex-majors" || market === "forex-cross") return n.toLocaleString("en-US", { minimumFractionDigits: 4, maximumFractionDigits: 4 });
-  return `₹${n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+  if (["crypto-futures", "crypto-options", "metals", "commodities", "global-index", "us-stocks", "us-etfs"].includes(market)) {
+    return `$${n.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }
+
+  if (market === "forex-majors" || market === "forex-cross") {
+    return n.toLocaleString("en-US", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 5,
+    });
+  }
+
+  return `₹${n.toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
 };
 
 const formatExpiry = (expiry) => {
   if (!expiry) return "";
   const d = new Date(expiry);
   if (Number.isNaN(d.getTime())) return String(expiry);
-  return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  return d.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 };
 
 const cleanText = (value = "") =>
@@ -48,22 +70,38 @@ const cleanText = (value = "") =>
     .replace(/\s+/g, " ")
     .trim();
 
+const normalizeMarket = (market = "") =>
+  String(market || "")
+    .toLowerCase()
+    .trim();
+
+const isOptionMarket = (market = "") => OPTION_MARKETS.includes(normalizeMarket(market));
+
+const isMultiAssetMarket = (market = "") => MULTI_ASSET_MARKETS.includes(normalizeMarket(market));
+
+const canOpenChart = (market = "") => !isOptionMarket(market);
+
 const getSignalClass = (signal = "") => {
   const s = String(signal || "").toLowerCase();
 
-  if (s === "buy" || s.includes("long build") || s.includes("short covering") || s.includes("strong buy") || s.includes("strong long")) return "buyCall";
-  if (s === "sell" || s.includes("short build") || s.includes("long unwinding") || s.includes("strong sell") || s.includes("strong short")) return "sellCall";
+  if (s === "buy" || s.includes("long build") || s.includes("short covering") || s.includes("strong buy") || s.includes("strong long") || s.includes("watch buy") || s.includes("top gainer")) {
+    return "buyCall";
+  }
+
+  if (s === "sell" || s.includes("short build") || s.includes("long unwinding") || s.includes("strong sell") || s.includes("strong short") || s.includes("watch sell") || s.includes("top loser")) {
+    return "sellCall";
+  }
 
   return "waitCall";
 };
 
 const getTradeCall = (row = {}) => {
-  const signal = String(row.signal || "").toLowerCase();
+  const signal = String(row.tradeCall || row.signal || "").toLowerCase();
 
+  if (signal.includes("strong buy")) return "STRONG BUY";
+  if (signal.includes("strong sell")) return "STRONG SELL";
   if (signal === "buy" || signal.includes("long build") || signal.includes("short covering")) return "BUY";
   if (signal === "sell" || signal.includes("short build") || signal.includes("long unwinding")) return "SELL";
-  if (signal.includes("strong buy") || signal.includes("strong long")) return "STRONG BUY";
-  if (signal.includes("strong sell") || signal.includes("strong short")) return "STRONG SELL";
 
   return "WAIT";
 };
@@ -77,24 +115,17 @@ const getCallClass = (call = "") => {
   return "waitCall";
 };
 
-const normalizeMarket = (market = "") =>
-  String(market || "")
-    .toLowerCase()
-    .trim();
-
-const isOptionMarket = (market = "") => OPTION_MARKETS.includes(normalizeMarket(market));
-
-const canOpenChart = (market = "") => !isOptionMarket(market);
-
 const getDisplaySymbol = (row = {}) => {
   const tv = String(row.tvSymbol || "");
   if (tv.includes(":")) return tv.split(":").pop();
-  return row.symbol || "-";
+  return row.symbol || row.tradingSymbol || "-";
 };
 
 export default function ScannerTable({ rows = [], market = "future-stock", lastUpdated = "" }) {
   const [search, setSearch] = useState("");
-  const isMultiAsset = MULTI_ASSET_MARKETS.includes(market);
+  const normalizedMarket = normalizeMarket(market);
+  const isMultiAsset = isMultiAssetMarket(normalizedMarket);
+  const isCryptoOptions = normalizedMarket === "crypto-options";
 
   const filteredRows = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -109,16 +140,18 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
       const signal = String(s.signal || "").toLowerCase();
       const optionType = String(s.optionType || "").toLowerCase();
       const tvSymbol = String(s.tvSymbol || "").toLowerCase();
-      return symbol.includes(q) || name.includes(q) || sector.includes(q) || tradingSymbol.includes(q) || underlying.includes(q) || signal.includes(q) || optionType.includes(q) || tvSymbol.includes(q);
+      const baseCoin = String(s.baseCoin || "").toLowerCase();
+
+      return symbol.includes(q) || name.includes(q) || sector.includes(q) || tradingSymbol.includes(q) || underlying.includes(q) || signal.includes(q) || optionType.includes(q) || tvSymbol.includes(q) || baseCoin.includes(q);
     });
   }, [rows, search]);
 
   const openChart = (row) => {
-    if (isOptionMarket(market) || isOptionMarket(row.market)) return;
+    if (isOptionMarket(normalizedMarket) || isOptionMarket(row.market)) return;
 
     const url = row.tradingViewUrl || (row.tvSymbol ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(row.tvSymbol)}` : "");
-    if (!url) return;
 
+    if (!url) return;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -126,13 +159,15 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
     <section className="tableBox">
       <div className="tableHead tableHeadPro">
         <div>
-          <h3>{marketTitle[market] || "Scanner"}</h3>
+          <h3>{marketTitle[normalizedMarket] || "Scanner"}</h3>
           <p>Live scanner data with signal, trade call and chart access where available.</p>
         </div>
 
         <div className="tableSearchBox">
           <span className="tableLastUpdated">⏱ Last Updated: {lastUpdated || "--"}</span>
+
           <input type="text" value={search} placeholder="Search symbol..." onChange={(e) => setSearch(e.target.value)} />
+
           {search && (
             <button type="button" onClick={() => setSearch("")}>
               Clear
@@ -150,6 +185,8 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
               <th>LTP</th>
               <th>Move %</th>
               {!isMultiAsset && <th>OI %</th>}
+              {isCryptoOptions && <th>Type</th>}
+              {isCryptoOptions && <th>Strike</th>}
               <th>Volume</th>
               <th>Score</th>
               <th>Signal</th>
@@ -160,7 +197,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
           <tbody>
             {filteredRows.length === 0 ? (
               <tr>
-                <td colSpan={isMultiAsset ? 8 : 9} className="empty">
+                <td colSpan={isCryptoOptions ? 10 : isMultiAsset ? 8 : 9} className="empty">
                   {search ? "No matching symbol found" : "No data found"}
                 </td>
               </tr>
@@ -170,14 +207,14 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                 const displaySymbol = getDisplaySymbol(s);
                 const displayName = cleanText(s.name);
                 const displaySector = cleanText(s.sector);
-                const optionText = isOptionMarket(market) && s.strike && s.optionType ? `${s.strike} ${s.optionType}` : "";
+                const optionText = isOptionMarket(normalizedMarket) && s.strike && s.optionType ? `${s.strike} ${s.optionType}` : "";
 
                 return (
                   <tr key={s.instrumentKey || s.tradingSymbol || s.symbol || i}>
                     <td>#{i + 1}</td>
 
                     <td className="symbol">
-                      {canOpenChart(market) ? (
+                      {canOpenChart(normalizedMarket) ? (
                         <button type="button" className="symbolChartBtn" title={s.tvSymbol || "Open TradingView"} onClick={() => openChart(s)}>
                           {displaySymbol} ↗
                         </button>
@@ -186,15 +223,28 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                       )}
 
                       {displayName && <small className="expiryText">{displayName}</small>}
+
+                      {s.baseCoin && <small className="expiryText">Base: {s.baseCoin}</small>}
+
                       {optionText && <small className="expiryText">Option: {optionText}</small>}
+
                       {displaySector && <small className="expiryText">Sector: {displaySector}</small>}
+
                       {s.tvSymbol && <small className="expiryText">TV: {s.tvSymbol}</small>}
+
                       {s.expiry && <small className="expiryText">Exp: {formatExpiry(s.expiry)}</small>}
                     </td>
 
-                    <td>{formatLtp(s.ltp, market)}</td>
+                    <td>{formatLtp(s.ltp, normalizedMarket)}</td>
+
                     <td className={Number(s.changePercent || 0) >= 0 ? "green" : "red"}>{Number(s.changePercent || 0).toFixed(2)}%</td>
+
                     {!isMultiAsset && <td className={Number(s.oiChangePercent || 0) >= 0 ? "green" : "red"}>{Number(s.oiChangePercent || 0).toFixed(2)}%</td>}
+
+                    {isCryptoOptions && <td>{String(s.optionType || "-").toUpperCase()}</td>}
+
+                    {isCryptoOptions && <td>{Number(s.strike || 0)}</td>}
+
                     <td>{formatVolume(s.volume)}</td>
                     <td>{Number(s.score || 0).toFixed(2)}</td>
 
