@@ -28,7 +28,7 @@ export default function MarketSummary({ summary = {}, market = "future-stock" })
     "forex-cross": "Forex Cross Pairs Scanner",
     metals: "Metals Scanner",
     commodities: "Commodities Scanner",
-    "global-index": "Global Index Coming Soon",
+    "global-index": "Global Index Scanner",
     "us-stocks": "US Stocks Scanner",
     "us-etfs": "US ETFs Scanner",
   };
@@ -37,7 +37,7 @@ export default function MarketSummary({ summary = {}, market = "future-stock" })
     <section className="summaryWrapper">
       <div className="summaryHeader">
         <h2>{marketTitle[market] || "Scanner"}</h2>
-        <p>{market === "global-index" ? "Global Index abhi Coming Soon hai" : "Live Market Overview & Trading Signals"}</p>
+        <p>Live Market Overview & Trading Signals</p>
       </div>
 
       <section className="summary">

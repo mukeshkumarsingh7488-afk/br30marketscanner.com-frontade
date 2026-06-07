@@ -13,7 +13,7 @@ const markets = [
   { label: "Forex Cross", value: "forex-cross" },
   { label: "Metals", value: "metals" },
   { label: "Commodities", value: "commodities" },
-  { label: "Global Index Coming Soon", value: "global-index" },
+  { label: "Global Index", value: "global-index" },
   { label: "US Stocks", value: "us-stocks" },
   { label: "US ETFs", value: "us-etfs" },
 ];
@@ -128,7 +128,6 @@ export default function Heatmap() {
         </select>
       </div>
 
-      {market === "global-index" && <div className="error">Global Index Coming Soon 🚀</div>}
       {market === "crypto-options" && rows.length === 0 && <div className="error">Crypto Options abhi empty hai. Available hote hi heatmap me data aa jayega.</div>}
       {err && <div className="error">{err}</div>}
 

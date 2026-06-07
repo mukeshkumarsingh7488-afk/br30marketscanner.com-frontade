@@ -19,7 +19,7 @@ const marketConfig = {
   "forex-cross": { title: "Forex Cross Pairs Scanner", tag: "LIVE FOREX CROSS SCANNER", sub: "EURJPY, GBPJPY, EURGBP and active cross pairs with momentum signals" },
   metals: { title: "Metals Scanner", tag: "LIVE METALS SCANNER", sub: "Gold, Silver, Platinum and Palladium with live movement signals" },
   commodities: { title: "Commodities Scanner", tag: "LIVE COMMODITIES SCANNER", sub: "Crude Oil, Natural Gas, Copper and global commodity futures" },
-  "global-index": { title: "Global Index Scanner", tag: "GLOBAL INDEX COMING SOON", sub: "US30, NAS100, SPX500, DAX40, FTSE100 and major global indices coming soon" },
+  "global-index": { title: "Global Index Scanner", tag: "LIVE GLOBAL INDEX SCANNER", sub: "US30, NASDAQ, SPX500, DAX40, FTSE100, NIKKEI225 and major global indices" },
   "us-stocks": { title: "US Stocks Scanner", tag: "LIVE US STOCKS SCANNER", sub: "Apple, Nvidia, Tesla, Microsoft, Amazon and top active US stocks" },
   "us-etfs": { title: "US ETFs Scanner", tag: "LIVE US ETF SCANNER", sub: "SPY, QQQ, VOO, DIA, IWM, GLD, SLV and top traded US ETFs" },
 };
@@ -134,7 +134,7 @@ export default function Dashboard({ type = "all" }) {
   const [summary, setSummary] = useState(null);
   const [filters, setFilters] = useState({ move: 2, oi: 7, volume: 0, side: "allstocks" });
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const [, setRefreshing] = useState(false);
   const [err, setErr] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
   const [meta, setMeta] = useState(null);
@@ -236,13 +236,8 @@ export default function Dashboard({ type = "all" }) {
             </p>
           )}
         </div>
-
-        <button onClick={() => loadData(true)} disabled={refreshing}>
-          {refreshing ? "Updating..." : "Refresh"}
-        </button>
       </div>
 
-      {market === "global-index" && <div className="error">Global Index Coming Soon 🚀</div>}
       {market === "crypto-options" && !rows.length && <div className="error">Crypto Options abhi empty hai. Daily expiry available hote hi yaha data aa jayega.</div>}
 
       {summary && <MarketSummary summary={summary} market={market} />}
