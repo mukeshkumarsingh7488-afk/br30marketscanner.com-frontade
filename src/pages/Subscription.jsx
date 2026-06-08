@@ -74,7 +74,7 @@ export default function Subscription() {
 
         <h1>{isFounding ? "Founding Member Offer" : "BR30 MARKET SCANNER Pro"}</h1>
 
-        <p className="subText">Your free trial has expired. Subscribe now to unlock full access to BR30 MARKET Scanner and all premium features.</p>
+        <p className="subText">Your free trial has expired. Subscribe now to unlock full access to BR30 Market Scanner and all premium features.</p>
 
         <p className="offerText">Join as a Founding Member today and lock in exclusive pricing before it increases.</p>
 
