@@ -284,7 +284,7 @@ export default function Navbar() {
                     return (
                       <button key={item.type} className={activeType === itemType ? "activeScanner" : ""} onClick={() => goScanner(item.type)}>
                         <span>{item.label}</span>
-                        {comingSoon ? <span className="marketStatus closed">COMING SOON</span> : <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
+                        {isGlobalGroup && (comingSoon ? <span className="marketStatus closed">COMING SOON</span> : <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>)}
                       </button>
                     );
                   })}
