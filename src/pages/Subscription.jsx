@@ -72,9 +72,9 @@ export default function Subscription() {
       <section className="subCard">
         <div className="subLogo">BR30 MARKET SCANNER</div>
 
-        <h1>{isFounding ? "Founding Member Offer" : "BR30 Scanner Pro"}</h1>
+        <h1>{isFounding ? "Founding Member Offer" : "BR30 MARKET SCANNER Pro"}</h1>
 
-        <p className="subText">Your free trial has expired. Subscribe now to unlock full access to BR30 Scanner and all premium features.</p>
+        <p className="subText">Your free trial has expired. Subscribe now to unlock full access to BR30 MARKET Scanner and all premium features.</p>
 
         <p className="offerText">Join as a Founding Member today and lock in exclusive pricing before it increases.</p>
 
@@ -141,14 +141,18 @@ export default function Subscription() {
         .priceBox b{font-size:70px;line-height:.9;}
         .priceBox small{font-size:16px;color:#b7c7da;margin-bottom:10px;}
         .founding{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.35);color:#00ff88;padding:12px;border-radius:14px;font-weight:900;line-height:1.4;}
-        .features{margin:22px 0;text-align:left;background:#060d16;border:1px solid #11263a;border-radius:18px;padding:18px;display:grid;gap:10px;}
-        .features p{margin:0;color:#dbe7f6;font-weight:800;font-size:14px;line-height:1.45;}
+        .features{margin:22px 0;text-align:left;background:#060d16;border:1px solid #11263a;border-radius:18px;padding:18px;display:grid;gap:10px;max-height:260px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#00ff88 #09111c;}
+        .features::-webkit-scrollbar{width:6px;}
+        .features::-webkit-scrollbar-track{background:#09111c;border-radius:999px;}
+        .features::-webkit-scrollbar-thumb{background:#00ff88;border-radius:999px;}
+        .features p{margin:0;color:#dbe7f6;font-weight:800;font-size:14px;line-height:1.45;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+        .features p:last-child{border-bottom:none;}
         .subError{background:rgba(255,70,70,.12);color:#ff6b6b;border:1px solid rgba(255,70,70,.3);padding:12px;border-radius:14px;margin-bottom:14px;font-weight:800;}
         .subCard button{width:100%;border:0;border-radius:16px;padding:16px 18px;background:#00ff88;color:#00140b;font-weight:950;font-size:16px;cursor:pointer;margin-top:10px;}
         .subCard button:disabled{opacity:.6;cursor:not-allowed;}
         .logoutBtn{background:#121c2a!important;color:#dce8f6!important;border:1px solid #223449!important;}
         .note{font-size:12px;color:#7f91aa;line-height:1.5;margin-top:18px;}
-        @media(max-width:600px){.subCard{padding:24px 18px;border-radius:22px;}.subCard h1{font-size:28px;}.priceBox b{font-size:58px;}.features p{font-size:13px;}}
+        @media(max-width:600px){.subCard{padding:24px 18px;border-radius:22px;}.subCard h1{font-size:28px;}.priceBox b{font-size:58px;}.features{max-height:220px;}.features p{font-size:13px;}}
       `}</style>
     </main>
   );
