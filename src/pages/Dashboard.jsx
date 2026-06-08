@@ -111,7 +111,6 @@ const makeAlerts = (data = [], market = "") => {
     .map((s) => ({ ...s, tradeCall: getTradeCall(s, market) }))
     .filter((s) => ["STRONG BUY", "STRONG SELL", "BUY", "SELL"].includes(s.tradeCall))
     .sort((a, b) => Number(b.score || 0) - Number(a.score || 0))
-    .slice(0, 30)
     .map((s) => ({
       symbol: s.symbol || "-",
       market,
