@@ -106,21 +106,20 @@ const getDisplaySignal = (signal = "") => {
 
 const getTradeCall = (row = {}) => {
   const signal = String(row.tradeCall || row.signal || "").toLowerCase();
+  const move = Number(row.changePercent || 0);
+  const volume = Number(row.volume || 0);
+  const oi = Number(row.oiChangePercent || 0);
 
-  if (signal.includes("top gainer") || signal.includes("top loser") || signal.includes("watchlist")) {
-    return "WAIT";
-  }
+  if (signal.includes("top gainer") || signal.includes("top loser") || signal.includes("watchlist")) return "WAIT";
 
-  if (signal.includes("strong buy")) return "STRONG BUY";
-  if (signal.includes("strong sell")) return "STRONG SELL";
+  if (signal.includes("long build") || signal.includes("short covering") || signal.includes("strong buy")) return "BUY";
+  if (signal.includes("short build") || signal.includes("long unwinding") || signal.includes("strong sell")) return "SELL";
 
-  if (signal.includes("long build") || signal.includes("short covering")) {
-    return "BUY";
-  }
+  if (signal === "buy" && move >= 2 && volume >= 2000000) return "BUY";
+  if (signal === "sell" && move <= -2 && volume >= 2000000) return "SELL";
 
-  if (signal.includes("short build") || signal.includes("long unwinding")) {
-    return "SELL";
-  }
+  if (oi >= 7 && move >= 2) return "BUY";
+  if (oi >= 7 && move <= -2) return "SELL";
 
   return "WAIT";
 };
