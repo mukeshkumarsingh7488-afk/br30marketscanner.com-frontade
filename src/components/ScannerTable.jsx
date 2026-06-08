@@ -84,15 +84,24 @@ const canOpenChart = (market = "") => !isOptionMarket(market);
 const getSignalClass = (signal = "") => {
   const s = String(signal || "").toLowerCase();
 
-  if (s === "buy" || s.includes("long build") || s.includes("short covering") || s.includes("strong buy") || s.includes("strong long") || s.includes("watch buy")) {
+  if (s === "buy" || s.includes("long build") || s.includes("short covering") || s.includes("strong buy") || s.includes("strong long") || s.includes("watch buy") || s.includes("top gainer")) {
     return "buyCall";
   }
 
-  if (s === "sell" || s.includes("short build") || s.includes("long unwinding") || s.includes("strong sell") || s.includes("strong short") || s.includes("watch sell")) {
+  if (s === "sell" || s.includes("short build") || s.includes("long unwinding") || s.includes("strong sell") || s.includes("strong short") || s.includes("watch sell") || s.includes("top loser")) {
     return "sellCall";
   }
 
   return "waitCall";
+};
+
+const getDisplaySignal = (signal = "") => {
+  const s = String(signal || "").toLowerCase();
+
+  if (s.includes("top gainer")) return "Top Gainer";
+  if (s.includes("top loser")) return "Top Loser";
+
+  return signal || "WAIT";
 };
 
 const getTradeCall = (row = {}) => {
@@ -259,7 +268,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                     <td>{Number(s.score || 0).toFixed(2)}</td>
 
                     <td>
-                      <span className={`badge ${getSignalClass(s.signal)}`}>{s.signal || "WAIT"}</span>
+                      <span className={`badge ${getSignalClass(s.signal)}`}>{getDisplaySignal(s.signal)}</span>
                     </td>
 
                     <td>
