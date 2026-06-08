@@ -3,6 +3,7 @@ import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option", "crypto-options"];
+const COMING_SOON_MARKETS = ["global-index-coming-soon", "crypto-futures-coming-soon", "crypto-options-coming-soon"];
 
 const scannerGroups = [
   {
@@ -21,13 +22,14 @@ const scannerGroups = [
     title: "🌍 Global Market",
     groupType: "global",
     items: [
-      { label: "Crypto Futures", type: "crypto-futures" },
-      { label: "Crypto Options", type: "crypto-options" },
+      { label: "Crypto Futures", type: "crypto-futures-coming-soon" },
+      { label: "Crypto Options", type: "crypto-options-coming-soon" },
       { label: "Forex Majors", type: "forex-majors" },
       { label: "Forex Cross Pairs", type: "forex-cross" },
       { label: "Gold / Silver / Platinum", type: "metals" },
+      { label: "Metal Stocks", type: "metal-stocks" },
       { label: "Commodities", type: "commodities" },
-      { label: "Global Index", type: "global-index" },
+      { label: "Global Index", type: "global-index-coming-soon" },
       { label: "US Stocks", type: "us-stocks" },
       { label: "US ETFs", type: "us-etfs" },
     ],
@@ -46,10 +48,23 @@ const normalizeMarket = (type = "future-stock") => {
     "crypto-future": "crypto-futures",
     "crypto-option": "crypto-options",
     options: "crypto-options",
+    metal: "metals",
+    metals: "metals",
+    "metal-stock": "metal-stocks",
+    "metal-stocks": "metal-stocks",
+    "metals-stock": "metal-stocks",
+    "metals-stocks": "metal-stocks",
   };
 
   return aliases[key] || key || "future-stock";
 };
+
+const isComingSoon = (type = "") =>
+  COMING_SOON_MARKETS.includes(
+    String(type || "")
+      .trim()
+      .toLowerCase(),
+  );
 
 const isOptionMarket = (market = "") => OPTION_MARKETS.includes(normalizeMarket(market));
 
@@ -81,19 +96,17 @@ const between = (total, start, end) => total >= start && total <= end;
 const getMarketStatus = (type) => {
   type = normalizeMarket(type);
 
-  if (type === "crypto-futures" || type === "crypto-options") return true;
-
   if (["equity-stock", "equity-stock-option", "future-stock", "future-stock-option", "index-future", "index-option"].includes(type)) {
     const t = getTimeParts("Asia/Kolkata");
     return isWeekday(t.day) && between(t.total, 9 * 60 + 15, 15 * 60 + 30);
   }
 
-  if (type === "us-stocks" || type === "us-etfs") {
+  if (type === "us-stocks" || type === "us-etfs" || type === "metal-stocks") {
     const t = getTimeParts("America/New_York");
     return isWeekday(t.day) && between(t.total, 9 * 60 + 30, 16 * 60);
   }
 
-  if (["forex-majors", "forex-cross", "metals", "commodities", "global-index"].includes(type)) {
+  if (["forex-majors", "forex-cross", "metals", "commodities"].includes(type)) {
     const t = getTimeParts("UTC");
     return isWeekday(t.day);
   }
@@ -149,6 +162,19 @@ export default function Navbar() {
   }, []);
 
   const goScanner = (type) => {
+    if (isComingSoon(type)) {
+      setMenuOpen(false);
+      Swal.fire({
+        icon: "info",
+        title: "Coming Soon",
+        text: "This scanner is under development.",
+        background: "#0b111c",
+        color: "#fff",
+        confirmButtonColor: "#00ff88",
+      });
+      return;
+    }
+
     setMenuOpen(false);
     setProfileOpen(false);
     setAlertOpen(false);
@@ -253,11 +279,12 @@ export default function Navbar() {
                   {group.items.map((item) => {
                     const open = getMarketStatus(item.type);
                     const itemType = normalizeMarket(item.type);
+                    const comingSoon = isComingSoon(item.type);
 
                     return (
                       <button key={item.type} className={activeType === itemType ? "activeScanner" : ""} onClick={() => goScanner(item.type)}>
                         <span>{item.label}</span>
-                        {isGlobalGroup && <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
+                        {comingSoon ? <span className="marketStatus closed">COMING SOON</span> : <span className={`marketStatus ${open ? "open" : "closed"}`}>{open ? "OPEN" : "CLOSED"}</span>}
                       </button>
                     );
                   })}

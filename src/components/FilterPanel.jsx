@@ -8,25 +8,32 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
     "future-stock-option": "Future Stock Option",
     "index-future": "Index Future",
     "index-option": "Index Option",
+
     "crypto-futures": "Crypto Futures",
     "crypto-options": "Crypto Options",
+
     "forex-majors": "Forex Majors",
     forex: "Forex Majors",
     "forex-cross": "Forex Cross Pairs",
+
     metals: "Metals",
+    "metal-stocks": "Metal Stocks",
+
     commodities: "Commodities",
+
     "global-index": "Global Index",
+
     "us-stocks": "US Stocks",
     "us-etfs": "US ETFs",
   };
 
-  const GLOBAL_MARKETS = ["crypto-futures", "crypto-options", "forex-majors", "forex", "forex-cross", "metals", "commodities", "global-index", "us-stocks", "us-etfs"];
+  const GLOBAL_MARKETS = ["forex-majors", "forex", "forex-cross", "metals", "metal-stocks", "commodities", "us-stocks", "us-etfs"];
 
   const isMultiAsset = GLOBAL_MARKETS.includes(market);
-  const isComingSoon = market === "global-index";
-  const isCryptoOptions = market === "crypto-options";
 
-  const desc = isComingSoon ? "Global Index abhi Coming Soon hai. Data enable hote hi yaha live cache se scanner chalega." : isMultiAsset ? "Global markets backend cache se update ho rahe hain. Frontend 3 sec me latest cached data read karega." : "Identify high-momentum stocks with 2%+ price movement and 7%+ OI build-up in real time.";
+  const isComingSoon = market === "global-index" || market === "crypto-futures" || market === "crypto-options";
+
+  const desc = market === "global-index" ? "Global Index Scanner Coming Soon." : market === "crypto-futures" ? "Crypto Futures Scanner Coming Soon." : market === "crypto-options" ? "Crypto Options Scanner Coming Soon." : market === "metal-stocks" ? "Global metal stocks with BUY / SELL signals based on price movement." : isMultiAsset ? "Global markets backend cache se update ho rahe hain. Frontend live cached data read karega." : "Identify high-momentum stocks with 2%+ price movement and 7%+ OI build-up in real time.";
 
   return (
     <section className="filters">
@@ -40,7 +47,7 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
         <input type="number" value={filters.move} onChange={(e) => update("move", e.target.value)} disabled={isComingSoon} />
       </label>
 
-      {!isMultiAsset && (
+      {!isMultiAsset && !isComingSoon && (
         <label>
           OI Change %
           <input type="number" value={filters.oi} onChange={(e) => update("oi", e.target.value)} />
@@ -58,10 +65,13 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
         Trade Side
         <select value={filters.side} onChange={(e) => update("side", e.target.value)} disabled={isComingSoon}>
           <option value="allstocks">All Symbols</option>
+
           <option value="gainers">Top Gainers</option>
           <option value="losers">Top Losers</option>
+
           <option value="buy">BUY Signals</option>
           <option value="sell">SELL Signals</option>
+
           <option value="wait">WAIT Signals</option>
 
           {isMultiAsset && !isComingSoon && (
@@ -74,7 +84,7 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
             </>
           )}
 
-          {!isMultiAsset && (
+          {!isMultiAsset && !isComingSoon && (
             <>
               <option value="all">Move + OI Filter</option>
               <option value="long">Long Build-Up</option>
@@ -85,15 +95,24 @@ export default function FilterPanel({ filters, setFilters, market = "future-stoc
               <option value="strongshort">Strong Short Build-Up</option>
             </>
           )}
-
-          {isCryptoOptions && (
-            <>
-              <option value="call">CALL Options</option>
-              <option value="put">PUT Options</option>
-            </>
-          )}
         </select>
       </label>
+
+      {isComingSoon && (
+        <div
+          style={{
+            marginTop: "12px",
+            padding: "12px",
+            borderRadius: "10px",
+            background: "#111",
+            border: "1px solid #333",
+            color: "#ffb347",
+            fontWeight: 600,
+          }}
+        >
+          🚧 This Scanner is Coming Soon
+        </div>
+      )}
     </section>
   );
 }
