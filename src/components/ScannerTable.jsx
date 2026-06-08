@@ -84,11 +84,11 @@ const canOpenChart = (market = "") => !isOptionMarket(market);
 const getSignalClass = (signal = "") => {
   const s = String(signal || "").toLowerCase();
 
-  if (s === "buy" || s.includes("long build") || s.includes("short covering") || s.includes("strong buy") || s.includes("strong long") || s.includes("watch buy") || s.includes("top gainer")) {
+  if (s === "buy" || s.includes("long build") || s.includes("short covering") || s.includes("strong buy") || s.includes("strong long") || s.includes("watch buy")) {
     return "buyCall";
   }
 
-  if (s === "sell" || s.includes("short build") || s.includes("long unwinding") || s.includes("strong sell") || s.includes("strong short") || s.includes("watch sell") || s.includes("top loser")) {
+  if (s === "sell" || s.includes("short build") || s.includes("long unwinding") || s.includes("strong sell") || s.includes("strong short") || s.includes("watch sell")) {
     return "sellCall";
   }
 
@@ -98,10 +98,20 @@ const getSignalClass = (signal = "") => {
 const getTradeCall = (row = {}) => {
   const signal = String(row.tradeCall || row.signal || "").toLowerCase();
 
+  if (signal.includes("top gainer") || signal.includes("top loser") || signal.includes("watchlist")) {
+    return "WAIT";
+  }
+
   if (signal.includes("strong buy")) return "STRONG BUY";
   if (signal.includes("strong sell")) return "STRONG SELL";
-  if (signal === "buy" || signal.includes("long build") || signal.includes("short covering")) return "BUY";
-  if (signal === "sell" || signal.includes("short build") || signal.includes("long unwinding")) return "SELL";
+
+  if (signal.includes("long build") || signal.includes("short covering")) {
+    return "BUY";
+  }
+
+  if (signal.includes("short build") || signal.includes("long unwinding")) {
+    return "SELL";
+  }
 
   return "WAIT";
 };
