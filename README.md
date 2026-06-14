@@ -56,6 +56,30 @@ https://br30marketscanner-com-backend.onrender.com
 
 ![Index Option Scanner](screenshots/index-option-scanner.png)
 
+## Forex Majors Scanner
+
+![Forex Majors Scanner](screenshots/forex-majors.png)
+
+## Forex Cross Scanner
+
+![Forex Cross Scanner](screenshots/forex-cross.png)
+
+## Metals Scanner
+
+![Metals Scanner](screenshots/metals.png)
+
+## Metal Stocks Scanner
+
+![Metal Stocks Scanner](screenshots/metal-stocks.png)
+
+## US Stocks Scanner
+
+![US Stocks Scanner](screenshots/us-stocks.png)
+
+## US ETFs Scanner
+
+![US ETFs Scanner](screenshots/us-etf.png)
+
 ## Market Heatmap
 
 ![Market Heatmap](screenshots/market-heatmap1.png)
