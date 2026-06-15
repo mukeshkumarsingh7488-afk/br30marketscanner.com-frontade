@@ -18,7 +18,7 @@ export default function SubscriptionGuard({ children }) {
           return;
         }
 
-        if (user.role === "admin") {
+        if (["admin", "vip"].includes(user.role)) {
           setAllowed(true);
           setLoading(false);
           return;
@@ -63,6 +63,10 @@ export default function SubscriptionGuard({ children }) {
 
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (["admin", "vip"].includes(user.role)) {
+    return children;
   }
 
   if (!allowed) {

@@ -10,7 +10,7 @@ export default function ProtectedRoute({ children }) {
 
   // Admin always allowed
 
-  if (user.role === "admin") {
+  if (["admin", "vip"].includes(user.role)) {
     return children;
   }
 
