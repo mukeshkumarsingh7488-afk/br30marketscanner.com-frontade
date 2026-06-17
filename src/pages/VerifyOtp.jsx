@@ -47,6 +47,9 @@ export default function VerifyOtp() {
         otp,
       });
 
+      localStorage.removeItem("verifyEmail");
+      localStorage.removeItem("verifyTradingViewUsername");
+
       setOk(true);
       setMsg("Register success");
       toast("success", "Register success");

@@ -11,7 +11,13 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
   const [ok, setOk] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    tradingViewUsername: "",
+    password: "",
+  });
 
   const toast = (icon, title) => {
     Swal.fire({
@@ -27,30 +33,45 @@ export default function Register() {
     });
   };
 
+  const cleanTradingViewUsername = (value) => {
+    return value.replace(/[^A-Za-z0-9_.-]/g, "");
+  };
+
   const submit = async (e) => {
     e.preventDefault();
     setMsg("");
     setOk(false);
 
-    if (!form.name || !form.email || !form.password) {
+    const name = form.name.trim();
+    const email = form.email.trim().toLowerCase();
+    const tradingViewUsername = form.tradingViewUsername.trim();
+    const password = form.password;
+
+    if (!name || !email || !tradingViewUsername || !password) {
       setMsg("All fields required");
       toast("error", "All fields required");
       return;
     }
 
-    if (!onlyName(form.name)) {
+    if (!onlyName(name)) {
       setMsg("Only letters allowed in name");
       toast("error", "Only letters allowed");
       return;
     }
 
-    if (!validEmail(form.email)) {
+    if (!validEmail(email)) {
       setMsg("Invalid email");
       toast("error", "Invalid email");
       return;
     }
 
-    if (!strongPassword(form.password)) {
+    if (tradingViewUsername.length < 3) {
+      setMsg("Enter valid TradingView username");
+      toast("error", "Invalid TradingView username");
+      return;
+    }
+
+    if (!strongPassword(password)) {
       setMsg("Password must be strong");
       toast("error", "Use strong password");
       return;
@@ -60,12 +81,14 @@ export default function Register() {
       setLoading(true);
 
       await registerUser({
-        name: form.name.trim(),
-        email: form.email.trim().toLowerCase(),
-        password: form.password,
+        name,
+        email,
+        tradingViewUsername,
+        password,
       });
 
-      localStorage.setItem("verifyEmail", form.email.trim().toLowerCase());
+      localStorage.setItem("verifyEmail", email);
+      localStorage.setItem("verifyTradingViewUsername", tradingViewUsername);
 
       setOk(true);
       setMsg("OTP sent successfully");
@@ -101,6 +124,20 @@ export default function Register() {
 
         <label>Email Address</label>
         <input type="email" value={form.email} placeholder="example@mail.com" onChange={(e) => setForm({ ...form, email: e.target.value })} />
+
+        <label>TradingView Username</label>
+        <input
+          value={form.tradingViewUsername}
+          placeholder="Your TradingView ID"
+          onChange={(e) =>
+            setForm({
+              ...form,
+              tradingViewUsername: cleanTradingViewUsername(e.target.value),
+            })
+          }
+        />
+
+        <small style={{ color: "#9ca3af", marginTop: "-8px", display: "block" }}>Required for BR30 Infinity Sniper indicator access</small>
 
         <label>Password</label>
         <div className="passBox">

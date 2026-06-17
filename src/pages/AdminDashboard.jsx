@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { blockUser, getAdminStats, getAllPayments, getAllUsers, sendBulkMail, unblockUser, updateUserSubscription } from "../api/authApi";
+import { blockUser, getAdminStats, getAllPayments, getAllUsers, sendBulkMail, unblockUser, updateIndicatorAccess, updateUserSubscription } from "../api/authApi";
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString("en-IN") : "-");
 const inputDate = (d) => (d ? new Date(d).toISOString().split("T")[0] : "");
@@ -15,7 +15,17 @@ export default function AdminDashboard() {
   const [filter, setFilter] = useState("all");
   const [mail, setMail] = useState({ target: "all", subject: "", message: "" });
 
-  const toast = (icon, title) => Swal.fire({ toast: true, position: "top-end", icon, title, showConfirmButton: false, timer: 1600, background: "#0b111c", color: "#fff" });
+  const toast = (icon, title) =>
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon,
+      title,
+      showConfirmButton: false,
+      timer: 1600,
+      background: "#0b111c",
+      color: "#fff",
+    });
 
   const loadData = async () => {
     try {
@@ -35,12 +45,21 @@ export default function AdminDashboard() {
     loadData();
   }, []);
 
+  useEffect(() => {
+    setFilter("all");
+  }, [tab]);
+
   const filteredUsers = useMemo(() => {
     if (filter === "all") return users;
     if (filter === "blocked") return users.filter((u) => u.isBlocked);
     if (filter === "pending") return users.filter((u) => !u.isApproved);
     if (filter === "no-payment") return users.filter((u) => Number(u.totalPayments || 0) === 0 && u.subscriptionStatus !== "active");
     return users.filter((u) => u.subscriptionStatus === filter);
+  }, [users, filter]);
+
+  const indicatorUsers = useMemo(() => {
+    if (filter === "all") return users;
+    return users.filter((u) => (u.indicatorAccess || "pending") === filter);
   }, [users, filter]);
 
   const toggleBlock = async (u) => {
@@ -160,6 +179,49 @@ export default function AdminDashboard() {
     }
   };
 
+  const copyText = async (text) => {
+    if (!text) return toast("error", "TradingView ID not found");
+
+    try {
+      await navigator.clipboard.writeText(text);
+      toast("success", "TradingView ID copied");
+    } catch {
+      toast("error", "Copy failed");
+    }
+  };
+
+  const changeIndicatorAccess = async (u, status) => {
+    const label = status === "active" ? "Active / Approved" : status === "expired" ? "Expired / Removed" : status === "pending" ? "Pending" : "Rejected";
+
+    const confirm = await Swal.fire({
+      title: `Mark Indicator ${label}?`,
+      html: `<b>${u.name}</b><br/>${u.email}<br/><br/>TradingView ID: <b>${u.tradingViewUsername || "-"}</b>`,
+      icon: "question",
+      showCancelButton: true,
+      showCloseButton: true,
+      confirmButtonText: "Yes, Update",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#00ff88",
+      cancelButtonColor: "#6b7280",
+      background: "#0b111c",
+      color: "#fff",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+      await updateIndicatorAccess(u._id, {
+        indicatorAccess: status,
+        sendMail: true,
+      });
+
+      toast("success", "Indicator status updated & mail sent");
+      loadData();
+    } catch (err) {
+      toast("error", err.response?.data?.msg || "Indicator update failed");
+    }
+  };
+
   return (
     <main className="page">
       <div className="adminHead">
@@ -208,6 +270,9 @@ export default function AdminDashboard() {
         </button>
         <button className={tab === "mail" ? "active" : ""} onClick={() => setTab("mail")}>
           Bulk Mail
+        </button>
+        <button className={tab === "indicator" ? "active" : ""} onClick={() => setTab("indicator")}>
+          Indicator Access
         </button>
       </div>
 
@@ -342,6 +407,7 @@ export default function AdminDashboard() {
       {tab === "mail" && (
         <section className="bulkMailBox">
           <h2>Bulk Mail Center</h2>
+
           <div
             style={{
               textAlign: "center",
@@ -354,6 +420,7 @@ export default function AdminDashboard() {
           >
             Select Target Group
           </div>
+
           <select
             value={mail.target}
             onChange={(e) => setMail({ ...mail, target: e.target.value })}
@@ -379,9 +446,97 @@ export default function AdminDashboard() {
           </select>
 
           <input value={mail.subject} placeholder="Email subject" onChange={(e) => setMail({ ...mail, subject: e.target.value })} />
+
           <textarea value={mail.message} placeholder="Email message" onChange={(e) => setMail({ ...mail, message: e.target.value })} />
+
           <button onClick={sendMailNow}>Send Bulk Mail</button>
         </section>
+      )}
+
+      {tab === "indicator" && (
+        <>
+          <div className="adminFilter">
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <option value="all">All Users</option>
+              <option value="pending">Pending Indicator Access</option>
+              <option value="active">Active Indicator Access</option>
+              <option value="expired">Expired / Removed Access</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+
+          <section className="tableBox">
+            <div className="tableScroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>TradingView ID</th>
+                    <th>Indicator</th>
+                    <th>Indicator Status</th>
+                    <th>Plan</th>
+                    <th>Sub Status</th>
+                    <th>Sub End</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan="9" className="empty">
+                        Loading...
+                      </td>
+                    </tr>
+                  ) : indicatorUsers.length === 0 ? (
+                    <tr>
+                      <td colSpan="9" className="empty">
+                        No users found
+                      </td>
+                    </tr>
+                  ) : (
+                    indicatorUsers.map((u) => (
+                      <tr key={u._id}>
+                        <td className="symbol">{u.name}</td>
+                        <td>{u.email}</td>
+                        <td>
+                          <b>{u.tradingViewUsername || "-"}</b>
+                        </td>
+                        <td>{u.indicatorName || "BR30 Infinity Sniper"}</td>
+                        <td>
+                          <span className={`statusBadge ${(u.indicatorAccess || "pending") === "active" ? "approved" : "pending"}`}>{u.indicatorAccess || "pending"}</span>
+                        </td>
+                        <td>{u.planName || "-"}</td>
+                        <td>{u.subscriptionStatus || "-"}</td>
+                        <td>{fmtDate(u.subscriptionEndDate || u.trialEndDate)}</td>
+                        <td>
+                          <div className="adminActions">
+                            <button className="approveBtn" onClick={() => copyText(u.tradingViewUsername)}>
+                              Copy
+                            </button>
+
+                            <button className="approveBtn" onClick={() => changeIndicatorAccess(u, "active")}>
+                              Active
+                            </button>
+
+                            <button className="unapproveBtn" onClick={() => changeIndicatorAccess(u, "expired")}>
+                              Removed
+                            </button>
+
+                            <button className="unapproveBtn" onClick={() => changeIndicatorAccess(u, "rejected")}>
+                              Reject
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </>
       )}
     </main>
   );

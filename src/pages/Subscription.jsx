@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createSubscriptionOrder, getSubscriptionStatus } from "../api/subscriptionApi";
+import { createSubscriptionOrder, getSubscriptionStatus, mockActivateSubscription } from "../api/subscriptionApi";
 import { useAuth } from "../context/AuthContext";
 
 export default function Subscription() {
@@ -162,6 +162,35 @@ export default function Subscription() {
 
         <button onClick={handleBuy} disabled={buying || loading}>
           {buying ? "Opening Paytm..." : `Activate AutoPay ₹${price}/month`}
+        </button>
+
+        {/* =========================================
+    TEMPORARY DEMO SUBSCRIPTION BUTTON
+    REMOVE AFTER PAYTM AUTOPAY GOES LIVE
+========================================= */}
+        <button
+          onClick={async () => {
+            try {
+              const tvUsername = tradingViewUsername.trim();
+
+              if (!tvUsername) {
+                setErr("TradingView Username required");
+                return;
+              }
+
+              await mockActivateSubscription({
+                tradingViewUsername: tvUsername,
+              });
+
+              alert("Demo Subscription Activated");
+
+              loadStatus();
+            } catch (e) {
+              setErr(e.response?.data?.msg || "Demo activation failed");
+            }
+          }}
+        >
+          🚀 Demo Activate
         </button>
 
         <button

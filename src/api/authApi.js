@@ -34,11 +34,15 @@ export const getAdminStats = () => API.get("/api/auth/admin/stats", authHeader()
 
 // BLOCK / UNBLOCK
 export const blockUser = (id) => API.put(`/api/auth/admin/block/${id}`, {}, authHeader());
-
 export const unblockUser = (id) => API.put(`/api/auth/admin/unblock/${id}`, {}, authHeader());
 
 // SUBSCRIPTION UPDATE
 export const updateUserSubscription = (id, data) => API.put(`/api/auth/admin/subscription/${id}`, data, authHeader());
+
+// INDICATOR ACCESS
+export const updateIndicatorAccess = (id, data) => API.put(`/api/auth/admin/indicator-access/${id}`, data, authHeader());
+
+export const sendIndicatorMail = (id, data) => API.post(`/api/auth/admin/indicator-mail/${id}`, data, authHeader());
 
 // BULK MAIL
 export const sendBulkMail = (data) => API.post("/api/auth/admin/bulk-mail", data, authHeader());
