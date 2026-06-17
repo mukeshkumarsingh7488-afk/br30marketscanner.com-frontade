@@ -39,13 +39,16 @@ export default function Subscription() {
       setBuying(true);
       setErr("");
 
-      const tvUsername = tradingViewUsername.trim();
+      const savedTvUsername = status?.user?.tradingViewUsername || "";
+      const tvUsername = String(tradingViewUsername || savedTvUsername || "").trim();
 
       if (!tvUsername) {
-        setErr("Please enter your TradingView username to activate BR30 Infinity Sniper access.");
+        setErr("TradingView username not found. Please logout and login again, or update your TradingView username.");
         setBuying(false);
         return;
       }
+
+      setTradingViewUsername(tvUsername);
 
       const res = await createSubscriptionOrder({
         tradingViewUsername: tvUsername,

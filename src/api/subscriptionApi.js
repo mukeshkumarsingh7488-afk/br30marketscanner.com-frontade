@@ -5,7 +5,7 @@ export const getSubscriptionStatus = async () => {
   return res.data;
 };
 
-export const createSubscriptionOrder = async () => {
-  const res = await API.post("/api/subscription/create-order", {});
+export const createSubscriptionOrder = async (data = {}) => {
+  const res = await API.post("/api/subscription/create-order", data);
   return res.data;
 };
