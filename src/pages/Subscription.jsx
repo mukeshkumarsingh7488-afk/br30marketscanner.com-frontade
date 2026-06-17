@@ -6,18 +6,26 @@ import { useAuth } from "../context/AuthContext";
 export default function Subscription() {
   const navigate = useNavigate();
   const { updateUser, logout } = useAuth();
+
   const [loading, setLoading] = useState(true);
   const [buying, setBuying] = useState(false);
   const [status, setStatus] = useState(null);
   const [err, setErr] = useState("");
+  const [tradingViewUsername, setTradingViewUsername] = useState("");
 
   const loadStatus = async () => {
     try {
       setLoading(true);
       setErr("");
+
       const res = await getSubscriptionStatus();
       setStatus(res);
-      if (res?.user) updateUser(res.user);
+
+      if (res?.user) {
+        updateUser(res.user);
+        setTradingViewUsername(res.user.tradingViewUsername || "");
+      }
+
       if (res?.access) navigate("/", { replace: true });
     } catch (e) {
       setErr(e.response?.data?.msg || "Subscription status load failed");
@@ -31,7 +39,18 @@ export default function Subscription() {
       setBuying(true);
       setErr("");
 
-      const res = await createSubscriptionOrder();
+      const tvUsername = tradingViewUsername.trim();
+
+      if (!tvUsername) {
+        setErr("Please enter your TradingView username to activate BR30 Infinity Sniper access.");
+        setBuying(false);
+        return;
+      }
+
+      const res = await createSubscriptionOrder({
+        tradingViewUsername: tvUsername,
+      });
+
       const txnToken = res?.paytm?.body?.txnToken || res?.paytm?.txnToken;
       const orderId = res?.orderId;
       const amount = res?.amount;
@@ -43,9 +62,21 @@ export default function Subscription() {
       const config = {
         root: "",
         flow: "DEFAULT",
-        data: { orderId, token: txnToken, tokenType: "TXN_TOKEN", amount: String(amount) },
-        merchant: { mid, name: "BR30 Scanner", redirect: true },
-        handler: { transactionStatus: () => {}, notifyMerchant: () => {} },
+        data: {
+          orderId,
+          token: txnToken,
+          tokenType: "TXN_TOKEN",
+          amount: String(amount),
+        },
+        merchant: {
+          mid,
+          name: "BR30 Scanner",
+          redirect: true,
+        },
+        handler: {
+          transactionStatus: () => {},
+          notifyMerchant: () => {},
+        },
       };
 
       window.Paytm.CheckoutJS.init(config)
@@ -86,26 +117,44 @@ export default function Subscription() {
 
         {isFounding && <p className="founding">🔥 First 150 users offer active — remaining slots: {remaining}</p>}
 
+        <div className="tvBox">
+          <label>TradingView Username</label>
+          <input type="text" value={tradingViewUsername} onChange={(e) => setTradingViewUsername(e.target.value)} placeholder="Example: MukeshRaj_BR30" disabled={buying || loading} />
+          <p>Required for BR30 Infinity Sniper invite-only indicator access. Enter your TradingView username, not email.</p>
+        </div>
+
         <div className="features">
           <p>✅ Live Scanner Access</p>
+          <p>✅ BR30 Infinity Sniper Indicator</p>
+          <p>✅ Future Scanner Updates</p>
+
           <p>✅ Indian Stocks, Futures & Options</p>
-          <p>✅ Equity Stock + Equity Stock Option</p>
-          <p>✅ Future Stock + Future Stock Option</p>
-          <p>✅ Index Future + Index Option</p>
+          <p>✅ Equity Stocks + Stock Options</p>
+          <p>✅ Stock Futures + Stock Future Options</p>
+          <p>✅ Index Futures + Index Options</p>
+
           <p>✅ Forex Majors + Forex Cross Pairs</p>
-          <p>✅ Metals: Gold, Silver, Platinum, Palladium</p>
-          <p>✅ Metal Stocks: 65+ Global Metal Companies</p>
+
+          <p>✅ Metals: Gold, Silver, Platinum & Palladium</p>
+          <p>✅ Metal Stocks: 65+ Global Mining & Metal Companies</p>
           <p>✅ Commodities Scanner</p>
-          <p>✅ US Stocks: 50 Top Active Stocks</p>
-          <p>✅ US ETFs: 40 Top ETFs</p>
-          <p>✅ OI, Volume, Gainers, Losers</p>
+
+          <p>✅ US Stocks: Top 50 Active Stocks</p>
+          <p>✅ US ETFs: Top 40 ETFs</p>
+
+          <p>✅ Open Interest (OI) Analysis</p>
+          <p>✅ Volume Breakout Analysis</p>
+          <p>✅ Top Gainers & Top Losers</p>
           <p>✅ Buy / Sell / Watch Signals</p>
-          <p>✅ TradingView Chart Access</p>
-          <p>✅ Live Alerts Bell</p>
-          <p>✅ Crypto Futures Coming Soon</p>
-          <p>✅ Crypto Options Coming Soon</p>
-          <p>✅ Global Index Coming Soon</p>
-          <p>✅ Paytm AutoPay</p>
+
+          <p>✅ TradingView Chart Integration</p>
+          <p>✅ Real-Time Alert Bell</p>
+
+          <p>🚀 Crypto Futures (Coming Soon)</p>
+          <p>🚀 Crypto Options (Coming Soon)</p>
+          <p>🚀 Global Indices (Coming Soon)</p>
+
+          <p>✅ Paytm AutoPay Support</p>
           <p>✅ Monthly Auto Renewal</p>
         </div>
 
@@ -141,6 +190,14 @@ export default function Subscription() {
         .priceBox b{font-size:70px;line-height:.9;}
         .priceBox small{font-size:16px;color:#b7c7da;margin-bottom:10px;}
         .founding{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.35);color:#00ff88;padding:12px;border-radius:14px;font-weight:900;line-height:1.4;}
+
+        .tvBox{margin:20px 0;text-align:left;background:#06101a;border:1px solid rgba(0,255,136,.25);border-radius:18px;padding:16px;}
+        .tvBox label{display:block;color:#00ff88;font-size:13px;font-weight:950;letter-spacing:.8px;margin-bottom:10px;text-transform:uppercase;}
+        .tvBox input{width:100%;box-sizing:border-box;background:#03070c;border:1px solid #1c3a2d;color:#fff;border-radius:14px;padding:14px 14px;font-size:15px;font-weight:800;outline:none;}
+        .tvBox input:focus{border-color:#00ff88;box-shadow:0 0 0 3px rgba(0,255,136,.08);}
+        .tvBox input::placeholder{color:#5f7186;}
+        .tvBox p{margin:10px 0 0;color:#8ea0b8;font-size:12px;line-height:1.5;font-weight:700;}
+
         .features{margin:22px 0;text-align:left;background:#060d16;border:1px solid #11263a;border-radius:18px;padding:18px;display:grid;gap:10px;max-height:260px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#00ff88 #09111c;}
         .features::-webkit-scrollbar{width:6px;}
         .features::-webkit-scrollbar-track{background:#09111c;border-radius:999px;}
