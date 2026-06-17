@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { approveUser, blockUser, deleteUser, getAdminStats, getAllPayments, getAllUsers, sendBulkMail, unblockUser, unapproveUser, updateUserSubscription } from "../api/authApi";
+import { approveUser, deleteUser, getAdminStats, getAllPayments, getAllUsers, sendBulkMail, unapproveUser, updateUserRole, updateUserSubscription } from "../api/authApi";
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString("en-IN") : "-");
 
@@ -15,7 +15,16 @@ export default function AdminUsers() {
   const [mail, setMail] = useState({ target: "all", subject: "", message: "" });
 
   const toast = (icon, title) => {
-    Swal.fire({ toast: true, position: "top-end", icon, title, showConfirmButton: false, timer: 1600, background: "#0b111c", color: "#fff" });
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon,
+      title,
+      showConfirmButton: false,
+      timer: 1600,
+      background: "#0b111c",
+      color: "#fff",
+    });
   };
 
   const loadUsers = async () => {
@@ -78,31 +87,21 @@ export default function AdminUsers() {
     try {
       if (user.isApproved) {
         await unapproveUser(user._id);
-        await Swal.fire({ icon: "success", title: "User Unapproved", timer: 1200, showConfirmButton: false, background: "#0b111c", color: "#fff" });
+        toast("success", "User unapproved");
       } else {
         await approveUser(user._id);
-        await Swal.fire({ icon: "success", title: "User Approved", timer: 1200, showConfirmButton: false, background: "#0b111c", color: "#fff" });
+        toast("success", "User approved");
       }
 
       loadAll();
     } catch (err) {
-      Swal.fire({ icon: "error", title: "Action Failed", text: err.response?.data?.msg || "Something went wrong", background: "#0b111c", color: "#fff" });
-    }
-  };
-
-  const toggleBlock = async (user) => {
-    try {
-      if (user.isBlocked) {
-        await unblockUser(user._id);
-        toast("success", "User unblocked");
-      } else {
-        await blockUser(user._id);
-        toast("success", "User blocked");
-      }
-
-      loadAll();
-    } catch (err) {
-      Swal.fire({ icon: "error", title: "Block Action Failed", text: err.response?.data?.msg || "Something went wrong", background: "#0b111c", color: "#fff" });
+      Swal.fire({
+        icon: "error",
+        title: "Action Failed",
+        text: err.response?.data?.msg || "Something went wrong",
+        background: "#0b111c",
+        color: "#fff",
+      });
     }
   };
 
@@ -124,50 +123,54 @@ export default function AdminUsers() {
 
     try {
       await deleteUser(user._id);
-      await Swal.fire({ icon: "success", title: "User Deleted", timer: 1200, showConfirmButton: false, background: "#0b111c", color: "#fff" });
+      toast("success", "User deleted");
       loadAll();
     } catch (err) {
-      Swal.fire({ icon: "error", title: "Delete Failed", text: err.response?.data?.msg || "Something went wrong", background: "#0b111c", color: "#fff" });
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed",
+        text: err.response?.data?.msg || "Something went wrong",
+        background: "#0b111c",
+        color: "#fff",
+      });
     }
   };
 
-  const editSubscription = async (user) => {
-    const { value } = await Swal.fire({
-      title: "Edit Subscription",
+  const changeRole = async (user, newRole) => {
+    if (!newRole || newRole === user.role) return;
+
+    const result = await Swal.fire({
+      title: "Change User Role?",
       html: `
-        <input id="planName" class="swal2-input" placeholder="Plan Name" value="${user.planName || ""}">
-        <input id="planPrice" class="swal2-input" placeholder="Plan Price" value="${user.planPrice || 0}">
-        <select id="subscriptionStatus" class="swal2-input">
-          <option value="trial" ${user.subscriptionStatus === "trial" ? "selected" : ""}>trial</option>
-          <option value="active" ${user.subscriptionStatus === "active" ? "selected" : ""}>active</option>
-          <option value="expired" ${user.subscriptionStatus === "expired" ? "selected" : ""}>expired</option>
-          <option value="cancelled" ${user.subscriptionStatus === "cancelled" ? "selected" : ""}>cancelled</option>
-        </select>
-        <input id="subscriptionEndDate" type="date" class="swal2-input">
+        <b>${user.name}</b><br/>
+        ${user.email}<br/><br/>
+        Current Role: <b>${user.role}</b><br/>
+        New Role: <b>${newRole}</b>
       `,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Change Role",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#00ff88",
+      cancelButtonColor: "#6b7280",
       background: "#0b111c",
       color: "#fff",
-      confirmButtonColor: "#00ff88",
-      preConfirm: () => {
-        const status = document.getElementById("subscriptionStatus").value;
-        return {
-          planName: document.getElementById("planName").value,
-          planPrice: Number(document.getElementById("planPrice").value || 0),
-          subscriptionStatus: status,
-          subscriptionEndDate: document.getElementById("subscriptionEndDate").value || user.subscriptionEndDate,
-          isSubscriptionActive: status === "active",
-        };
-      },
     });
 
-    if (!value) return;
+    if (!result.isConfirmed) return;
 
     try {
-      await updateUserSubscription(user._id, value);
-      toast("success", "Subscription updated");
+      await updateUserRole(user._id, { role: newRole });
+      toast("success", "User role updated");
       loadAll();
     } catch (err) {
-      Swal.fire({ icon: "error", title: "Update Failed", text: err.response?.data?.msg || "Something went wrong", background: "#0b111c", color: "#fff" });
+      Swal.fire({
+        icon: "error",
+        title: "Role Update Failed",
+        text: err.response?.data?.msg || "Something went wrong",
+        background: "#0b111c",
+        color: "#fff",
+      });
     }
   };
 
@@ -179,7 +182,13 @@ export default function AdminUsers() {
       toast("success", res.data.msg || "Mail sent");
       setMail({ target: "all", subject: "", message: "" });
     } catch (err) {
-      Swal.fire({ icon: "error", title: "Mail Failed", text: err.response?.data?.msg || "Something went wrong", background: "#0b111c", color: "#fff" });
+      Swal.fire({
+        icon: "error",
+        title: "Mail Failed",
+        text: err.response?.data?.msg || "Something went wrong",
+        background: "#0b111c",
+        color: "#fff",
+      });
     }
   };
 
@@ -284,7 +293,13 @@ export default function AdminUsers() {
                       <tr key={u._id}>
                         <td className="symbol">{u.name}</td>
                         <td>{u.email}</td>
-                        <td>{u.role}</td>
+                        <td>
+                          <select className="roleSelect" value={u.role || "student"} onChange={(e) => changeRole(u, e.target.value)}>
+                            <option value="student">student</option>
+                            <option value="vip">vip</option>
+                            <option value="admin">admin</option>
+                          </select>
+                        </td>
                         <td>
                           <span className={`statusBadge ${u.isApproved ? "approved" : "pending"}`}>{u.isBlocked ? "Blocked" : u.isApproved ? "Approved" : "Pending"}</span>
                         </td>
@@ -299,7 +314,6 @@ export default function AdminUsers() {
                             <button className={u.isApproved ? "unapproveBtn" : "approveBtn"} onClick={() => toggleApprove(u)}>
                               {u.isApproved ? "Unapprove" : "Approve"}
                             </button>
-
                             <button className="deleteBtn" onClick={() => removeUser(u)}>
                               Delete
                             </button>
@@ -373,12 +387,23 @@ export default function AdminUsers() {
           </select>
 
           <input value={mail.subject} placeholder="Email subject" onChange={(e) => setMail({ ...mail, subject: e.target.value })} />
-
           <textarea value={mail.message} placeholder="Email message" onChange={(e) => setMail({ ...mail, message: e.target.value })} />
-
           <button onClick={sendMailNow}>Send Bulk Mail</button>
         </section>
       )}
+
+      <style>{`
+        .roleSelect{
+          background:#07111d;
+          color:#fff;
+          border:1px solid #1f3b31;
+          border-radius:10px;
+          padding:10px 12px;
+          font-weight:800;
+          outline:none;
+          cursor:pointer;
+        }
+      `}</style>
     </main>
   );
 }

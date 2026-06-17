@@ -52,4 +52,6 @@ export const getAllPayments = () => API.get("/api/subscription/admin/payments", 
 
 export const getUserPayments = (userId) => API.get(`/api/subscription/admin/payments/${userId}`, authHeader());
 
+export const updateUserRole = (id, data) => API.put(`/api/auth/admin/role/${id}`, data, authHeader());
+
 export default API;
