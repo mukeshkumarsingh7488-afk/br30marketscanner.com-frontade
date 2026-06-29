@@ -58,7 +58,7 @@ export default function Login() {
       toast("success", "Login success");
 
       setTimeout(() => {
-        nav("/");
+        nav("/dashboard", { replace: true });
       }, 700);
     } catch (err) {
       const errorMsg = err.response?.data?.msg || "Login failed";
