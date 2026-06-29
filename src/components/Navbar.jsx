@@ -178,7 +178,7 @@ export default function Navbar() {
     setMenuOpen(false);
     setProfileOpen(false);
     setAlertOpen(false);
-    nav(`/?market=${normalizeMarket(type)}`);
+    nav(`/dashboard?market=${normalizeMarket(type)}`);
   };
 
   const openAlertChart = (alert) => {
@@ -237,7 +237,7 @@ export default function Navbar() {
           ☰
         </button>
 
-        <div className="brand" onClick={() => nav("/")}>
+        <div className="brand" onClick={() => nav("/dashboard")}>
           BR30<span>MARKET SCANNER</span>
         </div>
 
