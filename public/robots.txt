@@ -1,8 +1,23 @@
 User-agent: *
-Allow: /
 
-Disallow: /admin-users
+Allow: /
+Allow: /documentation
+Allow: /changelog
+Allow: /roadmap
+Allow: /release-notes
+Allow: /api-access
+Allow: /privacy-policy
+Allow: /terms-and-conditions
+Allow: /refund-policy
+Allow: /disclaimer
+Allow: /contact
+Allow: /login
+Allow: /register
+Allow: /forgot-password
+Allow: /subscription
+
 Disallow: /admin-dashboard
+Disallow: /admin-users
 Disallow: /verify-otp
 Disallow: /reset-password
 
