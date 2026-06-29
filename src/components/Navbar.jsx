@@ -216,8 +216,7 @@ export default function Navbar() {
       color: "#fff",
     });
 
-    nav("/login");
-    window.location.reload();
+    nav("/", { replace: true });
   };
 
   const initial = user?.name?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || "U";
