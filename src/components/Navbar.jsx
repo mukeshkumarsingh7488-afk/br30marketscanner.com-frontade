@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { LogOut, Moon, Sun } from "lucide-react";
 import Swal from "sweetalert2";
+import logoDarkGreen from "../assets/logo-dark-Green.png";
 import logoLightPurple from "../assets/logo-light-Purple.png";
 
 const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option", "crypto-options"];
