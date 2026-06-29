@@ -229,7 +229,7 @@ export default function AdminDashboard() {
           <p className="tag">BR30 SUPER ADMIN DASHBOARD</p>
           <h1>Admin Dashboard</h1>
         </div>
-        <Link className="backBtn" to="/">
+        <Link className="backBtn" to="/dashboard">
           ← Back to Scanner
         </Link>
       </div>

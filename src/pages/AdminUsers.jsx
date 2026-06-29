@@ -199,7 +199,7 @@ export default function AdminUsers() {
           <p className="tag">ADMIN ACCESS PANEL</p>
           <h1>Users Management</h1>
         </div>
-        <Link className="backBtn" to="/">
+        <Link className="backBtn" to="/dashboard">
           ← Back to Dashboard
         </Link>
       </div>

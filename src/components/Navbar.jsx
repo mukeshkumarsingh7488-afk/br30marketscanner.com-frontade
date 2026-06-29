@@ -295,7 +295,7 @@ export default function Navbar() {
       </div>
 
       <div className="links">
-        <NavLink to="/">Dashboard</NavLink>
+        <NavLink to="/dashboard">Dashboard</NavLink>
         <NavLink to="/top-gainers">Gainers</NavLink>
         <NavLink to="/top-losers">Losers</NavLink>
         <NavLink to="/oi-spurts">OI Spurts</NavLink>
