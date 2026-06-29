@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { LogOut, Moon, Sun } from "lucide-react";
 import Swal from "sweetalert2";
+import logoLightPurple from "../assets/logo-light-Purple.png";
 
 const OPTION_MARKETS = ["equity-stock-option", "future-stock-option", "index-option", "crypto-options"];
 const COMING_SOON_MARKETS = ["global-index-coming-soon", "crypto-futures-coming-soon", "crypto-options-coming-soon"];
@@ -65,7 +67,6 @@ const isComingSoon = (type = "") =>
       .trim()
       .toLowerCase(),
   );
-
 const isOptionMarket = (market = "") => OPTION_MARKETS.includes(normalizeMarket(market));
 
 const getTimeParts = (timeZone) => {
@@ -124,8 +125,20 @@ export default function Navbar() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alerts, setAlerts] = useState([]);
   const [, setTick] = useState(0);
+  const [theme, setTheme] = useState(() => localStorage.getItem("br30ScannerTheme") || "dark");
 
   const activeType = normalizeMarket(searchParams.get("market") || "future-stock");
+
+  useEffect(() => {
+    document.body.classList.remove("dark-theme", "light-theme");
+    document.body.classList.add(`${theme}-theme`);
+    localStorage.setItem("br30ScannerTheme", theme);
+  }, [theme]);
+
+  const toggleTheme = (e) => {
+    e.stopPropagation();
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   useEffect(() => {
     const close = () => {
@@ -238,7 +251,13 @@ export default function Navbar() {
         </button>
 
         <div className="brand" onClick={() => nav("/dashboard")}>
-          BR30<span>MARKET SCANNER</span>
+          <span className="brandLogo">
+            <img src={theme === "dark" ? logoDarkGreen : logoLightPurple} alt="BR30 Market Scanner" />
+          </span>
+          <span className="brandText">
+            <strong>BR30</strong>
+            <em>MARKET SCANNER</em>
+          </span>
         </div>
 
         {menuOpen && (
@@ -380,7 +399,14 @@ export default function Navbar() {
                 <h4>{user.name || "BR30 User"}</h4>
                 <p>{user.email}</p>
                 <span>{user.role || "user"}</span>
-                <button onClick={logout}>Logout</button>
+                <button className="profileThemeBtn" type="button" onClick={toggleTheme}>
+                  {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                  {theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                </button>
+                <button onClick={logout}>
+                  <LogOut size={16} />
+                  Logout
+                </button>
               </div>
             )}
           </div>

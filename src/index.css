@@ -1335,3 +1335,349 @@ input[type="date"] {
   cursor: default !important;
   opacity: 0.85;
 }
+/* New */
+.themeToggleBtn {
+  display: none !important;
+}
+.profileThemeBtn {
+  width: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #152033 !important;
+  color: #d7e2ef !important;
+  border: 1px solid #23344d !important;
+  margin-bottom: 10px !important;
+  padding: 11px 16px !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+}
+.profileThemeBtn:hover {
+  border-color: #00ff88 !important;
+  color: #00ff88 !important;
+}
+.brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  font-weight: 900 !important;
+  font-size: 22px !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
+  line-height: 1 !important;
+}
+.brandLogo {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 12px !important;
+  background: #050505 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  flex: 0 0 42px !important;
+  margin: 0 5px 0 0 !important;
+}
+.brandLogo img {
+  width: 42px !important;
+  height: 42px !important;
+  max-width: 42px !important;
+  max-height: 42px !important;
+  object-fit: contain !important;
+  transform: scale(0.95) !important;
+  display: block !important;
+}
+.brandText {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+.brandText strong,
+.brandText em {
+  color: #00ff88 !important;
+  font-weight: 1000 !important;
+  font-style: normal !important;
+  white-space: nowrap !important;
+}
+body.light-theme {
+  background: #f5f3ff;
+  color: #111827;
+}
+body.light-theme .nav {
+  background: #fff;
+  border-bottom: 1px solid #e9d5ff;
+}
+body.light-theme .page {
+  background: linear-gradient(135deg, #faf7ff, #fff) !important;
+  color: #111827;
+}
+body.light-theme .brandLogo {
+  background: #050505 !important;
+  border-color: rgba(124, 58, 237, 0.18) !important;
+}
+body.light-theme .brandText strong,
+body.light-theme .brandText em {
+  color: #a82ce2 !important;
+}
+body.light-theme .links a {
+  color: #475569;
+}
+body.light-theme .links a.active,
+body.light-theme .links a:hover {
+  color: #a82ce2 !important;
+}
+body.light-theme .menuBtn {
+  background: #fff;
+  border-color: #e9d5ff;
+  color: #a82ce2;
+}
+body.light-theme .hero,
+body.light-theme .card,
+body.light-theme .filters,
+body.light-theme .tableBox,
+body.light-theme .adminCard,
+body.light-theme .bulkMailBox,
+body.light-theme .tvModal {
+  background: #fff;
+  border-color: #eadcff;
+  color: #111827;
+  box-shadow: 0 18px 45px rgba(124, 58, 237, 0.08);
+}
+body.light-theme .hero {
+  background: linear-gradient(135deg, #ffffff, #f4e8ff) !important;
+  border-color: #eadcff !important;
+}
+body.light-theme .tag,
+body.light-theme .filterHead h3,
+body.light-theme .tableHead h3,
+body.light-theme .card h2,
+body.light-theme .green,
+body.light-theme .tableLastUpdated,
+body.light-theme th {
+  color: #a82ce2 !important;
+}
+body.light-theme .summaryHeader h2,
+body.light-theme .profileDropdown h4,
+body.light-theme .hero h1,
+body.light-theme .adminHead h1,
+body.light-theme .heatHero h1 {
+  color: #111827;
+}
+body.light-theme .sub,
+body.light-theme .summaryHeader p,
+body.light-theme .tableHead p,
+body.light-theme .card p,
+body.light-theme .filterHead p,
+body.light-theme .profileDropdown p,
+body.light-theme .alertHeader span,
+body.light-theme .empty,
+body.light-theme .expiryText {
+  color: #64748b;
+}
+body.light-theme .scannerMenu,
+body.light-theme .profileDropdown,
+body.light-theme .alertDropdown {
+  background: #fff;
+  border-color: #eadcff;
+  box-shadow: 0 24px 65px rgba(124, 58, 237, 0.14);
+}
+body.light-theme .menuGroup {
+  border-top-color: #eadcff;
+  border-bottom-color: #f3e8ff;
+}
+body.light-theme .menuGroupTitle {
+  color: #a82ce2;
+}
+body.light-theme .scannerMenu button {
+  background: #faf5ff;
+  color: #111827;
+  border-color: #eadcff;
+}
+body.light-theme .scannerMenu button:hover,
+body.light-theme .scannerMenu button.activeScanner {
+  background: #f3e8ff !important;
+  color: #a82ce2 !important;
+  border-color: #a855f7 !important;
+}
+body.light-theme .marketStatus.open {
+  background: rgba(124, 58, 237, 0.1) !important;
+  color: #a82ce2 !important;
+  border-color: rgba(124, 58, 237, 0.35) !important;
+}
+body.light-theme .filters input,
+body.light-theme .filters select,
+body.light-theme .tableSearchBox input,
+body.light-theme .adminTabs button,
+body.light-theme .adminFilter select,
+body.light-theme .bulkMailBox select,
+body.light-theme .bulkMailBox input,
+body.light-theme .bulkMailBox textarea,
+body.light-theme .heatHero select {
+  background: #fff;
+  color: #111827;
+  border-color: #e9d5ff;
+}
+body.light-theme .filters input:focus,
+body.light-theme .filters select:focus,
+body.light-theme .tableSearchBox input:focus {
+  border-color: #a82ce2 !important;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1) !important;
+}
+body.light-theme th {
+  background: #faf5ff;
+  color: #a82ce2 !important;
+}
+body.light-theme td {
+  border-bottom-color: #eadcff;
+  color: #111827;
+}
+body.light-theme .symbolChartBtn {
+  color: #111827;
+}
+body.light-theme .symbolChartBtn:hover {
+  color: #a82ce2;
+}
+body.light-theme .badge,
+body.light-theme .waitCall,
+body.light-theme .neutralSignal {
+  background: #f3e8ff;
+  color: #5b21b6;
+  border-color: #e9d5ff;
+}
+body.light-theme .profileAvatar,
+body.light-theme .profileDropdown button:last-child {
+  background: #a82ce2 !important;
+  color: #fff !important;
+}
+body.light-theme .avatarBtn {
+  background: #f3e8ff !important;
+  color: #a82ce2 !important;
+  border-color: #a82ce2 !important;
+}
+body.light-theme .profileDropdown span {
+  background: #f3e8ff;
+  color: #a82ce2;
+}
+body.light-theme .profileThemeBtn {
+  background: #f8f5ff !important;
+  color: #a82ce2 !important;
+  border-color: #e9d5ff !important;
+}
+body.light-theme .profileThemeBtn:hover {
+  background: #f3e8ff !important;
+  border-color: #a855f7 !important;
+}
+body.light-theme .loader,
+body.light-theme .error {
+  background: #fff;
+  border-color: #eadcff;
+  color: #92400e;
+}
+body.light-theme .tvHeader {
+  background: #faf5ff;
+  border-bottom-color: #eadcff;
+}
+body.light-theme .tvFrame {
+  background: #fff;
+}
+body.light-theme .heatHero {
+  background: linear-gradient(135deg, #ffffff, #f3e8ff);
+  border-color: #eadcff;
+}
+@media (max-width: 760px) {
+  .brandLogo {
+    display: flex !important;
+    width: 34px !important;
+    height: 34px !important;
+    margin-right: 6px !important;
+    flex-shrink: 0 !important;
+  }
+  .brandLogo img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+  .brand {
+    font-size: 15px !important;
+    gap: 6px !important;
+    letter-spacing: -0.5px !important;
+  }
+  .brandText {
+    gap: 2px !important;
+  }
+  .nav {
+    padding: 0 10px !important;
+  }
+  .navLeft {
+    gap: 8px !important;
+  }
+  .navRight {
+    gap: 6px !important;
+  }
+  .menuBtn {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 22px !important;
+  }
+  .avatarBtn {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 16px !important;
+  }
+  .alertBell {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 17px !important;
+  }
+}
+@media (max-width: 420px) {
+  .brandLogo {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .brand {
+    font-size: 14px !important;
+    letter-spacing: -0.7px !important;
+    gap: 5px !important;
+  }
+  .nav {
+    padding: 0 8px !important;
+  }
+  .navLeft {
+    gap: 7px !important;
+  }
+  .navRight {
+    gap: 5px !important;
+  }
+  .menuBtn {
+    width: 37px !important;
+    height: 37px !important;
+  }
+  .avatarBtn {
+    width: 37px !important;
+    height: 37px !important;
+  }
+  .alertBell {
+    width: 37px !important;
+    height: 37px !important;
+  }
+}
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+input,
+textarea,
+[contenteditable="true"] {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
