@@ -9,10 +9,13 @@ import logo from "../assets/logo-light-Purple.png";
 export default function Register() {
   const nav = useNavigate();
 
+  const LEGAL_VERSION = "BR30 Market Scanner Legal v1 - 2026";
+
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
   const [ok, setOk] = useState(false);
+  const [acceptLegal, setAcceptLegal] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -77,6 +80,12 @@ export default function Register() {
       return;
     }
 
+    if (!acceptLegal) {
+      setMsg("Please accept Terms, Privacy, Refund Policy and Disclaimer");
+      toast("error", "Please accept legal policies");
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -85,6 +94,22 @@ export default function Register() {
         email,
         tradingViewUsername,
         password,
+
+        acceptedLegal: true,
+        acceptedLegalAt: new Date().toISOString(),
+        acceptedLegalVersion: LEGAL_VERSION,
+
+        acceptedTerms: true,
+        acceptedTermsVersion: "BR30 Market Scanner Terms v1 - 2026",
+
+        acceptedPrivacy: true,
+        acceptedPrivacyVersion: "BR30 Market Scanner Privacy v1 - 2026",
+
+        acceptedRefund: true,
+        acceptedRefundVersion: "BR30 Market Scanner Refund v1 - 2026",
+
+        acceptedDisclaimer: true,
+        acceptedDisclaimerVersion: "BR30 Market Scanner Disclaimer v1 - 2026",
       });
 
       localStorage.setItem("verifyEmail", email);
@@ -136,6 +161,29 @@ export default function Register() {
             </button>
           </div>
 
+          <label className="scannerLegalBox">
+            <input type="checkbox" checked={acceptLegal} onChange={(e) => setAcceptLegal(e.target.checked)} />
+            <span>
+              I agree to the{" "}
+              <Link to="/terms-and-conditions" target="_blank" rel="noopener noreferrer">
+                Terms & Conditions
+              </Link>
+              ,{" "}
+              <Link to="/privacy-policy" target="_blank" rel="noopener noreferrer">
+                Privacy Policy
+              </Link>
+              ,{" "}
+              <Link to="/refund-policy" target="_blank" rel="noopener noreferrer">
+                Refund Policy
+              </Link>{" "}
+              and{" "}
+              <Link to="/disclaimer" target="_blank" rel="noopener noreferrer">
+                Disclaimer
+              </Link>
+              .
+            </span>
+          </label>
+
           <button type="submit" className="scannerAuthBtn" disabled={loading}>
             {loading ? "Sending..." : "Send OTP"}
           </button>
@@ -149,7 +197,37 @@ export default function Register() {
         </form>
       </main>
 
-      <style>{`.scannerAuthPage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px 18px;background:radial-gradient(circle at top,#f3d8ff 0%,transparent 35%),#f8f7fb;}.scannerAuthCard{width:100%;max-width:430px;background:#fff;padding:34px;border-radius:28px;box-shadow:0 20px 60px rgba(168,85,247,.15);}.scannerRegisterCard{max-width:470px;}.scannerAuthLogo{width:72px;height:72px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;border-radius:22px;overflow:hidden;background:transparent;}.scannerAuthLogo img{width:100%;height:100%;display:block;object-fit:contain;border-radius:22px;}.scannerAuthCard h1{font-size:34px;font-weight:900;text-align:center;margin:0;color:#161616;}.scannerAuthSub{text-align:center;color:#6b7280;margin:12px auto 26px;font-size:15px;line-height:1.55;max-width:350px;}.scannerAuthCard label{display:block;font-size:15px;font-weight:800;margin:14px 0 8px;color:#111827;}.scannerAuthCard input{width:100%;height:52px;border:1px solid #eadcf8;border-radius:14px;padding:0 16px;font-size:15px;font-weight:700;outline:none;transition:.25s;background:#fff;color:#111827;}.scannerAuthCard input:focus{border-color:#c026d3;box-shadow:0 0 0 4px rgba(192,38,211,.12);}.scannerAuthNote{display:block;margin:8px 0 2px;color:#8a6b96;font-size:12px;font-weight:800;}.scannerPassBox{position:relative;}.scannerPassBox input{padding-right:56px;}.scannerEyeBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:none;border-radius:12px;background:#f5e9ff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#a21caf;}.scannerAuthBtn{width:100%;height:54px;border:none;border-radius:16px;background:linear-gradient(90deg,#ec2ad5,#8b2cf5);color:#fff;font-size:17px;font-weight:900;cursor:pointer;transition:.25s;margin-top:20px;}.scannerAuthBtn:hover{transform:translateY(-2px);box-shadow:0 16px 35px rgba(168,85,247,.35);}.scannerAuthBtn:disabled{opacity:.75;cursor:not-allowed;transform:none;}.scannerAuthMsg{margin-top:18px;text-align:center;font-weight:800;}.scannerAuthMsg.success{color:#16a34a;}.scannerAuthMsg.error{color:#dc2626;}.scannerAuthFooter{margin-top:24px;display:flex;justify-content:center;gap:6px;font-size:16px;}.scannerAuthFooter span{color:#666;}.scannerAuthFooter a{text-decoration:none;font-weight:900;color:#9333ea;}@media(max-width:480px){.scannerAuthCard{padding:28px 22px;border-radius:24px;}.scannerAuthCard h1{font-size:30px;}.scannerAuthLogo{width:64px;height:64px;border-radius:18px;}.scannerAuthLogo img{width:100%;height:100%;border-radius:18px;}.scannerAuthFooter{font-size:14px;flex-wrap:wrap;}}`}</style>
+      <style>{`
+.scannerAuthPage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px 18px;background:radial-gradient(circle at top,#f3d8ff 0%,transparent 35%),#f8f7fb;}
+.scannerAuthCard{width:100%;max-width:430px;background:#fff;padding:34px;border-radius:28px;box-shadow:0 20px 60px rgba(168,85,247,.15);}
+.scannerRegisterCard{max-width:470px;}
+.scannerAuthLogo{width:72px;height:72px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;border-radius:22px;overflow:hidden;background:transparent;}
+.scannerAuthLogo img{width:100%;height:100%;display:block;object-fit:contain;border-radius:22px;}
+.scannerAuthCard h1{font-size:34px;font-weight:900;text-align:center;margin:0;color:#161616;}
+.scannerAuthSub{text-align:center;color:#6b7280;margin:12px auto 26px;font-size:15px;line-height:1.55;max-width:350px;}
+.scannerAuthCard label{display:block;font-size:15px;font-weight:800;margin:14px 0 8px;color:#111827;}
+.scannerAuthCard input{width:100%;height:52px;border:1px solid #eadcf8;border-radius:14px;padding:0 16px;font-size:15px;font-weight:700;outline:none;transition:.25s;background:#fff;color:#111827;}
+.scannerAuthCard input:focus{border-color:#c026d3;box-shadow:0 0 0 4px rgba(192,38,211,.12);}
+.scannerAuthNote{display:block;margin:8px 0 2px;color:#8a6b96;font-size:12px;font-weight:800;}
+.scannerPassBox{position:relative;}
+.scannerPassBox input{padding-right:56px;}
+.scannerEyeBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:none;border-radius:12px;background:#f5e9ff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#a21caf;}
+.scannerLegalBox{display:flex!important;align-items:flex-start;gap:10px;margin:18px 0 0!important;padding:14px;border-radius:16px;background:#faf5ff;border:1px solid #eadcf8;color:#4b5563!important;line-height:1.55;}
+.scannerLegalBox input{width:17px!important;height:17px!important;min-width:17px;margin-top:3px;padding:0!important;border-radius:4px;accent-color:#c026d3;cursor:pointer;}
+.scannerLegalBox span{font-size:13px;font-weight:700;color:#4b5563;}
+.scannerLegalBox a{color:#a21caf;text-decoration:none;font-weight:900;}
+.scannerLegalBox a:hover{text-decoration:underline;color:#86198f;}
+.scannerAuthBtn{width:100%;height:54px;border:none;border-radius:16px;background:linear-gradient(90deg,#ec2ad5,#8b2cf5);color:#fff;font-size:17px;font-weight:900;cursor:pointer;transition:.25s;margin-top:20px;}
+.scannerAuthBtn:hover{transform:translateY(-2px);box-shadow:0 16px 35px rgba(168,85,247,.35);}
+.scannerAuthBtn:disabled{opacity:.75;cursor:not-allowed;transform:none;}
+.scannerAuthMsg{margin-top:18px;text-align:center;font-weight:800;}
+.scannerAuthMsg.success{color:#16a34a;}
+.scannerAuthMsg.error{color:#dc2626;}
+.scannerAuthFooter{margin-top:24px;display:flex;justify-content:center;gap:6px;font-size:16px;}
+.scannerAuthFooter span{color:#666;}
+.scannerAuthFooter a{text-decoration:none;font-weight:900;color:#9333ea;}
+@media(max-width:480px){.scannerAuthCard{padding:28px 22px;border-radius:24px;}.scannerAuthCard h1{font-size:30px;}.scannerAuthLogo{width:64px;height:64px;border-radius:18px;}.scannerAuthLogo img{width:100%;height:100%;border-radius:18px;}.scannerAuthFooter{font-size:14px;flex-wrap:wrap;}.scannerLegalBox span{font-size:12.5px;}}
+`}</style>
     </>
   );
 }
