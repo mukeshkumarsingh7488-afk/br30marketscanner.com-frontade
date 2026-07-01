@@ -124,7 +124,14 @@ export default function Footer() {
           </div>
 
           <div className="scanner-footer-bottom">
-            <p>© 2026 BR30 Group. All Rights Reserved.</p>
+            <p>© 2026 BR30 Market Scanner. All Rights Reserved.</p>
+
+            <div className="scanner-footer-built">
+              <span>Built with</span>
+              <span className="heart">❤️</span>
+              <span>by</span>
+              <strong>BR30 Group</strong>
+            </div>
 
             <div className="scanner-footer-socials">
               <a href="https://www.youtube.com/@br30traderofficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
@@ -148,6 +155,7 @@ export default function Footer() {
       </footer>
 
       <style>{`
+.scanner-footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}.scanner-footer-built{flex:1;display:flex;justify-content:center;align-items:center;gap:8px;font-size:18px;font-weight:500;color:#d7d7d7;}.scanner-footer-built .heart{font-size:22px;animation:heartBeat 1.8s infinite;}.scanner-footer-built strong{font-weight:800;background:linear-gradient(90deg,#ffb347,#ffd86f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}@keyframes heartBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.18);}}
 .landing-logo-icon img{width:100%;height:100%;object-fit:contain;transform:scale(0.95);}
 .landing-logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;min-width:0;}
 .landing-logo-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);overflow:hidden;}
@@ -187,6 +195,7 @@ export default function Footer() {
 @media(max-width:1050px){.scanner-footer-top{grid-template-columns:1fr;}.scanner-footer-brand{max-width:100%;}.scanner-footer-links{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:760px){.scanner-footer{padding:62px 0 24px;}.landing-logo{gap:12px;}.landing-logo-icon{width:46px;height:46px;border-radius:14px;}.landing-logo-icon img{width:100%;height:100%;object-fit:contain;transform:scale(.95);}.landing-logo-text span{font-size:17px;}.scanner-footer-links{grid-template-columns:1fr;gap:14px;}.scanner-footer-links div{padding:20px;border-radius:21px;}.scanner-footer-middle{flex-direction:column;align-items:flex-start;padding:22px;border-radius:22px;}.scanner-footer-cta{width:100%;}.scanner-footer-bottom{flex-direction:column;align-items:flex-start;}.scanner-footer-contact a{width:100%;}}
 @media(max-width:430px){.landing-logo{gap:10px;}.landing-logo-icon{width:42px;height:42px;border-radius:13px;}.landing-logo-icon img{width:100%;height:100%;object-fit:contain;transform:scale(.95);}.landing-logo-text span{font-size:16px;}.scanner-footer-middle strong{font-size:14px;}.scanner-footer-socials{width:100%;justify-content:space-between;}.scanner-footer-socials a{width:40px;height:40px;}}
+@media(max-width:768px){.scanner-footer-bottom{flex-direction:column;text-align:center;gap:14px;}.scanner-footer-built{order:2;font-size:16px;}.scanner-footer-socials{order:3;}}
       `}</style>
     </>
   );
