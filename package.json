@@ -15,6 +15,7 @@
     "lucide-react": "^1.22.0",
     "react": "latest",
     "react-dom": "latest",
+    "react-helmet-async": "^3.0.0",
     "react-router-dom": "latest",
     "sweetalert2": "^11.26.25",
     "vite": "latest"
