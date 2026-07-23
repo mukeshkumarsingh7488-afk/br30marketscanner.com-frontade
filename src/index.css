@@ -348,10 +348,7 @@ body {
 }
 
 body.light-theme .alertHeader h4 {
-  color: #39ff14;
-  text-shadow:
-    0 0 5px #39ff14,
-    0 0 10px #39ff14;
+  color: #519a44;
 }
 .alertHeader span {
   font-size: 11px;
