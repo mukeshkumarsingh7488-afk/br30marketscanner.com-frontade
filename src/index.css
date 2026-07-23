@@ -346,6 +346,12 @@ body {
   font-weight: 1000;
   letter-spacing: 0.5px;
 }
+body.light .alertHeader h4 {
+  color: #39ff14;
+  text-shadow:
+    0 0 5px #39ff14,
+    0 0 10px #39ff14;
+}
 .alertHeader span {
   font-size: 11px;
   color: #a7b0bd;
@@ -382,13 +388,20 @@ body {
   width: 100%;
 }
 .alertTop strong {
-  color: #fff;
   font-size: 13px;
   font-weight: 1000;
   max-width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+body.dark-theme .alertTop strong {
+  color: #fff;
+}
+
+body.light-theme .alertTop strong {
+  color: #111827;
 }
 .buyAlert,
 .sellAlert {
