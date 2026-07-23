@@ -346,7 +346,8 @@ body {
   font-weight: 1000;
   letter-spacing: 0.5px;
 }
-body.light .alertHeader h4 {
+
+body.light-theme .alertHeader h4 {
   color: #39ff14;
   text-shadow:
     0 0 5px #39ff14,
