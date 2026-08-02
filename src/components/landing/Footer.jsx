@@ -132,7 +132,7 @@ export default function Footer() {
                   BR30 Founder
                 </a>
                 {" · "}
-                Market Scanner
+                <a href="https://br30marketscanner-com-frontade.vercel.app/">BR30 Market Scanner</a>
               </strong>
             </div>
 
