@@ -115,7 +115,25 @@ export default function Footer() {
           <div className="scanner-footer-middle">
             <div>
               <span>BR30 Ecosystem</span>
-              <strong>Trader · Kart · Algo · Founder · Market Scanner</strong>
+              <strong>
+                <a href="https://my-frontend-eight-roan.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  BR30 Trader
+                </a>
+                {" · "}
+                <a href="https://br-30-kart.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  BR30 Kart
+                </a>
+                {" · "}
+                <a href="https://br30-algo-terminal-f.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  BR30 Algo Terminal
+                </a>
+                {" · "}
+                <a href="https://br30-com.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  BR30 Founder
+                </a>
+                {" · "}
+                Market Scanner
+              </strong>
             </div>
 
             <Link to="/register" className="scanner-footer-cta">
@@ -192,6 +210,7 @@ export default function Footer() {
 .scanner-footer-socials a{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#d9fff0;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);text-decoration:none;transition:.3s;}
 .scanner-footer-socials a:hover{color:#021008;background:linear-gradient(135deg,#00ff88,#22d3ee);transform:translateY(-3px);}
 .scanner-footer-socials i{font-size:18px;}
+.scanner-footer-middle strong a{color:inherit;text-decoration:none;transition:color .2s ease}.scanner-footer-middle strong a:hover{color:#0ea5e9;text-decoration:underline}.scanner-footer-middle strong a:visited{color:inherit}
 @media(max-width:1050px){.scanner-footer-top{grid-template-columns:1fr;}.scanner-footer-brand{max-width:100%;}.scanner-footer-links{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:760px){.scanner-footer{padding:62px 0 24px;}.landing-logo{gap:12px;}.landing-logo-icon{width:46px;height:46px;border-radius:14px;}.landing-logo-icon img{width:100%;height:100%;object-fit:contain;transform:scale(.95);}.landing-logo-text span{font-size:17px;}.scanner-footer-links{grid-template-columns:1fr;gap:14px;}.scanner-footer-links div{padding:20px;border-radius:21px;}.scanner-footer-middle{flex-direction:column;align-items:flex-start;padding:22px;border-radius:22px;}.scanner-footer-cta{width:100%;}.scanner-footer-bottom{flex-direction:column;align-items:flex-start;}.scanner-footer-contact a{width:100%;}}
 @media(max-width:430px){.landing-logo{gap:10px;}.landing-logo-icon{width:42px;height:42px;border-radius:13px;}.landing-logo-icon img{width:100%;height:100%;object-fit:contain;transform:scale(.95);}.landing-logo-text span{font-size:16px;}.scanner-footer-middle strong{font-size:14px;}.scanner-footer-socials{width:100%;justify-content:space-between;}.scanner-footer-socials a{width:40px;height:40px;}}
