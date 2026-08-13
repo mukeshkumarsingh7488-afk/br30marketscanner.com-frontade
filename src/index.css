@@ -2034,3 +2034,431 @@ textarea,
     }
   }
 }
+/* =========================================================
+   BR30 FINAL MOBILE NAVBAR
+   Full "BR30 MARKET SCANNER" branding preserved
+   App Grid + Bell + Profile aligned on right
+   ========================================================= */
+
+@media (max-width: 768px) {
+  /* -----------------------------------------
+     MAIN NAVBAR
+     ----------------------------------------- */
+
+  .nav {
+    width: 100%;
+    height: 66px !important;
+
+    padding: 0 10px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    overflow: hidden !important;
+  }
+
+  /* -----------------------------------------
+     LEFT SIDE
+     ☰ + LOGO + FULL BRAND
+     ----------------------------------------- */
+
+  .navLeft {
+    min-width: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 7px !important;
+
+    flex: 1 1 auto !important;
+
+    overflow: hidden !important;
+  }
+
+  /* Existing hamburger */
+  .menuBtn {
+    width: 38px !important;
+    height: 38px !important;
+
+    min-width: 38px !important;
+    flex: 0 0 38px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    font-size: 21px !important;
+  }
+
+  /* -----------------------------------------
+     BRAND
+     ----------------------------------------- */
+
+  .brand {
+    min-width: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 5px !important;
+
+    flex: 1 1 auto !important;
+
+    font-size: 15px !important;
+
+    letter-spacing: -0.55px !important;
+
+    white-space: nowrap !important;
+    overflow: visible !important;
+
+    line-height: 1 !important;
+  }
+
+  /* BR30 logo */
+  .brandLogo {
+    width: 38px !important;
+    height: 38px !important;
+
+    min-width: 38px !important;
+
+    flex: 0 0 38px !important;
+
+    margin: 0 !important;
+
+    border-radius: 11px !important;
+  }
+
+  .brandLogo img {
+    width: 38px !important;
+    height: 38px !important;
+
+    max-width: 38px !important;
+    max-height: 38px !important;
+  }
+
+  /* Full text remains visible */
+  .brandText {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 2px !important;
+
+    margin: 0 !important;
+
+    white-space: nowrap !important;
+
+    flex: 0 0 auto !important;
+  }
+
+  .brandText strong,
+  .brandText em {
+    white-space: nowrap !important;
+
+    font-size: 15px !important;
+
+    font-weight: 1000 !important;
+  }
+
+  /* -----------------------------------------
+     RIGHT SIDE
+     ▦ + 🔔 + M
+     ----------------------------------------- */
+
+  .navRight {
+    flex: 0 0 auto !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 4px !important;
+
+    margin-left: 5px !important;
+
+    white-space: nowrap !important;
+  }
+
+  /* -----------------------------------------
+     APP GRID BUTTON
+     ----------------------------------------- */
+
+  .mobileNavBox {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    flex: 0 0 auto !important;
+  }
+
+  .mobileNavBtn {
+    width: 34px !important;
+    height: 34px !important;
+
+    min-width: 34px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 10px !important;
+
+    flex: 0 0 34px !important;
+  }
+
+  .gridIcon {
+    font-size: 22px !important;
+
+    line-height: 1 !important;
+
+    transform: translateY(-1px) !important;
+  }
+
+  /* -----------------------------------------
+     BELL
+     ----------------------------------------- */
+
+  .alertBox {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    flex: 0 0 auto !important;
+  }
+
+  .alertBell {
+    width: 38px !important;
+    height: 38px !important;
+
+    min-width: 38px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    flex: 0 0 38px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* -----------------------------------------
+     PROFILE
+     ----------------------------------------- */
+
+  .profileBox {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    flex: 0 0 auto !important;
+  }
+
+  .avatarBtn {
+    width: 38px !important;
+    height: 38px !important;
+
+    min-width: 38px !important;
+
+    flex: 0 0 38px !important;
+
+    margin: 0 !important;
+
+    font-size: 16px !important;
+  }
+
+  /* -----------------------------------------
+     MOBILE DROPDOWN
+     ----------------------------------------- */
+
+  .mobileNavDropdown {
+    top: calc(100% + 10px) !important;
+
+    right: 0 !important;
+
+    width: 200px !important;
+
+    z-index: 99999 !important;
+  }
+
+  /* Dropdown arrow */
+  .mobileNavDropdown::before {
+    right: 13px !important;
+  }
+
+  /* -----------------------------------------
+     430px AND BELOW
+     ----------------------------------------- */
+
+  @media (max-width: 430px) {
+    .nav {
+      padding: 0 8px !important;
+    }
+
+    .navLeft {
+      gap: 5px !important;
+    }
+
+    .menuBtn {
+      width: 36px !important;
+      height: 36px !important;
+
+      min-width: 36px !important;
+      flex-basis: 36px !important;
+
+      font-size: 20px !important;
+    }
+
+    .brand {
+      gap: 4px !important;
+
+      font-size: 14px !important;
+
+      letter-spacing: -0.65px !important;
+    }
+
+    .brandLogo {
+      width: 36px !important;
+      height: 36px !important;
+
+      min-width: 36px !important;
+      flex-basis: 36px !important;
+    }
+
+    .brandLogo img {
+      width: 36px !important;
+      height: 36px !important;
+    }
+
+    .brandText strong,
+    .brandText em {
+      font-size: 14px !important;
+    }
+
+    .navRight {
+      gap: 3px !important;
+
+      margin-left: 3px !important;
+    }
+
+    .mobileNavBtn {
+      width: 32px !important;
+      height: 32px !important;
+
+      min-width: 32px !important;
+      flex-basis: 32px !important;
+    }
+
+    .gridIcon {
+      font-size: 21px !important;
+    }
+
+    .alertBell {
+      width: 36px !important;
+      height: 36px !important;
+
+      min-width: 36px !important;
+      flex-basis: 36px !important;
+    }
+
+    .avatarBtn {
+      width: 36px !important;
+      height: 36px !important;
+
+      min-width: 36px !important;
+      flex-basis: 36px !important;
+
+      font-size: 15px !important;
+    }
+  }
+
+  /* -----------------------------------------
+     380px AND BELOW
+     Keep FULL BRAND, just tighten spacing
+     ----------------------------------------- */
+
+  @media (max-width: 380px) {
+    .nav {
+      padding: 0 6px !important;
+    }
+
+    .navLeft {
+      gap: 4px !important;
+    }
+
+    .menuBtn {
+      width: 34px !important;
+      height: 34px !important;
+
+      min-width: 34px !important;
+      flex-basis: 34px !important;
+    }
+
+    .brandLogo {
+      width: 34px !important;
+      height: 34px !important;
+
+      min-width: 34px !important;
+      flex-basis: 34px !important;
+    }
+
+    .brandLogo img {
+      width: 34px !important;
+      height: 34px !important;
+    }
+
+    .brand {
+      gap: 3px !important;
+
+      font-size: 13px !important;
+
+      letter-spacing: -0.75px !important;
+    }
+
+    .brandText strong,
+    .brandText em {
+      font-size: 13px !important;
+    }
+
+    .navRight {
+      gap: 2px !important;
+
+      margin-left: 2px !important;
+    }
+
+    .mobileNavBtn {
+      width: 30px !important;
+      height: 30px !important;
+
+      min-width: 30px !important;
+      flex-basis: 30px !important;
+    }
+
+    .gridIcon {
+      font-size: 20px !important;
+    }
+
+    .alertBell {
+      width: 34px !important;
+      height: 34px !important;
+
+      min-width: 34px !important;
+      flex-basis: 34px !important;
+    }
+
+    .avatarBtn {
+      width: 34px !important;
+      height: 34px !important;
+
+      min-width: 34px !important;
+      flex-basis: 34px !important;
+
+      font-size: 14px !important;
+    }
+  }
+}

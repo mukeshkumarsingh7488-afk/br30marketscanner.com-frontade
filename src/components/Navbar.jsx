@@ -259,7 +259,7 @@ export default function Navbar() {
           </span>
           <span className="brandText">
             <strong>BR30</strong>
-            <em>SCANNER</em>
+            <em> MARKET SCANNER</em>
           </span>
         </div>
 
