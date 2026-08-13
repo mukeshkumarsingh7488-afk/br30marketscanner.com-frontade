@@ -1305,7 +1305,6 @@ input[type="date"] {
     padding: 10px;
   }
 }
-/* Uper Ka Css Full Complate hai */
 .buySignal {
   background: #063b24;
   color: #00ff88;
@@ -1346,7 +1345,6 @@ input[type="date"] {
   cursor: default !important;
   opacity: 0.85;
 }
-/* New */
 .themeToggleBtn {
   display: none !important;
 }
@@ -1614,936 +1612,539 @@ textarea,
   user-select: text !important;
   -webkit-user-select: text !important;
 }
-/* =========================================================
-   BR30 MOBILE PAGE NAVIGATION
-   APP GRID STYLE
-   ========================================================= */
-
 .mobileNavBox {
   display: none;
 }
-
-/* =========================================================
-   MOBILE ONLY
-   ========================================================= */
-
 @media (max-width: 768px) {
-  /* Desktop navigation links hide */
   .links {
     display: none !important;
   }
-
-  /* Navigation wrapper */
   .mobileNavBox {
     position: relative;
-
     display: flex;
     align-items: center;
-
     flex-shrink: 0;
   }
-
-  /* =======================================================
-     APP GRID BUTTON
-     ======================================================= */
-
   .mobileNavBtn {
     width: 34px;
     height: 34px;
-
     padding: 0;
     margin: 0 5px 0 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border: 1px solid rgba(0, 255, 136, 0.3);
-
     border-radius: 10px;
-
     background: linear-gradient(145deg, rgba(0, 255, 136, 0.1), rgba(5, 12, 18, 0.92));
-
     color: #00ff88;
-
     cursor: pointer;
-
     box-shadow: inset 0 0 10px rgba(0, 255, 136, 0.04);
-
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease,
       transform 0.15s ease,
       background 0.2s ease;
-
     z-index: 1001;
   }
-
   .mobileNavBtn:hover {
     border-color: rgba(0, 255, 136, 0.65);
-
     background: linear-gradient(145deg, rgba(0, 255, 136, 0.16), rgba(5, 12, 18, 0.96));
-
     box-shadow:
       0 0 14px rgba(0, 255, 136, 0.12),
       inset 0 0 10px rgba(0, 255, 136, 0.05);
   }
-
   .mobileNavBtn:active {
     transform: scale(0.91);
   }
-
-  /* =======================================================
-     GRID ICON
-     ======================================================= */
-
   .gridIcon {
     display: block;
-
     font-size: 24px;
-
     line-height: 1;
-
     font-weight: 700;
-
     color: #00ff88;
-
     text-shadow: 0 0 7px rgba(0, 255, 136, 0.45);
-
     transform: translateY(-1px);
   }
-
-  /* =======================================================
-     DROPDOWN
-     ======================================================= */
-
   .mobileNavDropdown {
     position: absolute;
-
     top: calc(100% + 10px);
     right: -5px;
-
     width: 205px;
-
     padding: 9px;
-
     display: flex;
     flex-direction: column;
-
     background: linear-gradient(145deg, rgba(7, 20, 17, 0.98), rgba(7, 13, 22, 0.98));
-
     border: 1px solid rgba(0, 255, 136, 0.22);
-
     border-radius: 15px;
-
     box-shadow:
       0 18px 45px rgba(0, 0, 0, 0.7),
       0 0 25px rgba(0, 255, 136, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.04);
-
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-
     z-index: 9999;
-
     animation: br30MobileNavOpen 0.18s ease-out;
   }
-
-  /* Dropdown pointer */
   .mobileNavDropdown::before {
     content: "";
-
     position: absolute;
-
     top: -6px;
     right: 17px;
-
     width: 11px;
     height: 11px;
-
     background: #091713;
-
     border-left: 1px solid rgba(0, 255, 136, 0.22);
     border-top: 1px solid rgba(0, 255, 136, 0.22);
-
     transform: rotate(45deg);
   }
-
-  /* =======================================================
-     DROPDOWN HEADER
-     ======================================================= */
-
   .mobileNavTitle {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 5px 8px 8px;
-
     margin-bottom: 4px;
-
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
-
   .mobileNavTitle span {
     color: #00ff88;
-
     font-size: 9px;
     font-weight: 900;
-
     letter-spacing: 1px;
   }
-
   .mobileNavTitle small {
     color: #6f8290;
-
     font-size: 7px;
     font-weight: 800;
-
     letter-spacing: 0.6px;
   }
-
-  /* =======================================================
-     NAV ITEMS
-     ======================================================= */
-
   .mobileNavDropdown a {
     display: flex;
     align-items: center;
-
     min-height: 35px;
-
     padding: 0 10px;
-
     margin: 2px 0;
-
     border-radius: 9px;
-
     color: #aab8c7;
-
     text-decoration: none;
-
     font-size: 12px;
     font-weight: 700;
-
     transition:
       background 0.18s ease,
       color 0.18s ease,
       transform 0.18s ease;
   }
-
   .mobileNavDropdown a:hover {
     color: #ffffff;
-
     background: rgba(0, 255, 136, 0.07);
-
     transform: translateX(2px);
   }
-
-  /* Active page */
   .mobileNavDropdown a.active {
     color: #00ff88;
-
     background: linear-gradient(90deg, rgba(0, 255, 136, 0.12), rgba(0, 255, 136, 0.025));
-
     box-shadow: inset 2px 0 0 #00ff88;
   }
-
-  /* =======================================================
-     SMALL DOT
-     ======================================================= */
-
   .mobileNavDot {
     width: 5px;
     height: 5px;
-
     flex-shrink: 0;
-
     margin-right: 9px;
-
     border-radius: 50%;
-
     background: #33434a;
-
     transition:
       background 0.18s ease,
       box-shadow 0.18s ease;
   }
-
   .mobileNavDropdown a:hover .mobileNavDot,
   .mobileNavDropdown a.active .mobileNavDot {
     background: #00ff88;
-
     box-shadow: 0 0 8px rgba(0, 255, 136, 0.85);
   }
-
-  /* =======================================================
-     ADMIN DIVIDER
-     ======================================================= */
-
   .mobileNavDivider {
     height: 1px;
-
     margin: 6px 7px;
-
     background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
   }
-
-  /* =======================================================
-     ANIMATION
-     ======================================================= */
-
   @keyframes br30MobileNavOpen {
     from {
       opacity: 0;
-
       transform: translateY(-6px) scale(0.97);
-
       transform-origin: top right;
     }
-
     to {
       opacity: 1;
-
       transform: translateY(0) scale(1);
-
       transform-origin: top right;
     }
   }
-
-  /* =======================================================
-     SMALL PHONES
-     ======================================================= */
-
   @media (max-width: 430px) {
     .mobileNavBtn {
       width: 33px;
       height: 33px;
-
       margin-right: 4px;
     }
-
     .gridIcon {
       font-size: 23px;
     }
-
     .mobileNavDropdown {
       width: 195px;
       right: -4px;
     }
   }
-
-  /* =======================================================
-     VERY SMALL PHONES
-     ======================================================= */
-
   @media (max-width: 360px) {
     .mobileNavBtn {
       width: 31px;
       height: 31px;
     }
-
     .gridIcon {
       font-size: 21px;
     }
-
     .mobileNavDropdown {
       width: 180px;
     }
-
     .mobileNavDropdown a {
       font-size: 11px;
     }
   }
 }
-/* =========================================================
-   BR30 FINAL MOBILE NAVBAR
-   Full "BR30 MARKET SCANNER" branding preserved
-   App Grid + Bell + Profile aligned on right
-   ========================================================= */
-
 @media (max-width: 768px) {
-  /* -----------------------------------------
-     MAIN NAVBAR
-     ----------------------------------------- */
-
   .nav {
     width: 100%;
     height: 66px !important;
-
     padding: 0 10px !important;
-
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-
     overflow: hidden !important;
   }
-
-  /* -----------------------------------------
-     LEFT SIDE
-     ☰ + LOGO + FULL BRAND
-     ----------------------------------------- */
-
   .navLeft {
     min-width: 0 !important;
-
     display: flex !important;
     align-items: center !important;
-
     gap: 7px !important;
-
     flex: 1 1 auto !important;
-
     overflow: hidden !important;
   }
-
-  /* Existing hamburger */
   .menuBtn {
     width: 38px !important;
     height: 38px !important;
-
     min-width: 38px !important;
     flex: 0 0 38px !important;
-
     margin: 0 !important;
-
     padding: 0 !important;
-
     font-size: 21px !important;
   }
-
-  /* -----------------------------------------
-     BRAND
-     ----------------------------------------- */
-
   .brand {
     min-width: 0 !important;
-
     display: flex !important;
     align-items: center !important;
-
     gap: 5px !important;
-
     flex: 1 1 auto !important;
-
     font-size: 15px !important;
-
     letter-spacing: -0.55px !important;
-
     white-space: nowrap !important;
     overflow: visible !important;
-
     line-height: 1 !important;
   }
-
-  /* BR30 logo */
   .brandLogo {
     width: 38px !important;
     height: 38px !important;
-
     min-width: 38px !important;
-
     flex: 0 0 38px !important;
-
     margin: 0 !important;
-
     border-radius: 11px !important;
   }
-
   .brandLogo img {
     width: 38px !important;
     height: 38px !important;
-
     max-width: 38px !important;
     max-height: 38px !important;
   }
-
-  /* Full text remains visible */
   .brandText {
     display: flex !important;
     align-items: center !important;
-
     gap: 2px !important;
-
     margin: 0 !important;
-
     white-space: nowrap !important;
-
     flex: 0 0 auto !important;
   }
-
   .brandText strong,
   .brandText em {
     white-space: nowrap !important;
-
     font-size: 15px !important;
-
     font-weight: 1000 !important;
   }
-
-  /* -----------------------------------------
-     RIGHT SIDE
-     ▦ + 🔔 + M
-     ----------------------------------------- */
-
   .navRight {
     flex: 0 0 auto !important;
-
     display: flex !important;
     align-items: center !important;
-
     gap: 4px !important;
-
     margin-left: 5px !important;
-
     white-space: nowrap !important;
   }
-
-  /* -----------------------------------------
-     APP GRID BUTTON
-     ----------------------------------------- */
-
   .mobileNavBox {
     position: relative !important;
-
     display: flex !important;
     align-items: center !important;
-
     flex: 0 0 auto !important;
   }
-
   .mobileNavBtn {
     width: 34px !important;
     height: 34px !important;
-
     min-width: 34px !important;
-
     padding: 0 !important;
     margin: 0 !important;
-
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-
     border-radius: 10px !important;
-
     flex: 0 0 34px !important;
   }
-
   .gridIcon {
     font-size: 22px !important;
-
     line-height: 1 !important;
-
     transform: translateY(-1px) !important;
   }
-
-  /* -----------------------------------------
-     BELL
-     ----------------------------------------- */
-
   .alertBox {
     position: relative !important;
-
     display: flex !important;
     align-items: center !important;
-
     flex: 0 0 auto !important;
   }
-
   .alertBell {
     width: 38px !important;
     height: 38px !important;
-
     min-width: 38px !important;
-
     padding: 0 !important;
     margin: 0 !important;
-
     flex: 0 0 38px !important;
-
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
   }
-
-  /* -----------------------------------------
-     PROFILE
-     ----------------------------------------- */
-
   .profileBox {
     position: relative !important;
-
     display: flex !important;
     align-items: center !important;
-
     flex: 0 0 auto !important;
   }
-
   .avatarBtn {
     width: 38px !important;
     height: 38px !important;
-
     min-width: 38px !important;
-
     flex: 0 0 38px !important;
-
     margin: 0 !important;
-
     font-size: 16px !important;
   }
-
-  /* -----------------------------------------
-     MOBILE DROPDOWN
-     ----------------------------------------- */
-
   .mobileNavDropdown {
     top: calc(100% + 10px) !important;
-
     right: 0 !important;
-
     width: 200px !important;
-
     z-index: 99999 !important;
   }
-
-  /* Dropdown arrow */
   .mobileNavDropdown::before {
     right: 13px !important;
   }
-
-  /* -----------------------------------------
-     430px AND BELOW
-     ----------------------------------------- */
-
   @media (max-width: 430px) {
     .nav {
       padding: 0 8px !important;
     }
-
     .navLeft {
       gap: 5px !important;
     }
-
     .menuBtn {
       width: 36px !important;
       height: 36px !important;
-
       min-width: 36px !important;
       flex-basis: 36px !important;
-
       font-size: 20px !important;
     }
-
     .brand {
       gap: 4px !important;
-
       font-size: 14px !important;
-
       letter-spacing: -0.65px !important;
     }
-
     .brandLogo {
       width: 36px !important;
       height: 36px !important;
-
       min-width: 36px !important;
       flex-basis: 36px !important;
     }
-
     .brandLogo img {
       width: 36px !important;
       height: 36px !important;
     }
-
     .brandText strong,
     .brandText em {
       font-size: 14px !important;
     }
-
     .navRight {
       gap: 3px !important;
-
       margin-left: 3px !important;
     }
-
     .mobileNavBtn {
       width: 32px !important;
       height: 32px !important;
-
       min-width: 32px !important;
       flex-basis: 32px !important;
     }
-
     .gridIcon {
       font-size: 21px !important;
     }
-
     .alertBell {
       width: 36px !important;
       height: 36px !important;
-
       min-width: 36px !important;
       flex-basis: 36px !important;
     }
-
     .avatarBtn {
       width: 36px !important;
       height: 36px !important;
-
       min-width: 36px !important;
       flex-basis: 36px !important;
-
       font-size: 15px !important;
     }
   }
-
-  /* -----------------------------------------
-     380px AND BELOW
-     Keep FULL BRAND, just tighten spacing
-     ----------------------------------------- */
-
   @media (max-width: 380px) {
     .nav {
       padding: 0 6px !important;
     }
-
     .navLeft {
       gap: 4px !important;
     }
-
     .menuBtn {
       width: 34px !important;
       height: 34px !important;
-
       min-width: 34px !important;
       flex-basis: 34px !important;
     }
-
     .brandLogo {
       width: 34px !important;
       height: 34px !important;
-
       min-width: 34px !important;
       flex-basis: 34px !important;
     }
-
     .brandLogo img {
       width: 34px !important;
       height: 34px !important;
     }
-
     .brand {
       gap: 3px !important;
-
       font-size: 13px !important;
-
       letter-spacing: -0.75px !important;
     }
-
     .brandText strong,
     .brandText em {
       font-size: 13px !important;
     }
-
     .navRight {
       gap: 2px !important;
-
       margin-left: 2px !important;
     }
-
     .mobileNavBtn {
       width: 30px !important;
       height: 30px !important;
-
       min-width: 30px !important;
       flex-basis: 30px !important;
     }
-
     .gridIcon {
       font-size: 20px !important;
     }
-
     .alertBell {
       width: 34px !important;
       height: 34px !important;
-
       min-width: 34px !important;
       flex-basis: 34px !important;
     }
-
     .avatarBtn {
       width: 34px !important;
       height: 34px !important;
-
       min-width: 34px !important;
       flex-basis: 34px !important;
-
       font-size: 14px !important;
     }
   }
 }
-/* =========================================================
-   BR30 MOBILE DROPDOWN VISIBILITY FIX
-   Bell + App Grid dropdown must open ABOVE the page
-   ========================================================= */
-
 @media (max-width: 768px) {
-  /* IMPORTANT:
-     Navbar must NOT clip dropdowns */
   .nav {
     overflow: visible !important;
   }
-
   .navRight {
     overflow: visible !important;
   }
-
   .alertBox,
   .mobileNavBox {
     overflow: visible !important;
   }
-
-  /* =======================================================
-     🔔 BELL DROPDOWN
-     Open in front of page, not behind navbar/content
-     ======================================================= */
-
   .alertDropdown {
     position: fixed !important;
-
     top: 66px !important;
     right: 8px !important;
-
     left: auto !important;
-
     width: 300px !important;
     max-width: calc(100vw - 16px) !important;
-
     max-height: calc(100vh - 82px) !important;
-
     overflow-y: auto !important;
     overflow-x: hidden !important;
-
     z-index: 100000 !important;
-
     border-radius: 16px !important;
-
     transform: translateZ(0);
-
     animation: br30DropdownOpen 0.18s ease-out !important;
   }
-
-  /* =======================================================
-     ▦ APP GRID DROPDOWN
-     ======================================================= */
-
   .mobileNavDropdown {
     position: fixed !important;
-
     top: 66px !important;
-
-    /*
-       Right side:
-       ▦ is before Bell + Profile,
-       so dropdown stays visually attached to ▦.
-    */
     right: 82px !important;
-
     left: auto !important;
-
     width: 200px !important;
     max-width: calc(100vw - 90px) !important;
-
     max-height: calc(100vh - 82px) !important;
-
     overflow-y: auto !important;
     overflow-x: hidden !important;
-
     z-index: 100001 !important;
-
     transform: translateZ(0);
-
     animation: br30DropdownOpen 0.18s ease-out !important;
   }
-
-  /* =======================================================
-     DROPDOWN POINTER - APP GRID
-     ======================================================= */
-
   .mobileNavDropdown::before {
     top: -6px !important;
-
     right: 18px !important;
   }
-
-  /* =======================================================
-     DROPDOWN ANIMATION
-     ======================================================= */
-
   @keyframes br30DropdownOpen {
     from {
       opacity: 0;
       transform: translateY(-7px) scale(0.97);
       transform-origin: top right;
     }
-
     to {
       opacity: 1;
       transform: translateY(0) scale(1);
       transform-origin: top right;
     }
   }
-
-  /* =======================================================
-     SMALL PHONES
-     ======================================================= */
-
   @media (max-width: 430px) {
     .alertDropdown {
       top: 62px !important;
-
       right: 7px !important;
-
       width: 290px !important;
-
       max-width: calc(100vw - 14px) !important;
     }
-
     .mobileNavDropdown {
       top: 62px !important;
-
       right: 76px !important;
-
       width: 195px !important;
-
       max-width: calc(100vw - 84px) !important;
     }
   }
-
-  /* =======================================================
-     VERY SMALL PHONES
-     ======================================================= */
-
   @media (max-width: 380px) {
     .alertDropdown {
       top: 62px !important;
-
       right: 6px !important;
-
       width: 280px !important;
-
       max-width: calc(100vw - 12px) !important;
     }
-
     .mobileNavDropdown {
       top: 62px !important;
-
       right: 70px !important;
-
       width: 180px !important;
-
       max-width: calc(100vw - 78px) !important;
     }
   }
@@ -2552,161 +2153,106 @@ textarea,
   .mobileNavBtn {
     border-color: rgba(0, 255, 136, 0.18) !important;
   }
-
   .mobileNavBtn:hover {
     border-color: rgba(0, 255, 136, 0.3) !important;
   }
 }
-/* =========================================================
-   BR30 MOBILE NAV DROPDOWN
-   THEME SYNC + PREMIUM LIGHT MODE
-   ========================================================= */
-
 @media (max-width: 768px) {
-  /* ---------- DARK MODE ---------- */
-
   body.dark-theme .mobileNavBtn {
     background: linear-gradient(145deg, rgba(0, 255, 136, 0.08), rgba(5, 12, 18, 0.94)) !important;
 
     border-color: rgba(0, 255, 136, 0.18) !important;
     color: #00ff88 !important;
   }
-
   body.dark-theme .gridIcon {
     color: #00ff88 !important;
     text-shadow: 0 0 7px rgba(0, 255, 136, 0.35) !important;
   }
-
   body.dark-theme .mobileNavDropdown {
     background: linear-gradient(145deg, rgba(7, 20, 17, 0.99), rgba(7, 13, 22, 0.99)) !important;
-
     border-color: rgba(0, 255, 136, 0.22) !important;
-
     box-shadow:
       0 24px 65px rgba(0, 0, 0, 0.45),
       inset 0 1px 0 rgba(255, 255, 255, 0.025) !important;
   }
-
   body.dark-theme .mobileNavTitle strong {
     color: #00ff88 !important;
   }
-
   body.dark-theme .mobileNavTitle small {
     color: #6f8290 !important;
   }
-
   body.dark-theme .mobileNavDropdown a {
     color: #aab8c7 !important;
   }
-
   body.dark-theme .mobileNavDropdown a:hover {
     color: #ffffff !important;
     background: rgba(0, 255, 136, 0.07) !important;
   }
-
   body.dark-theme .mobileNavDropdown a.active {
     color: #00ff88 !important;
-
     background: linear-gradient(90deg, rgba(0, 255, 136, 0.12), rgba(0, 255, 136, 0.025)) !important;
-
     box-shadow: inset 2px 0 0 #00ff88 !important;
   }
-
   body.dark-theme .mobileNavDot {
     background: #33434a !important;
   }
-
   body.dark-theme .mobileNavDropdown a.active .mobileNavDot,
   body.dark-theme .mobileNavDropdown a:hover .mobileNavDot {
     background: #00ff88 !important;
   }
-
   body.dark-theme .mobileNavDivider {
     background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent) !important;
   }
-
-  /* =======================================================
-     LIGHT MODE
-     Same style language as your existing ☰ scanner dropdown
-     ======================================================= */
-
   body.light-theme .mobileNavBtn {
     background: linear-gradient(145deg, #ffffff, #f3e8ff) !important;
-
     border-color: #eadcff !important;
-
     color: #a82ce2 !important;
-
     box-shadow:
       0 4px 14px rgba(124, 58, 237, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
   }
-
   body.light-theme .mobileNavBtn:hover {
     background: #f3e8ff !important;
     border-color: #a855f7 !important;
   }
-
   body.light-theme .gridIcon {
     color: #a82ce2 !important;
-
     text-shadow: 0 0 7px rgba(168, 85, 247, 0.18) !important;
   }
-
-  /* ---------- DROPDOWN ---------- */
-
   body.light-theme .mobileNavDropdown {
     background: #ffffff !important;
-
     border-color: #eadcff !important;
-
     box-shadow:
       0 24px 65px rgba(124, 58, 237, 0.14),
       0 4px 18px rgba(15, 23, 42, 0.06) !important;
   }
-
-  /* Title */
   body.light-theme .mobileNavTitle strong {
     color: #a82ce2 !important;
   }
-
   body.light-theme .mobileNavTitle small {
     color: #64748b !important;
   }
-
-  /* Normal links */
   body.light-theme .mobileNavDropdown a {
     color: #111827 !important;
   }
-
   body.light-theme .mobileNavDropdown a:hover {
     color: #a82ce2 !important;
-
     background: #f3e8ff !important;
   }
-
-  /* Active link */
   body.light-theme .mobileNavDropdown a.active {
     color: #a82ce2 !important;
-
     background: linear-gradient(90deg, #f3e8ff, #faf5ff) !important;
-
     box-shadow: inset 2px 0 0 #a855f7 !important;
   }
-
-  /* Grey dot → dark */
   body.light-theme .mobileNavDot {
     background: #111827 !important;
   }
-
   body.light-theme .mobileNavDropdown a:hover .mobileNavDot,
   body.light-theme .mobileNavDropdown a.active .mobileNavDot {
     background: #a82ce2 !important;
 
     box-shadow: 0 0 7px rgba(168, 85, 247, 0.35) !important;
   }
-
-  /* Divider */
   body.light-theme .mobileNavDivider {
     background: linear-gradient(90deg, transparent, #eadcff, transparent) !important;
   }
