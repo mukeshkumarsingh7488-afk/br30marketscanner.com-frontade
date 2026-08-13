@@ -1412,7 +1412,7 @@ input[type="date"] {
 }
 .brandText strong,
 .brandText em {
-  color: #22d3ee !important;
+  color: #00ff88 !important;
   font-weight: 1000 !important;
   font-style: normal !important;
   white-space: nowrap !important;
@@ -2555,5 +2555,159 @@ textarea,
 
   .mobileNavBtn:hover {
     border-color: rgba(0, 255, 136, 0.3) !important;
+  }
+}
+/* =========================================================
+   BR30 MOBILE NAV DROPDOWN
+   THEME SYNC + PREMIUM LIGHT MODE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  /* ---------- DARK MODE ---------- */
+
+  body.dark-theme .mobileNavBtn {
+    background: linear-gradient(145deg, rgba(0, 255, 136, 0.08), rgba(5, 12, 18, 0.94)) !important;
+
+    border-color: rgba(0, 255, 136, 0.18) !important;
+    color: #00ff88 !important;
+  }
+
+  body.dark-theme .gridIcon {
+    color: #00ff88 !important;
+    text-shadow: 0 0 7px rgba(0, 255, 136, 0.35) !important;
+  }
+
+  body.dark-theme .mobileNavDropdown {
+    background: linear-gradient(145deg, rgba(7, 20, 17, 0.99), rgba(7, 13, 22, 0.99)) !important;
+
+    border-color: rgba(0, 255, 136, 0.22) !important;
+
+    box-shadow:
+      0 24px 65px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.025) !important;
+  }
+
+  body.dark-theme .mobileNavTitle strong {
+    color: #00ff88 !important;
+  }
+
+  body.dark-theme .mobileNavTitle small {
+    color: #6f8290 !important;
+  }
+
+  body.dark-theme .mobileNavDropdown a {
+    color: #aab8c7 !important;
+  }
+
+  body.dark-theme .mobileNavDropdown a:hover {
+    color: #ffffff !important;
+    background: rgba(0, 255, 136, 0.07) !important;
+  }
+
+  body.dark-theme .mobileNavDropdown a.active {
+    color: #00ff88 !important;
+
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.12), rgba(0, 255, 136, 0.025)) !important;
+
+    box-shadow: inset 2px 0 0 #00ff88 !important;
+  }
+
+  body.dark-theme .mobileNavDot {
+    background: #33434a !important;
+  }
+
+  body.dark-theme .mobileNavDropdown a.active .mobileNavDot,
+  body.dark-theme .mobileNavDropdown a:hover .mobileNavDot {
+    background: #00ff88 !important;
+  }
+
+  body.dark-theme .mobileNavDivider {
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent) !important;
+  }
+
+  /* =======================================================
+     LIGHT MODE
+     Same style language as your existing ☰ scanner dropdown
+     ======================================================= */
+
+  body.light-theme .mobileNavBtn {
+    background: linear-gradient(145deg, #ffffff, #f3e8ff) !important;
+
+    border-color: #eadcff !important;
+
+    color: #a82ce2 !important;
+
+    box-shadow:
+      0 4px 14px rgba(124, 58, 237, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  }
+
+  body.light-theme .mobileNavBtn:hover {
+    background: #f3e8ff !important;
+    border-color: #a855f7 !important;
+  }
+
+  body.light-theme .gridIcon {
+    color: #a82ce2 !important;
+
+    text-shadow: 0 0 7px rgba(168, 85, 247, 0.18) !important;
+  }
+
+  /* ---------- DROPDOWN ---------- */
+
+  body.light-theme .mobileNavDropdown {
+    background: #ffffff !important;
+
+    border-color: #eadcff !important;
+
+    box-shadow:
+      0 24px 65px rgba(124, 58, 237, 0.14),
+      0 4px 18px rgba(15, 23, 42, 0.06) !important;
+  }
+
+  /* Title */
+  body.light-theme .mobileNavTitle strong {
+    color: #a82ce2 !important;
+  }
+
+  body.light-theme .mobileNavTitle small {
+    color: #64748b !important;
+  }
+
+  /* Normal links */
+  body.light-theme .mobileNavDropdown a {
+    color: #111827 !important;
+  }
+
+  body.light-theme .mobileNavDropdown a:hover {
+    color: #a82ce2 !important;
+
+    background: #f3e8ff !important;
+  }
+
+  /* Active link */
+  body.light-theme .mobileNavDropdown a.active {
+    color: #a82ce2 !important;
+
+    background: linear-gradient(90deg, #f3e8ff, #faf5ff) !important;
+
+    box-shadow: inset 2px 0 0 #a855f7 !important;
+  }
+
+  /* Grey dot → dark */
+  body.light-theme .mobileNavDot {
+    background: #111827 !important;
+  }
+
+  body.light-theme .mobileNavDropdown a:hover .mobileNavDot,
+  body.light-theme .mobileNavDropdown a.active .mobileNavDot {
+    background: #a82ce2 !important;
+
+    box-shadow: 0 0 7px rgba(168, 85, 247, 0.35) !important;
+  }
+
+  /* Divider */
+  body.light-theme .mobileNavDivider {
+    background: linear-gradient(90deg, transparent, #eadcff, transparent) !important;
   }
 }

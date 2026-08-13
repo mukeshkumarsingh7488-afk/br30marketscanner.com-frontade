@@ -342,9 +342,9 @@ export default function Navbar() {
 
               setMobileNavOpen((prev) => !prev);
 
-              setAlertOpen(false);
-              setProfileOpen(false);
               setMenuOpen(false);
+              setProfileOpen(false);
+              setAlertOpen(false);
             }}
           >
             <span className="gridIcon">▦</span>
