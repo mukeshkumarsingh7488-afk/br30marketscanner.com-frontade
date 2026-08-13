@@ -342,12 +342,12 @@ export default function Navbar() {
 
               setMobileNavOpen((prev) => !prev);
 
-              setAlertOpen(false);
-              setProfileOpen(false);
               setMenuOpen(false);
+
+              setAlertOpen(false);
+
+              setProfileOpen(false);
             }}
-            aria-label="Open navigation"
-            title="Navigation"
           >
             <span className="gridIcon">▦</span>
           </button>
@@ -413,7 +413,9 @@ export default function Navbar() {
             type="button"
             onClick={(e) => {
               e.stopPropagation();
+
               setAlertOpen(!alertOpen);
+
               setProfileOpen(false);
               setMenuOpen(false);
             }}

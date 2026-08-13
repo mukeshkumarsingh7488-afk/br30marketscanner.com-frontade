@@ -2626,3 +2626,12 @@ textarea,
     }
   }
 }
+@media (max-width: 768px) {
+  .mobileNavBtn {
+    border-color: rgba(0, 255, 136, 0.18) !important;
+  }
+
+  .mobileNavBtn:hover {
+    border-color: rgba(0, 255, 136, 0.3) !important;
+  }
+}
