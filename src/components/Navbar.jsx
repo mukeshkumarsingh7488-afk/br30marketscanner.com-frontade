@@ -245,7 +245,10 @@ export default function Navbar() {
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            setMenuOpen(!menuOpen);
+
+            setMenuOpen((prev) => !prev);
+
+            setMobileNavOpen(false);
             setProfileOpen(false);
             setAlertOpen(false);
           }}
