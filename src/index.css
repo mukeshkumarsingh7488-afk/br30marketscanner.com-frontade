@@ -1692,3 +1692,335 @@ textarea,
   user-select: text !important;
   -webkit-user-select: text !important;
 }
+/* =========================================================
+   BR30 MOBILE NAVIGATION
+   Desktop: hidden
+   Mobile: compact dropdown near notification bell
+   ========================================================= */
+
+.mobileNavBtn {
+  display: none;
+}
+
+.mobileNavDropdown {
+  display: none;
+}
+
+/* =========================================================
+   MOBILE NAV
+   ========================================================= */
+
+@media (max-width: 768px) {
+  /* Hide desktop navigation links */
+  .links {
+    display: none !important;
+  }
+
+  /* Mobile navigation trigger */
+  .mobileNavBtn {
+    position: relative;
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    padding: 0;
+    margin-right: 7px;
+
+    border: 1px solid rgba(0, 255, 136, 0.28);
+    border-radius: 11px;
+
+    background: linear-gradient(145deg, rgba(0, 255, 136, 0.1), rgba(0, 0, 0, 0.55));
+
+    box-shadow:
+      inset 0 0 12px rgba(0, 255, 136, 0.04),
+      0 0 12px rgba(0, 255, 136, 0.04);
+
+    cursor: pointer;
+
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+
+    z-index: 1001;
+  }
+
+  .mobileNavBtn span {
+    display: block;
+
+    width: 16px;
+    height: 2px;
+
+    border-radius: 999px;
+
+    background: #00ff88;
+
+    box-shadow: 0 0 5px rgba(0, 255, 136, 0.65);
+
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .mobileNavBtn:hover {
+    border-color: rgba(0, 255, 136, 0.65);
+
+    background: linear-gradient(145deg, rgba(0, 255, 136, 0.16), rgba(0, 0, 0, 0.65));
+
+    box-shadow: 0 0 16px rgba(0, 255, 136, 0.14);
+  }
+
+  .mobileNavBtn:active {
+    transform: scale(0.92);
+  }
+
+  /* =======================================================
+     MOBILE DROPDOWN
+     ======================================================= */
+
+  .mobileNavDropdown {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    right: 48px;
+
+    width: 205px;
+    padding: 9px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: linear-gradient(145deg, rgba(8, 20, 18, 0.98), rgba(8, 13, 22, 0.98));
+
+    border: 1px solid rgba(0, 255, 136, 0.22);
+
+    border-radius: 15px;
+
+    box-shadow:
+      0 18px 45px rgba(0, 0, 0, 0.65),
+      0 0 25px rgba(0, 255, 136, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    z-index: 9999;
+
+    animation: mobileNavDrop 0.18s ease-out;
+  }
+
+  /* Small neon pointer */
+  .mobileNavDropdown::before {
+    content: "";
+
+    position: absolute;
+
+    top: -6px;
+    right: 78px;
+
+    width: 11px;
+    height: 11px;
+
+    background: #091713;
+
+    border-left: 1px solid rgba(0, 255, 136, 0.22);
+    border-top: 1px solid rgba(0, 255, 136, 0.22);
+
+    transform: rotate(45deg);
+  }
+
+  /* =======================================================
+     DROPDOWN HEADER
+     ======================================================= */
+
+  .mobileNavTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 5px 8px 8px;
+
+    margin-bottom: 4px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .mobileNavTitle span {
+    color: #00ff88;
+
+    font-size: 9px;
+    font-weight: 900;
+
+    letter-spacing: 1.1px;
+  }
+
+  .mobileNavTitle small {
+    color: #6f8290;
+
+    font-size: 7px;
+    font-weight: 800;
+
+    letter-spacing: 0.7px;
+  }
+
+  /* =======================================================
+     NAV ITEMS
+     ======================================================= */
+
+  .mobileNavDropdown a {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    min-height: 36px;
+
+    padding: 0 11px;
+    margin: 2px 0;
+
+    border-radius: 9px;
+
+    color: #aab8c7;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.15px;
+
+    transition:
+      color 0.18s ease,
+      background 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .mobileNavDropdown a::before {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    margin-right: 9px;
+
+    border-radius: 50%;
+
+    background: #33434a;
+
+    transition:
+      background 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+
+  .mobileNavDropdown a:hover {
+    color: #ffffff;
+
+    background: rgba(0, 255, 136, 0.07);
+
+    transform: translateX(2px);
+  }
+
+  .mobileNavDropdown a:hover::before {
+    background: #00ff88;
+
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
+  }
+
+  /* =======================================================
+     ACTIVE PAGE
+     ======================================================= */
+
+  .mobileNavDropdown a.active {
+    color: #00ff88;
+
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.12), rgba(0, 255, 136, 0.025));
+
+    box-shadow:
+      inset 2px 0 0 #00ff88,
+      inset 0 0 15px rgba(0, 255, 136, 0.025);
+  }
+
+  .mobileNavDropdown a.active::before {
+    background: #00ff88;
+
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.9);
+  }
+
+  /* =======================================================
+     ADMIN DIVIDER
+     ======================================================= */
+
+  .mobileNavDivider {
+    height: 1px;
+
+    margin: 6px 7px;
+
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+  }
+
+  /* =======================================================
+     ANIMATION
+     ======================================================= */
+
+  @keyframes mobileNavDrop {
+    from {
+      opacity: 0;
+      transform: translateY(-7px) scale(0.97);
+      transform-origin: top right;
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transform-origin: top right;
+    }
+  }
+
+  /* =======================================================
+     SMALL PHONES
+     ======================================================= */
+
+  @media (max-width: 430px) {
+    .mobileNavDropdown {
+      right: 42px;
+      width: 190px;
+    }
+
+    .mobileNavBtn {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+    }
+
+    .mobileNavDropdown a {
+      min-height: 34px;
+      font-size: 11.5px;
+    }
+  }
+
+  /* =======================================================
+     VERY SMALL PHONES
+     ======================================================= */
+
+  @media (max-width: 360px) {
+    .mobileNavDropdown {
+      right: 36px;
+      width: 178px;
+    }
+
+    .mobileNavTitle span {
+      font-size: 8px;
+    }
+
+    .mobileNavDropdown a {
+      min-height: 33px;
+      font-size: 11px;
+    }
+  }
+}

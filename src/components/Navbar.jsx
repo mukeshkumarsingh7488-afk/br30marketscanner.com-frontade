@@ -124,6 +124,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [alerts, setAlerts] = useState([]);
   const [, setTick] = useState(0);
   const [theme, setTheme] = useState(() => localStorage.getItem("br30ScannerTheme") || "dark");
@@ -146,6 +147,7 @@ export default function Navbar() {
       setMenuOpen(false);
       setProfileOpen(false);
       setAlertOpen(false);
+      setMobileNavOpen(false);
     };
 
     window.addEventListener("click", close);
@@ -331,6 +333,69 @@ export default function Navbar() {
       </div>
 
       <div className="navRight">
+        <button
+          className="mobileNavBtn"
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setMobileNavOpen(!mobileNavOpen);
+            setProfileOpen(false);
+            setMenuOpen(false);
+            setAlertOpen(false);
+          }}
+          aria-label="Navigation Menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {mobileNavOpen && (
+          <div className="mobileNavDropdown" onClick={(e) => e.stopPropagation()}>
+            <div className="mobileNavTitle">
+              <span>BR30 NAVIGATION</span>
+              <small>QUICK ACCESS</small>
+            </div>
+
+            <NavLink to="/dashboard" onClick={() => setMobileNavOpen(false)}>
+              Dashboard
+            </NavLink>
+
+            <NavLink to="/top-gainers" onClick={() => setMobileNavOpen(false)}>
+              Gainers
+            </NavLink>
+
+            <NavLink to="/top-losers" onClick={() => setMobileNavOpen(false)}>
+              Losers
+            </NavLink>
+
+            <NavLink to="/oi-spurts" onClick={() => setMobileNavOpen(false)}>
+              OI Spurts
+            </NavLink>
+
+            <NavLink to="/volume-breakout" onClick={() => setMobileNavOpen(false)}>
+              Volume
+            </NavLink>
+
+            <NavLink to="/heatmap" onClick={() => setMobileNavOpen(false)}>
+              Heatmap
+            </NavLink>
+
+            {user?.role === "admin" && (
+              <>
+                <div className="mobileNavDivider"></div>
+
+                <NavLink to="/admin-users" onClick={() => setMobileNavOpen(false)}>
+                  Admin Panel
+                </NavLink>
+
+                <NavLink to="/admin-dashboard" onClick={() => setMobileNavOpen(false)}>
+                  Admin Dashboard
+                </NavLink>
+              </>
+            )}
+          </div>
+        )}
         <div className="alertBox">
           <button
             className="alertBell"
