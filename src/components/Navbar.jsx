@@ -333,69 +333,80 @@ export default function Navbar() {
       </div>
 
       <div className="navRight">
-        <button
-          className="mobileNavBtn"
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setMobileNavOpen(!mobileNavOpen);
-            setProfileOpen(false);
-            setMenuOpen(false);
-            setAlertOpen(false);
-          }}
-          aria-label="Navigation Menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <div className="mobileNavBox">
+          <button
+            className="mobileNavBtn"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
 
-        {mobileNavOpen && (
-          <div className="mobileNavDropdown" onClick={(e) => e.stopPropagation()}>
-            <div className="mobileNavTitle">
-              <span>BR30 NAVIGATION</span>
-              <small>QUICK ACCESS</small>
+              setMobileNavOpen((prev) => !prev);
+
+              setAlertOpen(false);
+              setProfileOpen(false);
+              setMenuOpen(false);
+            }}
+            aria-label="Open navigation"
+            title="Navigation"
+          >
+            <span className="gridIcon">▦</span>
+          </button>
+
+          {mobileNavOpen && (
+            <div className="mobileNavDropdown" onClick={(e) => e.stopPropagation()}>
+              <div className="mobileNavTitle">
+                <span>BR30 NAVIGATION</span>
+                <small>QUICK ACCESS</small>
+              </div>
+
+              <NavLink to="/dashboard" onClick={() => setMobileNavOpen(false)}>
+                <span className="mobileNavDot"></span>
+                Dashboard
+              </NavLink>
+
+              <NavLink to="/top-gainers" onClick={() => setMobileNavOpen(false)}>
+                <span className="mobileNavDot"></span>
+                Gainers
+              </NavLink>
+
+              <NavLink to="/top-losers" onClick={() => setMobileNavOpen(false)}>
+                <span className="mobileNavDot"></span>
+                Losers
+              </NavLink>
+
+              <NavLink to="/oi-spurts" onClick={() => setMobileNavOpen(false)}>
+                <span className="mobileNavDot"></span>
+                OI Spurts
+              </NavLink>
+
+              <NavLink to="/volume-breakout" onClick={() => setMobileNavOpen(false)}>
+                <span className="mobileNavDot"></span>
+                Volume
+              </NavLink>
+
+              <NavLink to="/heatmap" onClick={() => setMobileNavOpen(false)}>
+                <span className="mobileNavDot"></span>
+                Heatmap
+              </NavLink>
+
+              {user?.role === "admin" && (
+                <>
+                  <div className="mobileNavDivider"></div>
+
+                  <NavLink to="/admin-users" onClick={() => setMobileNavOpen(false)}>
+                    <span className="mobileNavDot"></span>
+                    Admin Panel
+                  </NavLink>
+
+                  <NavLink to="/admin-dashboard" onClick={() => setMobileNavOpen(false)}>
+                    <span className="mobileNavDot"></span>
+                    Admin Dashboard
+                  </NavLink>
+                </>
+              )}
             </div>
-
-            <NavLink to="/dashboard" onClick={() => setMobileNavOpen(false)}>
-              Dashboard
-            </NavLink>
-
-            <NavLink to="/top-gainers" onClick={() => setMobileNavOpen(false)}>
-              Gainers
-            </NavLink>
-
-            <NavLink to="/top-losers" onClick={() => setMobileNavOpen(false)}>
-              Losers
-            </NavLink>
-
-            <NavLink to="/oi-spurts" onClick={() => setMobileNavOpen(false)}>
-              OI Spurts
-            </NavLink>
-
-            <NavLink to="/volume-breakout" onClick={() => setMobileNavOpen(false)}>
-              Volume
-            </NavLink>
-
-            <NavLink to="/heatmap" onClick={() => setMobileNavOpen(false)}>
-              Heatmap
-            </NavLink>
-
-            {user?.role === "admin" && (
-              <>
-                <div className="mobileNavDivider"></div>
-
-                <NavLink to="/admin-users" onClick={() => setMobileNavOpen(false)}>
-                  Admin Panel
-                </NavLink>
-
-                <NavLink to="/admin-dashboard" onClick={() => setMobileNavOpen(false)}>
-                  Admin Dashboard
-                </NavLink>
-              </>
-            )}
-          </div>
-        )}
+          )}
+        </div>
         <div className="alertBox">
           <button
             className="alertBell"

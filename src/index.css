@@ -1693,117 +1693,129 @@ textarea,
   -webkit-user-select: text !important;
 }
 /* =========================================================
-   BR30 MOBILE NAVIGATION
-   Desktop: hidden
-   Mobile: compact dropdown near notification bell
+   BR30 MOBILE PAGE NAVIGATION
+   APP GRID STYLE
    ========================================================= */
 
-.mobileNavBtn {
-  display: none;
-}
-
-.mobileNavDropdown {
+.mobileNavBox {
   display: none;
 }
 
 /* =========================================================
-   MOBILE NAV
+   MOBILE ONLY
    ========================================================= */
 
 @media (max-width: 768px) {
-  /* Hide desktop navigation links */
+  /* Desktop navigation links hide */
   .links {
     display: none !important;
   }
 
-  /* Mobile navigation trigger */
-  .mobileNavBtn {
+  /* Navigation wrapper */
+  .mobileNavBox {
     position: relative;
-    width: 38px;
-    height: 38px;
 
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 4px;
+
+    flex-shrink: 0;
+  }
+
+  /* =======================================================
+     APP GRID BUTTON
+     ======================================================= */
+
+  .mobileNavBtn {
+    width: 34px;
+    height: 34px;
 
     padding: 0;
-    margin-right: 7px;
+    margin: 0 5px 0 0;
 
-    border: 1px solid rgba(0, 255, 136, 0.28);
-    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    background: linear-gradient(145deg, rgba(0, 255, 136, 0.1), rgba(0, 0, 0, 0.55));
+    border: 1px solid rgba(0, 255, 136, 0.3);
 
-    box-shadow:
-      inset 0 0 12px rgba(0, 255, 136, 0.04),
-      0 0 12px rgba(0, 255, 136, 0.04);
+    border-radius: 10px;
+
+    background: linear-gradient(145deg, rgba(0, 255, 136, 0.1), rgba(5, 12, 18, 0.92));
+
+    color: #00ff88;
 
     cursor: pointer;
 
+    box-shadow: inset 0 0 10px rgba(0, 255, 136, 0.04);
+
     transition:
-      transform 0.2s ease,
       border-color 0.2s ease,
       box-shadow 0.2s ease,
+      transform 0.15s ease,
       background 0.2s ease;
 
     z-index: 1001;
   }
 
-  .mobileNavBtn span {
-    display: block;
-
-    width: 16px;
-    height: 2px;
-
-    border-radius: 999px;
-
-    background: #00ff88;
-
-    box-shadow: 0 0 5px rgba(0, 255, 136, 0.65);
-
-    transition:
-      transform 0.2s ease,
-      opacity 0.2s ease;
-  }
-
   .mobileNavBtn:hover {
     border-color: rgba(0, 255, 136, 0.65);
 
-    background: linear-gradient(145deg, rgba(0, 255, 136, 0.16), rgba(0, 0, 0, 0.65));
+    background: linear-gradient(145deg, rgba(0, 255, 136, 0.16), rgba(5, 12, 18, 0.96));
 
-    box-shadow: 0 0 16px rgba(0, 255, 136, 0.14);
+    box-shadow:
+      0 0 14px rgba(0, 255, 136, 0.12),
+      inset 0 0 10px rgba(0, 255, 136, 0.05);
   }
 
   .mobileNavBtn:active {
-    transform: scale(0.92);
+    transform: scale(0.91);
   }
 
   /* =======================================================
-     MOBILE DROPDOWN
+     GRID ICON
+     ======================================================= */
+
+  .gridIcon {
+    display: block;
+
+    font-size: 24px;
+
+    line-height: 1;
+
+    font-weight: 700;
+
+    color: #00ff88;
+
+    text-shadow: 0 0 7px rgba(0, 255, 136, 0.45);
+
+    transform: translateY(-1px);
+  }
+
+  /* =======================================================
+     DROPDOWN
      ======================================================= */
 
   .mobileNavDropdown {
     position: absolute;
 
     top: calc(100% + 10px);
-    right: 48px;
+    right: -5px;
 
     width: 205px;
+
     padding: 9px;
 
     display: flex;
     flex-direction: column;
 
-    background: linear-gradient(145deg, rgba(8, 20, 18, 0.98), rgba(8, 13, 22, 0.98));
+    background: linear-gradient(145deg, rgba(7, 20, 17, 0.98), rgba(7, 13, 22, 0.98));
 
     border: 1px solid rgba(0, 255, 136, 0.22);
 
     border-radius: 15px;
 
     box-shadow:
-      0 18px 45px rgba(0, 0, 0, 0.65),
+      0 18px 45px rgba(0, 0, 0, 0.7),
       0 0 25px rgba(0, 255, 136, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.04);
 
@@ -1812,17 +1824,17 @@ textarea,
 
     z-index: 9999;
 
-    animation: mobileNavDrop 0.18s ease-out;
+    animation: br30MobileNavOpen 0.18s ease-out;
   }
 
-  /* Small neon pointer */
+  /* Dropdown pointer */
   .mobileNavDropdown::before {
     content: "";
 
     position: absolute;
 
     top: -6px;
-    right: 78px;
+    right: 17px;
 
     width: 11px;
     height: 11px;
@@ -1857,7 +1869,7 @@ textarea,
     font-size: 9px;
     font-weight: 900;
 
-    letter-spacing: 1.1px;
+    letter-spacing: 1px;
   }
 
   .mobileNavTitle small {
@@ -1866,7 +1878,7 @@ textarea,
     font-size: 7px;
     font-weight: 800;
 
-    letter-spacing: 0.7px;
+    letter-spacing: 0.6px;
   }
 
   /* =======================================================
@@ -1874,14 +1886,13 @@ textarea,
      ======================================================= */
 
   .mobileNavDropdown a {
-    position: relative;
-
     display: flex;
     align-items: center;
 
-    min-height: 36px;
+    min-height: 35px;
 
-    padding: 0 11px;
+    padding: 0 10px;
+
     margin: 2px 0;
 
     border-radius: 9px;
@@ -1893,19 +1904,38 @@ textarea,
     font-size: 12px;
     font-weight: 700;
 
-    letter-spacing: 0.15px;
-
     transition:
-      color 0.18s ease,
       background 0.18s ease,
+      color 0.18s ease,
       transform 0.18s ease;
   }
 
-  .mobileNavDropdown a::before {
-    content: "";
+  .mobileNavDropdown a:hover {
+    color: #ffffff;
 
+    background: rgba(0, 255, 136, 0.07);
+
+    transform: translateX(2px);
+  }
+
+  /* Active page */
+  .mobileNavDropdown a.active {
+    color: #00ff88;
+
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.12), rgba(0, 255, 136, 0.025));
+
+    box-shadow: inset 2px 0 0 #00ff88;
+  }
+
+  /* =======================================================
+     SMALL DOT
+     ======================================================= */
+
+  .mobileNavDot {
     width: 5px;
     height: 5px;
+
+    flex-shrink: 0;
 
     margin-right: 9px;
 
@@ -1918,38 +1948,11 @@ textarea,
       box-shadow 0.18s ease;
   }
 
-  .mobileNavDropdown a:hover {
-    color: #ffffff;
-
-    background: rgba(0, 255, 136, 0.07);
-
-    transform: translateX(2px);
-  }
-
-  .mobileNavDropdown a:hover::before {
+  .mobileNavDropdown a:hover .mobileNavDot,
+  .mobileNavDropdown a.active .mobileNavDot {
     background: #00ff88;
 
-    box-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
-  }
-
-  /* =======================================================
-     ACTIVE PAGE
-     ======================================================= */
-
-  .mobileNavDropdown a.active {
-    color: #00ff88;
-
-    background: linear-gradient(90deg, rgba(0, 255, 136, 0.12), rgba(0, 255, 136, 0.025));
-
-    box-shadow:
-      inset 2px 0 0 #00ff88,
-      inset 0 0 15px rgba(0, 255, 136, 0.025);
-  }
-
-  .mobileNavDropdown a.active::before {
-    background: #00ff88;
-
-    box-shadow: 0 0 8px rgba(0, 255, 136, 0.9);
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.85);
   }
 
   /* =======================================================
@@ -1968,16 +1971,20 @@ textarea,
      ANIMATION
      ======================================================= */
 
-  @keyframes mobileNavDrop {
+  @keyframes br30MobileNavOpen {
     from {
       opacity: 0;
-      transform: translateY(-7px) scale(0.97);
+
+      transform: translateY(-6px) scale(0.97);
+
       transform-origin: top right;
     }
 
     to {
       opacity: 1;
+
       transform: translateY(0) scale(1);
+
       transform-origin: top right;
     }
   }
@@ -1987,20 +1994,20 @@ textarea,
      ======================================================= */
 
   @media (max-width: 430px) {
-    .mobileNavDropdown {
-      right: 42px;
-      width: 190px;
-    }
-
     .mobileNavBtn {
-      width: 36px;
-      height: 36px;
-      margin-right: 5px;
+      width: 33px;
+      height: 33px;
+
+      margin-right: 4px;
     }
 
-    .mobileNavDropdown a {
-      min-height: 34px;
-      font-size: 11.5px;
+    .gridIcon {
+      font-size: 23px;
+    }
+
+    .mobileNavDropdown {
+      width: 195px;
+      right: -4px;
     }
   }
 
@@ -2009,17 +2016,20 @@ textarea,
      ======================================================= */
 
   @media (max-width: 360px) {
-    .mobileNavDropdown {
-      right: 36px;
-      width: 178px;
+    .mobileNavBtn {
+      width: 31px;
+      height: 31px;
     }
 
-    .mobileNavTitle span {
-      font-size: 8px;
+    .gridIcon {
+      font-size: 21px;
+    }
+
+    .mobileNavDropdown {
+      width: 180px;
     }
 
     .mobileNavDropdown a {
-      min-height: 33px;
       font-size: 11px;
     }
   }
