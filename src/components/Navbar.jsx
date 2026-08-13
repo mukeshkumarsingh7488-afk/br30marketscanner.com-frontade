@@ -342,11 +342,9 @@ export default function Navbar() {
 
               setMobileNavOpen((prev) => !prev);
 
-              setMenuOpen(false);
-
               setAlertOpen(false);
-
               setProfileOpen(false);
+              setMenuOpen(false);
             }}
           >
             <span className="gridIcon">▦</span>
@@ -414,8 +412,9 @@ export default function Navbar() {
             onClick={(e) => {
               e.stopPropagation();
 
-              setAlertOpen(!alertOpen);
+              setAlertOpen((prev) => !prev);
 
+              setMobileNavOpen(false);
               setProfileOpen(false);
               setMenuOpen(false);
             }}
@@ -464,9 +463,12 @@ export default function Navbar() {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setProfileOpen(!profileOpen);
-                setMenuOpen(false);
+
+                setProfileOpen((prev) => !prev);
+
+                setMobileNavOpen(false);
                 setAlertOpen(false);
+                setMenuOpen(false);
               }}
             >
               {initial}
