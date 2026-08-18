@@ -196,7 +196,23 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
     const url = row.tradingViewUrl || (row.tvSymbol ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(row.tvSymbol)}` : "");
 
     if (!url) return;
+
     window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const copySymbol = async (symbol) => {
+    if (!symbol) return;
+
+    try {
+      await navigator.clipboard.writeText(symbol);
+    } catch (error) {
+      const textArea = document.createElement("textarea");
+      textArea.value = symbol;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+    }
   };
 
   return (
@@ -261,21 +277,33 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                   return (
                     <tr key={s.instrumentKey || s.tradingSymbol || s.symbol || i}>
                       <td>#{i + 1}</td>
-
                       <td className="symbol">
-                        {canOpenChart(normalizedMarket) ? (
-                          <button type="button" className="symbolChartBtn" title={s.tvSymbol || "Open TradingView"} onClick={() => openChart(s)}>
-                            {displaySymbol} ↗
-                          </button>
-                        ) : (
-                          <div>{displaySymbol}</div>
-                        )}
+                        <div className="symbolNameRow">
+                          {canOpenChart(normalizedMarket) ? (
+                            <button type="button" className="symbolChartBtn" title={s.tvSymbol || "Open TradingView"} onClick={() => openChart(s)}>
+                              {displaySymbol} ↗
+                            </button>
+                          ) : (
+                            <div className="symbolDisplayName">{displaySymbol}</div>
+                          )}
+
+                          {isOptionMarket(normalizedMarket) && (
+                            <button type="button" className="symbolCopyBtn" title={`Copy ${displaySymbol}`} aria-label={`Copy ${displaySymbol}`} onClick={() => copySymbol(displaySymbol)}>
+                              📋
+                            </button>
+                          )}
+                        </div>
 
                         {displayName && <small className="expiryText">{displayName}</small>}
+
                         {s.baseCoin && <small className="expiryText">Base: {s.baseCoin}</small>}
+
                         {optionText && <small className="expiryText">Option: {optionText}</small>}
+
                         {displaySector && <small className="expiryText">Sector: {displaySector}</small>}
+
                         {s.tvSymbol && <small className="expiryText">TV: {s.tvSymbol}</small>}
+
                         {s.expiry && <small className="expiryText">Exp: {formatExpiry(s.expiry)}</small>}
                       </td>
 
