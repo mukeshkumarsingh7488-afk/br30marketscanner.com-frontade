@@ -166,6 +166,7 @@ const getDisplaySymbol = (row = {}) => {
 
 export default function ScannerTable({ rows = [], market = "future-stock", lastUpdated = "" }) {
   const [search, setSearch] = useState("");
+  const [copiedSymbol, setCopiedSymbol] = useState("");
   const normalizedMarket = normalizeMarket(market);
   const isMultiAsset = isMultiAssetMarket(normalizedMarket);
   const isCryptoOptions = normalizedMarket === "crypto-options";
@@ -205,13 +206,34 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
 
     try {
       await navigator.clipboard.writeText(symbol);
+
+      setCopiedSymbol(symbol);
+
+      setTimeout(() => {
+        setCopiedSymbol("");
+      }, 1500);
     } catch (error) {
-      const textArea = document.createElement("textarea");
-      textArea.value = symbol;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = symbol;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        setCopiedSymbol(symbol);
+
+        setTimeout(() => {
+          setCopiedSymbol("");
+        }, 1500);
+      } catch (fallbackError) {
+        console.error("Copy failed:", fallbackError);
+      }
     }
   };
 
@@ -288,8 +310,8 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
                           )}
 
                           {isOptionMarket(normalizedMarket) && (
-                            <button type="button" className="symbolCopyBtn" title={`Copy ${displaySymbol}`} aria-label={`Copy ${displaySymbol}`} onClick={() => copySymbol(displaySymbol)}>
-                              📋
+                            <button type="button" className="symbolCopyBtn" title={copiedSymbol === displaySymbol ? "Copied!" : `Copy ${displaySymbol}`} aria-label={copiedSymbol === displaySymbol ? "Copied!" : `Copy ${displaySymbol}`} onClick={() => copySymbol(displaySymbol)}>
+                              {copiedSymbol === displaySymbol ? "✅" : "📋"}
                             </button>
                           )}
                         </div>
