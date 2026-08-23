@@ -5,6 +5,25 @@ import { approveUser, deleteUser, getAdminStats, getAllPayments, getAllUsers, se
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString("en-IN") : "-");
 
+const fmtDateTime = (d) => {
+  if (!d) return "Last Login —";
+
+  const date = new Date(d);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Last Login —";
+  }
+
+  const datePart = date.toLocaleDateString("en-IN");
+  const timePart = date.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  return `Last Login ${datePart} - ${timePart}`;
+};
+
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [payments, setPayments] = useState([]);
@@ -292,7 +311,13 @@ export default function AdminUsers() {
                     filteredUsers.map((u) => (
                       <tr key={u._id}>
                         <td className="symbol">{u.name}</td>
-                        <td>{u.email}</td>
+                        <td>
+                          <div className="userEmailBox">
+                            <div className="userEmail">{u.email}</div>
+
+                            <div className="lastLogin">{fmtDateTime(u.lastLogin)}</div>
+                          </div>
+                        </td>
                         <td>
                           <select className="roleSelect" value={u.role || "student"} onChange={(e) => changeRole(u, e.target.value)}>
                             <option value="student">student</option>
@@ -393,17 +418,38 @@ export default function AdminUsers() {
       )}
 
       <style>{`
-        .roleSelect{
-          background:#07111d;
-          color:#fff;
-          border:1px solid #1f3b31;
-          border-radius:10px;
-          padding:10px 12px;
-          font-weight:800;
-          outline:none;
-          cursor:pointer;
-        }
-      `}</style>
+  .roleSelect{
+    background:#07111d;
+    color:#fff;
+    border:1px solid #1f3b31;
+    border-radius:10px;
+    padding:10px 12px;
+    font-weight:800;
+    outline:none;
+    cursor:pointer;
+  }
+
+  .userEmailBox {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .userEmail {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .lastLogin {
+    color: #7f8c9a;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+`}</style>
     </main>
   );
 }
