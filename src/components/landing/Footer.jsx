@@ -80,9 +80,9 @@ export default function Footer() {
               <p>A premium market intelligence SaaS platform built to help traders scan momentum, open interest, volume activity, and multi-market opportunities from one powerful dashboard.</p>
 
               <div className="scanner-footer-contact">
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=support.br30trader@gmail.com&su=BR30%20Market%20Scanner%20Support&body=Hello%20BR30%20Market%20Scanner%20Support%20Team,%0A%0AI%20need%20assistance%20regarding%20BR30%20Market%20Scanner.%0A%0AName:%0AEmail:%0AIssue:%0A" target="_blank" rel="noopener noreferrer">
+                <a href="https://br30crm-com-f.vercel.app/public/forms/6ac4a4ce8ab8658ebe3748f7/br30-market-scanner-support-request?utm_source=br30-market-scanner-web&utm_medium=website&lead_source=br30-market-scanner-web&form_id=6ac73e6e6780cbc6335f9ba4&source_id=6ac73e9a6780cbc6335f9bad" target="_blank" rel="noopener noreferrer">
                   <Mail size={17} />
-                  support.br30trader@gmail.com
+                  Support Request
                 </a>
 
                 <a href="https://t.me/+hBAT4kWo63A4ZWY1" target="_blank" rel="noreferrer">

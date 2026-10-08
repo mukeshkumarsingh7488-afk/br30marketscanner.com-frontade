@@ -218,8 +218,8 @@ export default function RefundPolicy() {
 
                     <p>For refund, duplicate payment, or billing-related questions, contact BR30 Team at:</p>
 
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=support.br30trader@gmail.com&su=Refund%20Policy%20Query&body=Hello%20BR30%20Market%20Scanner%20Team,%0A%0AI%20have%20a%20refund/billing%20related%20question.%0A%0ARegistered%20Email:%0ATransaction%20ID:%0APayment%20Date:%0AIssue:%0A%0AThanks" target="_blank" rel="noopener noreferrer">
-                      support.br30trader@gmail.com
+                    <a href="https://br30crm-com-f.vercel.app/public/forms/6ac4a4ce8ab8658ebe3748f7/br30-market-scanner-support-request?utm_source=br30-market-scanner-web&utm_medium=website&lead_source=br30-market-scanner-web&form_id=6ac73e6e6780cbc6335f9ba4&source_id=6ac73e9a6780cbc6335f9bad" target="_blank" rel="noopener noreferrer">
+                      Submit a Support Request
                     </a>
                   </div>
                 </div>

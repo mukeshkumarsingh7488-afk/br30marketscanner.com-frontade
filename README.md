@@ -460,9 +460,9 @@ Founder — BR30 Group
 
 ### 📧 Contact
 
-[![Support Team](https://img.shields.io/badge/📧_Support_Team-Contact_Now-D14836?style=for-the-badge)](https://mail.google.com/mail/?view=cm&fs=1&to=support.br30trader@gmail.com)
+[![Support Team](https://img.shields.io/badge/📧_Support_Team-Contact_Now-D14836?style=for-the-badge)](https://br30crm-com-f.vercel.app/public/forms/6ac4a4ce8ab8658ebe3748f7/br30-market-scanner-support-request?utm_source=br30-market-scanner-web&utm_medium=website&lead_source=br30-market-scanner-web&form_id=6ac73e6e6780cbc6335f9ba4&source_id=6ac73e9a6780cbc6335f9bad)
 
-[![Service Team](https://img.shields.io/badge/📨_Service_Team-Contact_Now-B71C1C?style=for-the-badge)](https://mail.google.com/mail/?view=cm&fs=1&to=br30service.contact@gmail.com)
+[![Service Team](https://img.shields.io/badge/📨_Service_Team-Contact_Now-B71C1C?style=for-the-badge)](https://br30crm-com-f.vercel.app/public/forms/6ac4a4ce8ab8658ebe3748f7/br30-market-scanner-support-request?utm_source=br30-market-scanner-web&utm_medium=website&lead_source=br30-market-scanner-web&form_id=6ac73e6e6780cbc6335f9ba4&source_id=6ac73e9a6780cbc6335f9bad)
 
 ### 🚀 BR30 Ecosystem
 
