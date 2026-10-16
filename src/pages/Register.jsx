@@ -147,11 +147,23 @@ export default function Register() {
           <label>Email Address</label>
           <input type="email" value={form.email} placeholder="Enter email" onChange={(e) => setForm({ ...form, email: e.target.value })} />
 
-          <label>TradingView Username</label>
-          <input value={form.tradingViewUsername} placeholder="Your TradingView ID" onChange={(e) => setForm({ ...form, tradingViewUsername: cleanTradingViewUsername(e.target.value) })} />
+          {/*
+<label>TradingView Username</label>
+<input
+  value={form.tradingViewUsername}
+  placeholder="Your TradingView ID"
+  onChange={(e) =>
+    setForm({
+      ...form,
+      tradingViewUsername: cleanTradingViewUsername(e.target.value),
+    })
+  }
+/>
 
-          <small className="scannerAuthNote">Required for BR30 Infinity Sniper indicator access</small>
-
+<small className="scannerAuthNote">
+  Required for BR30 Infinity Sniper indicator access
+</small>
+*/}
           <label>Password</label>
           <div className="scannerPassBox">
             <input type={show ? "text" : "password"} value={form.password} placeholder="8+ chars, 1 Special (@#$%^&*)" onChange={(e) => setForm({ ...form, password: e.target.value })} />

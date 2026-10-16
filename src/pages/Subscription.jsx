@@ -120,15 +120,26 @@ export default function Subscription() {
 
         {isFounding && <p className="founding">🔥 First 150 users offer active — remaining slots: {remaining}</p>}
 
-        <div className="tvBox">
-          <label>TradingView Username</label>
-          <input type="text" value={tradingViewUsername} onChange={(e) => setTradingViewUsername(e.target.value)} placeholder="Example: MukeshRaj_BR30" disabled={buying || loading} />
-          <p>Required for BR30 Infinity Sniper invite-only indicator access. Enter your TradingView username, not email.</p>
-        </div>
+        {/*
+<div className="tvBox">
+  <label>TradingView Username</label>
+  <input
+    type="text"
+    value={tradingViewUsername}
+    onChange={(e) => setTradingViewUsername(e.target.value)}
+    placeholder="Example: MukeshRaj_BR30"
+    disabled={buying || loading}
+  />
+  <p>
+    Required for BR30 Infinity Sniper invite-only indicator access.
+    Enter your TradingView username, not email.
+  </p>
+</div>
+*/}
 
         <div className="features">
           <p>✅ Live Scanner Access</p>
-          <p>✅ BR30 Infinity Sniper Indicator</p>
+          {/* <p>✅ BR30 Infinity Sniper Indicator</p> */}
           <p>✅ Future Scanner Updates</p>
 
           <p>✅ Indian Stocks, Futures & Options</p>
@@ -173,8 +184,7 @@ export default function Subscription() {
             logout();
             navigate("/login", { replace: true });
             window.location.reload();
-          }}
-        >
+          }}>
           Logout
         </button>
 
