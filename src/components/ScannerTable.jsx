@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Copy, Check } from "lucide-react";
 
 const COMING_SOON_MARKETS = ["crypto-futures", "crypto-options", "global-index"];
 
@@ -311,7 +312,7 @@ export default function ScannerTable({ rows = [], market = "future-stock", lastU
 
                           {isOptionMarket(normalizedMarket) && (
                             <button type="button" className="symbolCopyBtn" title={copiedSymbol === displaySymbol ? "Copied!" : `Copy ${displaySymbol}`} aria-label={copiedSymbol === displaySymbol ? "Copied!" : `Copy ${displaySymbol}`} onClick={() => copySymbol(displaySymbol)}>
-                              {copiedSymbol === displaySymbol ? "✅" : "📋"}
+                              {copiedSymbol === displaySymbol ? <Check size={15} /> : <Copy size={15} />}
                             </button>
                           )}
                         </div>
