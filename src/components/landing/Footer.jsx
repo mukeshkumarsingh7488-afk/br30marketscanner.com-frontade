@@ -1,4 +1,5 @@
-import { ArrowRight, Headset, FaTelegramPlane } from "lucide-react";
+import { ArrowRight, Headset } from "lucide-react";
+import { FaTelegramPlane } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo-dark-Green.png";
 
