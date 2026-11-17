@@ -114,36 +114,51 @@ const getDisplaySignal = (signal = "") => {
   return signal || "WAIT";
 };
 
+
 const getTradeCall = (row = {}, market = "") => {
   market = normalizeMarket(market || row.market);
 
   const signal = String(row.tradeCall || row.signal || "").toLowerCase();
   const move = Number(row.changePercent || 0);
-  const volume = Number(row.volume || 0);
   const oi = Number(row.oiChangePercent || 0);
 
-  if (signal.includes("top gainer") || signal.includes("top loser") || signal.includes("watchlist")) return "WAIT";
+  // Top Gainer / Top Loser
+  if (signal.includes("top gainer")) {
+    return move >= 2 ? "BUY" : "WAIT";
+  }
+
+  if (signal.includes("top loser")) {
+    return move <= -2 ? "SELL" : "WAIT";
+  }
+
+  // Existing Watchlist Rules
+  if (signal.includes("watchlist")) return "WAIT";
   if (signal.includes("watch buy") || signal.includes("watch sell")) return "WAIT";
 
+  // Existing Signal Rules
   if (signal.includes("long build") || signal.includes("short covering") || signal.includes("strong buy")) return "BUY";
   if (signal.includes("short build") || signal.includes("long unwinding") || signal.includes("strong sell")) return "SELL";
 
+  // Existing BUY Rule
   if (signal === "buy") {
-    if (isStockMoveMarket(market)) return move >= 2 && volume > 0 ? "BUY" : "WAIT";
+    if (isStockMoveMarket(market)) return move >= 2 ? "BUY" : "WAIT";
     return "BUY";
   }
 
+  // Existing SELL Rule
   if (signal === "sell") {
-    if (isStockMoveMarket(market)) return move <= -2 && volume > 0 ? "SELL" : "WAIT";
+    if (isStockMoveMarket(market)) return move <= -2 ? "SELL" : "WAIT";
     return "SELL";
   }
 
+  // Existing 2% MOVE Rule
   if (isStockMoveMarket(market)) {
-    if (move >= 2 && volume > 0) return "BUY";
-    if (move <= -2 && volume > 0) return "SELL";
+    if (move >= 2) return "BUY";
+    if (move <= -2) return "SELL";
     return "WAIT";
   }
 
+  // Existing 7% OI Rule
   if (oi >= 7 && move >= 2) return "BUY";
   if (oi >= 7 && move <= -2) return "SELL";
 
