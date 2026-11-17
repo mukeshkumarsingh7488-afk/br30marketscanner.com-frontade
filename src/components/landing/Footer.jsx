@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, MessageCircle } from "lucide-react";
+import { ArrowRight, Headset, FaTelegramPlane } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo-dark-Green.png";
 
@@ -81,12 +81,12 @@ export default function Footer() {
 
               <div className="scanner-footer-contact">
                 <a href="https://br30crm-com-f.vercel.app/public/forms/6ac4a4ce8ab8658ebe3748f7/br30-market-scanner-support-request?utm_source=br30-market-scanner-web&utm_medium=website&lead_source=br30-market-scanner-web&form_id=6ac73e6e6780cbc6335f9ba4&source_id=6ac73e9a6780cbc6335f9bad" target="_blank" rel="noopener noreferrer">
-                  <Mail size={17} />
+                  <Headset size={17} />
                   Support Request
                 </a>
 
                 <a href="https://t.me/+hBAT4kWo63A4ZWY1" target="_blank" rel="noreferrer">
-                  <MessageCircle size={17} />
+                  <FaTelegramPlane size={17} />
                   BR30 Community
                 </a>
               </div>
@@ -120,18 +120,22 @@ export default function Footer() {
                   BR30 Trader
                 </a>
                 {" · "}
-                <a href="https://br-30-kart.vercel.app/" target="_blank" rel="noopener noreferrer">
-                  BR30 Kart
-                </a>
-                {" · "}
+                {/* 
+<a href="https://br-30-kart.vercel.app/" target="_blank" rel="noopener noreferrer">
+  BR30 Kart
+</a>
+    {" · "}
+*/}
                 <a href="https://br30-algo-terminal-f.vercel.app/" target="_blank" rel="noopener noreferrer">
                   BR30 Algo Terminal
                 </a>
                 {" · "}
-                <a href="https://br30-com.vercel.app/" target="_blank" rel="noopener noreferrer">
-                  BR30 Founder
-                </a>
-                {" · "}
+                {/*
+<a href="https://br30-com.vercel.app/" target="_blank" rel="noopener noreferrer">
+  BR30 Founder
+</a>
+{" · "}
+*/}
                 <a href="https://br30marketscanner-com-frontade.vercel.app/">BR30 Market Scanner</a>
               </strong>
             </div>
