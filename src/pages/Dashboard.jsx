@@ -281,7 +281,7 @@ export default function Dashboard({ type = "all" }) {
 
       {isComingSoonMarket(market) && <div className="error">🚧 Coming Soon: This scanner is under development.</div>}
 
-      {summary && <MarketSummary summary={summary} market={market} />}
+      {summary && <MarketSummary summary={summary} rows={rows} market={market} />}
       {!isComingSoonMarket(market) && <FilterPanel filters={filters} setFilters={setFilters} market={market} />}
       {err && <div className="error">{err}</div>}
       {loading ? <Loader /> : <ScannerTable rows={filtered} market={market} lastUpdated={lastUpdated} />}
