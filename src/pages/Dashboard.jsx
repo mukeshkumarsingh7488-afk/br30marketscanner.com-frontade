@@ -94,7 +94,14 @@ const getTradeCall = (s = {}, market = "") => {
   const volumeRatio = Number(s.volumeRatio || 0);
   const volume = Number(s.volume || 0);
 
-  if (sig.includes("top gainer") || sig.includes("top loser")) return "WAIT";
+  // Top Gainer / Top Loser Alerts
+  if (sig.includes("top gainer")) {
+    return move >= 2 ? "BUY" : "WAIT";
+  }
+
+  if (sig.includes("top loser")) {
+    return move <= -2 ? "SELL" : "WAIT";
+  }
   if (sig.includes("watch buy") || sig.includes("watch sell")) return "WAIT";
   if (sig.includes("strong buy")) return "STRONG BUY";
   if (sig.includes("strong sell")) return "STRONG SELL";
@@ -226,44 +233,111 @@ export default function Dashboard({ type = "all" }) {
     const global = isGlobalMarket(market);
     const stockMove = isStockMoveMarket(market);
 
+    const minMove = Math.abs(Number(filters.move) || 0);
+    const minOI = Math.abs(Number(filters.oi) || 0);
+    const minVolume = Math.max(0, Number(filters.volume) || 0);
+
     return rows.filter((s) => {
       const move = Number(s.changePercent || 0);
       const oi = Number(s.oiChangePercent || 0);
       const volumeRatio = Number(s.volumeRatio || 0);
+
       const call = getTradeCall(s, market);
 
+      const hasMove = Math.abs(move) >= minMove;
+      const hasOI = Math.abs(oi) >= minOI;
+      const hasVolume = volumeRatio >= minVolume;
+
+      // Common filters
       if (filters.side === "allstocks") return true;
+
       if (filters.side === "gainers") return move > 0;
       if (filters.side === "losers") return move < 0;
-      if (filters.side === "buy") return call.includes("BUY");
-      if (filters.side === "sell") return call.includes("SELL");
+
+      if (filters.side === "buy") {
+        return call === "BUY" || call === "STRONG BUY";
+      }
+
+      if (filters.side === "sell") {
+        return call === "SELL" || call === "STRONG SELL";
+      }
+
       if (filters.side === "wait") return call === "WAIT";
 
+      // Stock movement markets: Metal Stocks, US Stocks, US ETFs
       if (stockMove) {
-        if (filters.side === "long") return move >= Number(filters.move);
-        if (filters.side === "short") return move <= -Number(filters.move);
-        if (filters.side === "stronglong") return move >= Number(filters.move) && volumeRatio >= 1;
-        if (filters.side === "strongshort") return move <= -Number(filters.move) && volumeRatio >= 1;
-        if (filters.side === "all") return Math.abs(move) >= Number(filters.move);
+        if (filters.side === "all") return hasMove;
+
+        if (filters.side === "long") {
+          return move >= minMove;
+        }
+
+        if (filters.side === "short") {
+          return move <= -minMove;
+        }
+
+        if (filters.side === "stronglong") {
+          return move >= minMove && hasVolume;
+        }
+
+        if (filters.side === "strongshort") {
+          return move <= -minMove && hasVolume;
+        }
+
         return true;
       }
 
+      // Other global markets: Forex, Metals, Commodities
       if (global) {
-        if (filters.side === "long") return move >= Number(filters.move);
-        if (filters.side === "short") return move <= -Number(filters.move);
-        if (filters.side === "stronglong") return move >= Number(filters.move) && volumeRatio >= 1;
-        if (filters.side === "strongshort") return move <= -Number(filters.move) && volumeRatio >= 1;
-        if (filters.side === "all") return Math.abs(move) >= Number(filters.move);
+        if (filters.side === "all") return hasMove;
+
+        if (filters.side === "long") {
+          return move >= minMove;
+        }
+
+        if (filters.side === "short") {
+          return move <= -minMove;
+        }
+
+        if (filters.side === "stronglong") {
+          return move >= minMove && hasVolume;
+        }
+
+        if (filters.side === "strongshort") {
+          return move <= -minMove && hasVolume;
+        }
+
         return true;
       }
 
-      if (filters.side === "long") return move >= Number(filters.move) && oi >= Number(filters.oi);
-      if (filters.side === "short") return move <= -Number(filters.move) && oi >= Number(filters.oi);
-      if (filters.side === "shortcover") return move >= Number(filters.move) && oi <= -Number(filters.oi);
-      if (filters.side === "longunwind") return move <= -Number(filters.move) && oi <= -Number(filters.oi);
-      if (filters.side === "stronglong") return move >= Number(filters.move) && oi >= Number(filters.oi) && volumeRatio >= 1;
-      if (filters.side === "strongshort") return move <= -Number(filters.move) && oi >= Number(filters.oi) && volumeRatio >= 1;
-      if (filters.side === "all") return Math.abs(move) >= Number(filters.move) && Math.abs(oi) >= Number(filters.oi);
+      // Futures, Equity and Options markets
+      if (filters.side === "all") {
+        return hasMove && hasOI && hasVolume;
+      }
+
+      if (filters.side === "long") {
+        return move >= minMove && oi >= minOI;
+      }
+
+      if (filters.side === "short") {
+        return move <= -minMove && oi >= minOI;
+      }
+
+      if (filters.side === "shortcover") {
+        return move >= minMove && oi <= -minOI;
+      }
+
+      if (filters.side === "longunwind") {
+        return move <= -minMove && oi <= -minOI;
+      }
+
+      if (filters.side === "stronglong") {
+        return move >= minMove && oi >= minOI && hasVolume;
+      }
+
+      if (filters.side === "strongshort") {
+        return move <= -minMove && oi >= minOI && hasVolume;
+      }
 
       return true;
     });

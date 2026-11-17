@@ -114,7 +114,6 @@ const getDisplaySignal = (signal = "") => {
   return signal || "WAIT";
 };
 
-
 const getTradeCall = (row = {}, market = "") => {
   market = normalizeMarket(market || row.market);
 
