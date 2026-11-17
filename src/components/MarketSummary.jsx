@@ -59,9 +59,9 @@ export default function MarketSummary({ summary = {}, rows = [], market = "futur
   const isMultiAsset = ["crypto-futures", "crypto-options", "forex-majors", "forex", "forex-cross", "metals", "metal-stocks", "commodities", "global-index", "us-stocks", "us-etfs"].includes(normalizedMarket);
 
   // Calculate actual BUY / SELL calls from scanner rows
-  const buyCount = rows.filter((row) => getTradeCall(row, normalizedMarket) === "BUY").length;
+  const buyCount = Number(summary.buySignals ?? 0);
 
-  const sellCount = rows.filter((row) => getTradeCall(row, normalizedMarket) === "SELL").length;
+  const sellCount = Number(summary.sellSignals ?? 0);
 
   const items = [
     {
